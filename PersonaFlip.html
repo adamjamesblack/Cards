@@ -2,60 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draw a Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Persona Drawer</title>
   <style>
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+      font-family: sans-serif;
       background: #ffffff;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #512c62;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #00b1af;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 2rem;
     }
     .card-container {
-      perspective: 1000px;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 1rem;
+      width: 100%;
+      max-width: 400px;
+      align-items: center;
     }
     .card {
-      width: 300px;
+      width: 100%;
       height: 450px;
+      perspective: 1000px;
       position: relative;
+    }
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
       transform-style: preserve-3d;
-      transition: transform 1s;
+      position: relative;
       cursor: pointer;
     }
-    .card.flip {
+    .card.flipped .card-inner {
       transform: rotateY(180deg);
     }
-    .card img {
+    .card-face {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
     }
-    .card .back {
+    .card-front {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card-back {
       transform: rotateY(180deg);
+      background: #f9f9f9;
+    }
+    .card-face img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   </style>
 </head>
 <body>
-  <div class="card-container">
-    <div class="card" id="card">
-      <img src="Persona/Front.svg" class="front" alt="Card Front" />
-      <img id="randomImage" src="" class="back" alt="Card Back" />
-    </div>
-  </div>
+  <h1>Persona Cards</h1>
+  <button onclick="drawCard()">Draw Persona Card</button>
+
+  <div class="card-container" id="cardContainer"></div>
 
   <script>
-    const totalImages = 10;
-    const randomNumber = Math.floor(Math.random() * totalImages) + 1;
-    const card = document.getElementById('card');
-    const backImage = document.getElementById('randomImage');
-    backImage.src = `Persona/p${randomNumber}.svg`;
+    function drawCard() {
+      const total = 10;
+      const randomNum = Math.floor(Math.random() * total) + 1;
+      const cardContainer = document.getElementById('cardContainer');
 
-    card.addEventListener('click', () => {
-      card.classList.add('flip');
-    });
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const cardInner = document.createElement('div');
+      cardInner.className = 'card-inner';
+      cardInner.onclick = () => {
+        card.classList.toggle('flipped');
+      };
+
+      const front = document.createElement('div');
+      front.className = 'card-face card-front';
+      const frontImg = document.createElement('img');
+      frontImg.src = 'Persona/Front.svg';
+      frontImg.alt = 'Card Back';
+      front.appendChild(frontImg);
+
+      const back = document.createElement('div');
+      back.className = 'card-face card-back';
+      const backImg = document.createElement('img');
+      backImg.src = `Persona/p${randomNum}.svg`;
+      backImg.alt = 'Card Front';
+      back.appendChild(backImg);
+
+      cardInner.appendChild(front);
+      cardInner.appendChild(back);
+      card.appendChild(cardInner);
+      cardContainer.appendChild(card);
+    }
   </script>
 </body>
 </html>

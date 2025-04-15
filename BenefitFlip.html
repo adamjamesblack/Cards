@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Benefit Card Drawer</title>
+  <title>Benefit Drawer</title>
   <style>
     body {
       font-family: sans-serif;
@@ -30,39 +30,52 @@
     }
     .card-container {
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       gap: 1rem;
       width: 100%;
       max-width: 400px;
       align-items: center;
     }
     .card {
+      width: 100%;
+      height: 450px;
+      perspective: 1000px;
       position: relative;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 0.5rem;
-      background: #f9f9f9;
     }
-    .card img.benefit {
-      width: 100%;
-      display: block;
-      border-radius: 4px;
-    }
-    .discard-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      padding: 0;
-    }
-    .discard-btn svg {
+    .card-inner {
       width: 100%;
       height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      position: relative;
+      cursor: pointer;
+    }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .card-front {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+      background: #f9f9f9;
+    }
+    .card-face img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   </style>
 </head>
@@ -74,25 +87,36 @@
 
   <script>
     function drawCard() {
-      const totalCards = 20;
-      const randomNum = Math.floor(Math.random() * totalCards) + 1;
+      const total = 20;
+      const randomNum = Math.floor(Math.random() * total) + 1;
       const cardContainer = document.getElementById('cardContainer');
 
       const card = document.createElement('div');
       card.className = 'card';
 
-      const img = document.createElement('img');
-      img.className = 'benefit';
-      img.src = `Benefit/b${randomNum}.svg`;
-      img.alt = `Benefit Card ${randomNum}`;
+      const cardInner = document.createElement('div');
+      cardInner.className = 'card-inner';
+      cardInner.onclick = () => {
+        card.classList.toggle('flipped');
+      };
 
-      const closeBtn = document.createElement('button');
-      closeBtn.className = 'discard-btn';
-      closeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#4f2984"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
-      closeBtn.onclick = () => card.remove();
+      const front = document.createElement('div');
+      front.className = 'card-face card-front';
+      const frontImg = document.createElement('img');
+      frontImg.src = 'Benefit/Front.svg';
+      frontImg.alt = 'Card Back';
+      front.appendChild(frontImg);
 
-      card.appendChild(img);
-      card.appendChild(closeBtn);
+      const back = document.createElement('div');
+      back.className = 'card-face card-back';
+      const backImg = document.createElement('img');
+      backImg.src = `Benefit/b${randomNum}.svg`;
+      backImg.alt = 'Card Front';
+      back.appendChild(backImg);
+
+      cardInner.appendChild(front);
+      cardInner.appendChild(back);
+      card.appendChild(cardInner);
       cardContainer.appendChild(card);
     }
   </script>
