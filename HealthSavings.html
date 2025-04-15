@@ -17,6 +17,13 @@
       color: #512c62; /* Dark HealthEquity purple */
       font-size: 2.5rem;
       text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    #total {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      color: #000;
     }
     label {
       display: block;
@@ -43,15 +50,11 @@
       border-radius: 6px;
       width: 220px;
     }
-    #total {
-      font-size: 2rem;
-      margin-top: 2rem;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
   <h1>Health Savings</h1>
+  <div id="total">$0.00</div>
 
   <label>Set Starting Health Savings:</label>
   <input type="number" id="initial" placeholder="e.g. 1000" />
@@ -61,8 +64,6 @@
   <input type="number" id="changeAmount" placeholder="e.g. 50" />
   <button onclick="updateAmount()">Submit OOP Cost</button>
   <button onclick="resetAmount()">Reset to Starting</button>
-
-  <div id="total">Total: $0</div>
 
   <script>
     let total = 0;
@@ -92,7 +93,7 @@
     }
 
     function displayTotal() {
-      document.getElementById("total").innerText = "Total: $" + total.toFixed(2);
+      document.getElementById("total").innerText = "$" + total.toFixed(2);
     }
   </script>
 </body>
