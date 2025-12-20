@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Scrabble — Jim vs Jalaine</title>
+  <style>
+    :root{
+      --maroon:#3a121b;
+      --maroon2:#2a0c12;
+      --gold:#d4af37;
+      --cream:#f3ecdd;
+      --cream2:#e7dcc8;
+      --ink:#1b0a0e;
+      --tile:#f7f0e3;
+      --tileEdge:#d9caa9;
+      --bad:#ff6b6b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Baskerville", "Libre Baskerville", "Garamond", "Georgia", serif;
+      background: radial-gradient(1200px 900px at 20% 0%, var(--maroon), var(--maroon2));
+      color:var(--cream);
+      -webkit-tap-highlight-color: transparent;
+    }
+    header{
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(212,175,55,0.25);
+      position: sticky;
+      top: 0;
+      background: linear-gradient(to bottom, rgba(58,18,27,0.92), rgba(42,12,18,0.92));
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+    .brand{display:flex; flex-direction:column; gap:2px;}
+    .brand .title{
+      font-weight:800; letter-spacing:0.6px;
+      color:var(--gold);
+      text-transform:uppercase;
+      font-size: 13px;
+    }
+    .brand .sub{font-size:12px; opacity:0.9;}
+    .scores{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
+      font-size:12px;
+    }
+    .pill{
+      border:1px solid rgba(212,175,55,0.35);
+      background: rgba(243,236,221,0.06);
+      padding:6px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .pill strong{ color:var(--gold) }
+    .btn{
+      appearance:none;
+      border:1px solid rgba(212,175,55,0.45);
+      background: rgba(212,175,55,0.12);
+      color: var(--cream);
+      padding:10px 12px;
+      border-radius: 12px;
+      font-weight:700;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px) }
+    .btn.primary{
+      border-color: rgba(212,175,55,0.9);
+      background: rgba(212,175,55,0.22);
+    }
+    .btn.danger{
+      border-color: rgba(255,107,107,0.65);
+      background: rgba(255,107,107,0.12);
+    }
+    .btn:disabled{opacity:0.45; cursor:not-allowed; transform:none;}
+
+    main{
+      padding: 12px;
+      display:grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .panel{
+      background: rgba(243,236,221,0.06);
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 18px;
+      padding: 10px;
+    }
+
+    /* BOARD */
+    .boardWrap{
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 16px;
+      border: 1px solid rgba(212,175,55,0.25);
+      background: rgba(0,0,0,0.08);
+    }
+    .board{
+      display:grid;
+      grid-template-columns: repeat(15, 34px);
+      grid-template-rows: repeat(15, 34px);
+      gap: 2px;
+      padding: 10px;
+      width: max-content;
+      margin: 0 auto;
+    }
+    .sq{
+      width:34px; height:34px;
+      border-radius: 8px;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 9px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.2px;
+      user-select:none;
+      color: rgba(27,10,14,0.75);
+      background: rgba(243,236,221,0.18);
+      border: 1px solid rgba(231,220,200,0.25);
+    }
+    .sq.center::after{
+      content:"★";
+      position:absolute;
+      font-size:16px;
+      color: rgba(212,175,55,0.85);
+      transform: translateY(-1px);
+      pointer-events:none;
+    }
+    .sq.mult-w3{ background: rgba(212,175,55,0.18); border-color: rgba(212,175,55,0.35) }
+    .sq.mult-w2{ background: rgba(212,175,55,0.10); border-color: rgba(212,175,55,0.28) }
+    .sq.mult-l3{ background: rgba(243,236,221,0.22); border-color: rgba(243,236,221,0.32) }
+    .sq.mult-l2{ background: rgba(243,236,221,0.16); border-color: rgba(243,236,221,0.28) }
+    .sq .multLabel{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0.75;
+    }
+
+    /* TILE */
+    .tile{
+      width:32px; height:32px;
+      border-radius: 10px;
+      background: linear-gradient(to bottom, var(--tile), var(--cream2));
+      border: 1px solid var(--tileEdge);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color: var(--ink);
+      user-select:none;
+      touch-action: manipulation;
+    }
+    .tile.sel{ outline: 3px solid rgba(212,175,55,0.65) }
+    .tile .L{ font-size: 16px; font-weight: 900; letter-spacing:0.5px }
+    .tile .V{
+      position:absolute;
+      right:5px; bottom:4px;
+      font-size: 10px;
+      font-weight: 900;
+      opacity: 0.85;
+    }
+    .tile.blank .L{ font-size:14px }
+    .tile.blank::before{
+      content:"";
+      position:absolute;
+      inset:6px;
+      border:1px dashed rgba(27,10,14,0.28);
+      border-radius:8px;
+    }
+
+    /* RACK + CONTROLS */
+    .topRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .turnLine{font-weight: 900; letter-spacing: 0.4px;}
+    .turnLine span{ color: var(--gold) }
+    .status{font-size:12px; opacity:0.95; line-height:1.25;}
+    .controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .rack{
+      display:flex;
+      gap: 6px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(0,0,0,0.10);
+      border: 1px solid rgba(212,175,55,0.25);
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .log{
+      font-size:12px;
+      opacity:0.95;
+      white-space:pre-wrap;
+      line-height:1.25;
+    }
+
+    /* MODALS */
+    .modalBack{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 50;
+    }
+    .modal{
+      width:min(520px, 100%);
+      background: linear-gradient(to bottom, rgba(58,18,27,0.96), rgba(42,12,18,0.96));
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      color: var(--cream);
+    }
+    .modal h2{
+      margin:0 0 6px;
+      color: var(--gold);
+      font-size: 16px;
+      letter-spacing:0.4px;
+      text-transform:uppercase;
+    }
+    .modal p{ margin: 8px 0; font-size: 13px; line-height:1.35 }
+    .modal .row{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top: 10px }
+    .modal input{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.35);
+      background: rgba(243,236,221,0.08);
+      color: var(--cream);
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      outline:none;
+    }
+    .hint{font-size:12px; opacity:0.85; margin-top: 6px;}
+
+    @media (min-width: 860px){
+      main{grid-template-columns: 1.1fr 0.9fr; align-items:start;}
+      .board{grid-template-columns: repeat(15, 38px); grid-template-rows: repeat(15, 38px);}
+      .sq{ width:38px; height:38px }
+      .tile{ width:36px; height:36px }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    <div class="title">Scrabble</div>
+    <div class="sub">Pass & play — <strong>Jim</strong> vs <strong>Jalaine</strong></div>
+  </div>
+  <div class="scores">
+    <div class="pill"><strong>Jim</strong>: <span id="scoreJim">0</span></div>
+    <div class="pill"><strong>Jalaine</strong>: <span id="scoreJalaine">0</span></div>
+    <div class="pill">Bag: <span id="bagCount">0</span></div>
+    <button class="btn danger" id="resetBtn">Reset</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="topRow">
+      <div>
+        <div class="turnLine">Turn: <span id="turnName">Jim</span></div>
+        <div class="status" id="statusLine">Loading dictionary…</div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="clearBtn" disabled>Clear</button>
+        <button class="btn" id="passBtn" disabled>Pass</button>
+        <button class="btn" id="swapBtn" disabled>Swap</button>
+        <button class="btn primary" id="playBtn" disabled>Play Move</button>
+      </div>
+    </div>
+
+    <div style="height:10px"></div>
+
+    <div class="boardWrap">
+      <div class="board" id="board"></div>
+    </div>
+
+    <div style="height:10px"></div>
+
+    <div class="rack" id="rack"></div>
+
+    <div style="height:10px"></div>
+
+    <div class="log" id="movePreview">Tap a tile in your rack, then tap a board square to place it.</div>
+  </section>
+
+  <aside class="panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;font-size:13px">Move Log</div>
+      <div style="font-size:12px;opacity:0.9">Rules: standard board, simplified UI.</div>
+    </div>
+    <div style="height:8px"></div>
+    <div class="log" id="log"></div>
+
+    <div style="height:14px"></div>
+    <div style="font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;font-size:13px">How to play</div>
+    <div class="log" style="margin-top:8px">
+• Tap a rack tile, then tap the board to place. Tap a placed tile to undo.
+• First move must cover the ★ center.
+• Your move must be in one line and connect to existing tiles.
+• Play Move validates ALL formed words.
+• Swap: double-tap rack tiles to select them, then press Swap (only if bag has enough).
+    </div>
+  </aside>
+</main>
+
+<!-- PASS PHONE MODAL -->
+<div class="modalBack" id="passModal">
+  <div class="modal">
+    <h2>Pass the phone</h2>
+    <p id="passText">Hand the phone to the next player.</p>
+    <div class="row">
+      <button class="btn primary" id="startNextBtn">Start next turn</button>
+    </div>
+  </div>
+</div>
+
+<!-- BLANK TILE LETTER MODAL -->
+<div class="modalBack" id="blankModal">
+  <div class="modal">
+    <h2>Blank tile</h2>
+    <p>Pick what letter this blank represents (A–Z).</p>
+    <input id="blankInput" maxlength="1" placeholder="Type a letter…" />
+    <div class="hint">Tip: You can change it before you hit “Play Move”.</div>
+    <div class="row">
+      <button class="btn" id="blankCancel">Cancel</button>
+      <button class="btn primary" id="blankOk">Use letter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ---------- CONFIG ----------
+  const PLAYERS = ["Jim", "Jalaine"];
+  const CENTER = { r: 7, c: 7 };
+
+  // Letter values (Scrabble)
+  const LETTER_VALUES = {
+    A:1,B:3,C:3,D:2,E:1,F:4,G:2,H:4,I:1,J:8,K:5,L:1,M:3,N:1,O:1,P:3,Q:10,R:1,S:1,T:1,U:1,V:4,W:4,X:8,Y:4,Z:10,"?":0
+  };
+
+  // Tile distribution (Scrabble)
+  const TILE_DISTRIBUTION = [
+    ["A",9],["B",2],["C",2],["D",4],["E",12],["F",2],["G",3],["H",2],["I",9],
+    ["J",1],["K",1],["L",4],["M",2],["N",6],["O",8],["P",2],["Q",1],["R",6],
+    ["S",4],["T",6],["U",4],["V",2],["W",2],["X",1],["Y",2],["Z",1],["?",2]
+  ];
+
+  // Board multipliers (standard layout)
+  const MULT = (() => {
+    const empty = Array.from({length:15},()=>Array.from({length:15},()=>({W:1,L:1})));
+    const set = (r,c,W,L)=>{ empty[r][c] = {W:W??1,L:L??1}; };
+
+    const TW = [[0,0],[0,7],[0,14],[7,0],[7,14],[14,0],[14,7],[14,14]];
+    const DW = [
+      [1,1],[2,2],[3,3],[4,4],[7,7],[10,10],[11,11],[12,12],[13,13],
+      [1,13],[2,12],[3,11],[4,10],[10,4],[11,3],[12,2],[13,1]
+    ];
+    const TL = [[1,5],[1,9],[5,1],[5,5],[5,9],[5,13],[9,1],[9,5],[9,9],[9,13],[13,5],[13,9]];
+    const DL = [
+      [0,3],[0,11],[2,6],[2,8],[3,0],[3,7],[3,14],[6,2],[6,6],[6,8],[6,12],
+      [7,3],[7,11],[8,2],[8,6],[8,8],[8,12],[11,0],[11,7],[11,14],[12,6],[12,8],[14,3],[14,11]
+    ];
+
+    for (const [r,c] of TW) set(r,c,3,1);
+    for (const [r,c] of DW) set(r,c,2,1);
+    for (const [r,c] of TL) set(r,c,1,3);
+    for (const [r,c] of DL) set(r,c,1,2);
+
+    return empty;
+  })();
+
+  const labelForMult = (m) => {
+    if (m.W === 3) return "TW";
+    if (m.W === 2) return "DW";
+    if (m.L === 3) return "TL";
+    if (m.L === 2) return "DL";
+    return "";
+  };
+
+  // Dictionary source (ENABLE) + fallback
+  const DICT_URL = "https://raw.githubusercontent.com/dolph/dictionary/master/enable1.txt";
+  const FALLBACK_WORDS = ["apple","orange","pear","bear","bears","cat","cats","dog","dogs","fish","home","homes","house","houses","maroon","gold","cream","jim","jalaine","utah","lehi","trail","trails","run","runs","running","hike","hikes","hiking","word","words","tile","tiles","score","scores"];
+
+  // ---------- STATE ----------
+  let dictReady = false;
+  let DICT = new Set();
+
+  let game = null;
+  let turn = null;
+  let selectedRackIndex = null;
+
+  // ---------- DOM ----------
+  const elBoard = document.getElementById("board");
+  const elRack = document.getElementById("rack");
+  const elTurnName = document.getElementById("turnName");
+  const elStatus = document.getElementById("statusLine");
+  const elPreview = document.getElementById("movePreview");
+  const elLog = document.getElementById("log");
+  const elScoreJim = document.getElementById("scoreJim");
+  const elScoreJalaine = document.getElementById("scoreJalaine");
+  const elBagCount = document.getElementById("bagCount");
+  const btnPlay = document.getElementById("playBtn");
+  const btnClear = document.getElementById("clearBtn");
+  const btnPass = document.getElementById("passBtn");
+  const btnSwap = document.getElementById("swapBtn");
+  const btnReset = document.getElementById("resetBtn");
+
+  const passModal = document.getElementById("passModal");
+  const passText = document.getElementById("passText");
+  const startNextBtn = document.getElementById("startNextBtn");
+
+  const blankModal = document.getElementById("blankModal");
+  const blankInput = document.getElementById("blankInput");
+  const blankCancel = document.getElementById("blankCancel");
+  const blankOk = document.getElementById("blankOk");
+
+  // ---------- HELPERS ----------
+  const key = (r,c) => `${r},${c}`;
+  const inBounds = (r,c) => r>=0 && r<15 && c>=0 && c<15;
+
+  function shuffle(arr){
+    for (let i=arr.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+
+  function makeBag(){
+    const bag = [];
+    for (const [L,count] of TILE_DISTRIBUTION){
+      for (let i=0;i<count;i++){
+        bag.push({ L, V: LETTER_VALUES[L], blankAs: null, id: crypto.randomUUID?.() || (Math.random()+"").slice(2) });
+      }
+    }
+    return shuffle(bag);
+  }
+
+  function drawTiles(bag, n){
+    const out = [];
+    while (n>0 && bag.length>0){
+      out.push(bag.pop());
+      n--;
+    }
+    return out;
+  }
+
+  // ---------- GAME INIT ----------
+  function newGame(){
+    const bag = makeBag();
+    const players = [
+      { name: PLAYERS[0], score:0, rack: drawTiles(bag,7) },
+      { name: PLAYERS[1], score:0, rack: drawTiles(bag,7) }
+    ];
+    const board = Array.from({length:15},()=>Array.from({length:15},()=>null));
+    return { players, bag, board, current: 0, moveCount: 0, log: [] };
+  }
+
+  function newTurn(){
+    return {
+      placed: new Map(),     // "r,c" -> tile
+      swapSelected: new Set()// rack indices for swap
+    };
+  }
+
+  // ---------- DICTIONARY ----------
+  async function loadDictionary(){
+    elStatus.textContent = "Loading dictionary… (first time may take a bit)";
+    try{
+      const cache = await caches.open("scrabble-dict-v1");
+      let resp = await cache.match(DICT_URL);
+      if (!resp){
+        resp = await fetch(DICT_URL, { mode:"cors" });
+        if (!resp.ok) throw new Error("Fetch failed");
+        await cache.put(DICT_URL, resp.clone());
+      }
+      const text = await resp.text();
+      const words = text.split(/\r?\n/).map(w=>w.trim()).filter(Boolean);
+      DICT = new Set(words);
+      dictReady = true;
+      elStatus.textContent = "Dictionary ready.";
+    } catch (e){
+      DICT = new Set(FALLBACK_WORDS);
+      dictReady = true;
+      elStatus.textContent = "Dictionary failed to load (offline?). Using a small fallback list.";
+    }
+    updateButtons();
+  }
+
+  function isValidWord(w){
+    if (!w || w.length < 2) return false;
+    return DICT.has(w.toLowerCase());
+  }
+
+  // ---------- BOARD / WORD FINDING ----------
+  function getBoardTile(r,c){
+    const placed = turn?.placed?.get(key(r,c));
+    if (placed) return placed;
+    return game.board[r][c];
+  }
+
+  function letterOf(tile){
+    if (!tile) return "";
+    if (tile.L === "?") return (tile.blankAs || "").toUpperCase();
+    return tile.L;
+  }
+
+  function scanWord(r,c,dr,dc){
+    let rr=r, cc=c;
+    while (inBounds(rr-dr, cc-dc) && getBoardTile(rr-dr, cc-dc)) { rr-=dr; cc-=dc; }
+    let letters = "";
+    const coords = [];
+    while (inBounds(rr,cc) && getBoardTile(rr,cc)){
+      const t = getBoardTile(rr,cc);
+      letters += letterOf(t);
+      coords.push([rr,cc]);
+      rr+=dr; cc+=dc;
+    }
+    return { word: letters, coords };
+  }
+
+  function formedWords(){
+    const placedCoords = [...turn.placed.keys()].map(k=>{
+      const [r,c]=k.split(",").map(Number);
+      return {r,c};
+    });
+    if (placedCoords.length === 0) return [];
+
+    const sameRow = placedCoords.every(p=>p.r === placedCoords[0].r);
+    const sameCol = placedCoords.every(p=>p.c === placedCoords[0].c);
+    if (!sameRow && !sameCol) return { error: "Tiles must be in a single row or a single column." };
+
+    const axis = sameRow ? "row" : "col";
+
+    // contiguous (existing tiles may bridge)
+    if (axis === "row"){
+      const r = placedCoords[0].r;
+      const minC = Math.min(...placedCoords.map(p=>p.c));
+      const maxC = Math.max(...placedCoords.map(p=>p.c));
+      for (let c=minC;c<=maxC;c++){
+        if (!getBoardTile(r,c)) return { error: "Your main word has a gap. (Existing tiles can bridge gaps.)" };
+      }
+    } else {
+      const c = placedCoords[0].c;
+      const minR = Math.min(...placedCoords.map(p=>p.r));
+      const maxR = Math.max(...placedCoords.map(p=>p.r));
+      for (let r=minR;r<=maxR;r++){
+        if (!getBoardTile(r,c)) return { error: "Your main word has a gap. (Existing tiles can bridge gaps.)" };
+      }
+    }
+
+    const words = [];
+
+    // main word
+    let main;
+    if (axis === "row"){
+      main = scanWord(placedCoords[0].r, placedCoords[0].c, 0, 1);
+    } else {
+      main = scanWord(placedCoords[0].r, placedCoords[0].c, 1, 0);
+    }
+    if (main.word.length >= 2) words.push({ ...main, kind:"main" });
+
+    // cross words created by each new tile
+    for (const p of placedCoords){
+      const cross = axis === "row"
+        ? scanWord(p.r,p.c,1,0)
+        : scanWord(p.r,p.c,0,1);
+
+      if (cross.word.length >= 2){
+        const dup = words.some(w => w.coords.length===cross.coords.length &&
+          w.coords.every((q,i)=>q[0]===cross.coords[i][0] && q[1]===cross.coords[i][1])
+        );
+        if (!dup) words.push({ ...cross, kind:"cross" });
+      }
+    }
+
+    return words;
+  }
+
+  function isConnected(){
+    if (game.moveCount === 0){
+      return turn.placed.has(key(CENTER.r, CENTER.c));
+    }
+    // touches existing
+    for (const k of turn.placed.keys()){
+      const [r,c]=k.split(",").map(Number);
+      for (const [rr,cc] of [[r-1,c],[r+1,c],[r,c-1],[r,c+1]]){
+        if (inBounds(rr,cc) && game.board[rr][cc]) return true;
+      }
+    }
+    // or main word passes through existing tiles
+    const words = formedWords();
+    if (words.error) return false;
+    const main = words.find(w=>w.kind==="main");
+    if (main){
+      for (const [r,c] of main.coords){
+        if (game.board[r][c]) return true;
+      }
+    }
+    return false;
+  }
+
+  function computeScore(words){
+    let total = 0;
+    for (const w of words){
+      let wordSum = 0;
+      let wordMult = 1;
+      for (const [r,c] of w.coords){
+        const t = getBoardTile(r,c);
+        const isNew = turn.placed.has(key(r,c));
+        const L = letterOf(t);
+        const base = (t.L === "?" ? 0 : (LETTER_VALUES[L] || 0));
+        if (isNew){
+          const m = MULT[r][c];
+          wordSum += base * m.L;
+          wordMult *= m.W;
+        } else {
+          wordSum += base;
+        }
+      }
+      total += wordSum * wordMult;
+    }
+    if (turn.placed.size === 7) total += 50;
+    return total;
+  }
+
+  // ---------- UI RENDER ----------
+  function tileElement(tile){
+    const d = document.createElement("div");
+    d.className = "tile" + (tile.L === "?" ? " blank" : "");
+    const L = document.createElement("div");
+    L.className = "L";
+    L.textContent = letterOf(tile) || (tile.L === "?" ? "?" : tile.L);
+    const V = document.createElement("div");
+    V.className = "V";
+    V.textContent = tile.L === "?" ? "" : tile.V;
+    d.appendChild(L); d.appendChild(V);
+    return d;
+  }
+
+  function renderBoard(){
+    elBoard.innerHTML = "";
+    for (let r=0;r<15;r++){
+      for (let c=0;c<15;c++){
+        const sq = document.createElement("div");
+        sq.className = "sq";
+        const m = MULT[r][c];
+        const lbl = labelForMult(m);
+        if (lbl === "TW") sq.classList.add("mult-w3");
+        if (lbl === "DW") sq.classList.add("mult-w2");
+        if (lbl === "TL") sq.classList.add("mult-l3");
+        if (lbl === "DL") sq.classList.add("mult-l2");
+        if (r===CENTER.r && c===CENTER.c) sq.classList.add("center");
+
+        const tile = getBoardTile(r,c);
+        if (!tile){
+          const lab = document.createElement("div");
+          lab.className = "multLabel";
+          lab.textContent = lbl;
+          sq.appendChild(lab);
+        } else {
+          const tEl = tileElement(tile);
+          tEl.style.width = "32px";
+          tEl.style.height = "32px";
+          sq.appendChild(tEl);
+        }
+
+        sq.addEventListener("click", () => onSquareTap(r,c));
+        elBoard.appendChild(sq);
+      }
+    }
+  }
+
+  function renderRack(){
+    elRack.innerHTML = "";
+    selectedRackIndex = null;
+
+    const rack = game.players[game.current].rack;
+    rack.forEach((tile, idx) => {
+      const slot = document.createElement("div");
+      if (!tile){
+        slot.className = "tile";
+        slot.style.opacity = "0.25";
+        slot.innerHTML = `<div class="L"> </div>`;
+      } else {
+        slot.className = "tile" + (tile.L === "?" ? " blank" : "");
+        const L = document.createElement("div");
+        L.className = "L";
+        L.textContent = tile.L === "?" ? (tile.blankAs ? tile.blankAs.toUpperCase() : "?") : tile.L;
+        const V = document.createElement("div");
+        V.className = "V";
+        V.textContent = tile.L === "?" ? "" : tile.V;
+        slot.appendChild(L); slot.appendChild(V);
+        slot.addEventListener("click", () => onRackTap(idx));
+      }
+      slot.dataset.idx = idx;
+      elRack.appendChild(slot);
+    });
+  }
+
+  function renderHeader(){
+    elTurnName.textContent = game.players[game.current].name;
+    elScoreJim.textContent = game.players[0].score;
+    elScoreJalaine.textContent = game.players[1].score;
+    elBagCount.textContent = game.bag.length;
+  }
+
+  function renderLog(){
+    elLog.textContent = game.log.slice(-40).join("\n");
+  }
+
+  function updatePreview(){
+    if (turn.placed.size === 0){
+      elPreview.textContent = "Tap a tile in your rack, then tap a board square to place it.";
+      return;
+    }
+    const words = formedWords();
+    if (words.error){
+      elPreview.textContent = `⚠️ ${words.error}`;
+      return;
+    }
+    elPreview.textContent = `Formed: ${words.map(w=>w.word).join(", ")}`;
+  }
+
+  function updateButtons(){
+    const hasPlaced = turn.placed.size > 0;
+    btnClear.disabled = !hasPlaced;
+    btnPlay.disabled = !dictReady || !hasPlaced;
+    btnPass.disabled = !dictReady || hasPlaced;
+    btnSwap.disabled = !dictReady || hasPlaced;
+  }
+
+  function refresh(){
+    renderHeader();
+    renderRack();
+    renderBoard();
+    renderLog();
+    updatePreview();
+    updateButtons();
+  }
+
+  // ---------- INTERACTION ----------
+  function highlightRack(forPlacementIdx){
+    [...elRack.children].forEach((el,i) => {
+      el.classList.toggle("sel", i===forPlacementIdx);
+      el.style.outline = turn.swapSelected.has(i) ? "3px solid rgba(212,175,55,0.45)" : "";
+      if (i===forPlacementIdx) el.style.outline = "";
+    });
+  }
+
+  function onRackTap(idx){
+    const rack = game.players[game.current].rack;
+    const tile = rack[idx];
+    if (!tile) return;
+
+    // double-tap toggles swap selection (only if no tiles placed yet)
+    const now = performance.now();
+    const last = onRackTap._last || { idx:null, t:0 };
+    const isDouble = (last.idx === idx && (now - last.t) < 350);
+    onRackTap._last = { idx, t: now };
+
+    if (turn.placed.size === 0 && isDouble){
+      if (turn.swapSelected.has(idx)) turn.swapSelected.delete(idx);
+      else turn.swapSelected.add(idx);
+      highlightRack(null);
+      const count = turn.swapSelected.size;
+      elPreview.textContent = count ? `Swap selected: ${count} tile(s). Tap Swap to exchange.` : "Tap a tile in your rack, then tap a board square to place it.";
+      return;
+    }
+
+    selectedRackIndex = idx;
+    highlightRack(idx);
+
+    if (tile.L === "?" && !tile.blankAs){
+      showBlankPicker(tile, () => refresh());
+    }
+  }
+
+  function onSquareTap(r,c){
+    const k = key(r,c);
+
+    // undo: tap placed tile
+    if (turn.placed.has(k)){
+      const tile = turn.placed.get(k);
+      game.players[game.current].rack.push(tile);
+      turn.placed.delete(k);
+      refresh();
+      return;
+    }
+
+    // can't place on permanent tile
+    if (game.board[r][c]) return;
+
+    // need selected rack tile
+    if (selectedRackIndex === null) return;
+
+    const rack = game.players[game.current].rack;
+    const tile = rack[selectedRackIndex];
+    if (!tile) return;
+
+    if (tile.L === "?" && !tile.blankAs){
+      showBlankPicker(tile, () => placeTileFromRackToBoard(selectedRackIndex, r,c));
+      return;
+    }
+    placeTileFromRackToBoard(selectedRackIndex, r,c);
+  }
+
+  function placeTileFromRackToBoard(rackIdx, r,c){
+    const rack = game.players[game.current].rack;
+    const tile = rack.splice(rackIdx,1)[0];
+    turn.placed.set(key(r,c), tile);
+    selectedRackIndex = null;
+    refresh();
+  }
+
+  function clearTurn(){
+    for (const t of turn.placed.values()) game.players[game.current].rack.push(t);
+    turn.placed.clear();
+    refresh();
+  }
+
+  function showPassModal(nextName){
+    passText.textContent = `Hand the phone to ${nextName}.`;
+    startNextBtn.textContent = `Start ${nextName}'s turn`;
+    passModal.style.display = "flex";
+  }
+  function hidePassModal(){ passModal.style.display = "none"; }
+
+  function advanceTurn(){
+    const next = 1 - game.current;
+    showPassModal(game.players[next].name);
+  }
+
+  startNextBtn.addEventListener("click", () => {
+    hidePassModal();
+    game.current = 1 - game.current;
+    turn = newTurn();
+    selectedRackIndex = null;
+    elStatus.textContent = "Your turn.";
+    refresh();
+  });
+
+  function showBlankPicker(tile, onDone){
+    blankInput.value = "";
+    blankModal.style.display = "flex";
+    setTimeout(()=>blankInput.focus(), 50);
+
+    const close = (ok) => {
+      if (ok){
+        const ch = (blankInput.value || "").toUpperCase();
+        if (!/^[A-Z]$/.test(ch)) return; // keep open
+        tile.blankAs = ch;
+      }
+      blankModal.style.display = "none";
+      onDone?.();
+    };
+
+    blankCancel.onclick = () => close(false);
+    blankOk.onclick = () => close(true);
+    blankInput.onkeydown = (e) => {
+      if (e.key === "Enter") close(true);
+      if (e.key === "Escape") close(false);
+    };
+  }
+
+  // ---------- GAMEPLAY ----------
+  function passTurn(){
+    game.log.push(`— ${game.players[game.current].name} passed.`);
+    advanceTurn();
+  }
+
+  function swapTiles(){
+    const rack = game.players[game.current].rack;
+    const indices = [...turn.swapSelected].sort((a,b)=>b-a);
+    if (indices.length === 0){
+      elPreview.textContent = "Double-tap rack tiles to select them for swapping, then press Swap.";
+      return;
+    }
+    if (game.bag.length < indices.length){
+      elPreview.textContent = `⚠️ Not enough tiles in the bag to swap ${indices.length}.`;
+      return;
+    }
+
+    const pulled = [];
+    for (const i of indices){
+      if (rack[i]) pulled.push(rack[i]);
+      rack.splice(i,1);
+    }
+    const replacements = drawTiles(game.bag, pulled.length);
+    rack.push(...replacements);
+    game.bag.push(...pulled);
+    shuffle(game.bag);
+
+    game.log.push(`— ${game.players[game.current].name} swapped ${pulled.length} tile(s).`);
+    turn.swapSelected.clear();
+    advanceTurn();
+  }
+
+  function validateAndPlay(){
+    const words = formedWords();
+    if (words.error){
+      elPreview.textContent = `⚠️ ${words.error}`;
+      return;
+    }
+
+    if (!isConnected()){
+      elPreview.textContent = (game.moveCount === 0)
+        ? "⚠️ First move must cover the ★ center square."
+        : "⚠️ Your move must connect to existing tiles.";
+      return;
+    }
+
+    for (const t of turn.placed.values()){
+      if (t.L === "?" && (!t.blankAs || !/^[A-Z]$/.test(t.blankAs.toUpperCase()))){
+        elPreview.textContent = "⚠️ A blank tile needs a letter (A–Z).";
+        return;
+      }
+    }
+
+    const invalid = words.filter(w => !isValidWord(w.word));
+    if (invalid.length){
+      elPreview.textContent = `❌ Not valid: ${invalid.map(w=>w.word).join(", ")}.`;
+      return;
+    }
+
+    const points = computeScore(words);
+
+    // commit to board
+    for (const [k,t] of turn.placed.entries()){
+      const [r,c]=k.split(",").map(Number);
+      game.board[r][c] = t;
+    }
+
+    // refill rack
+    const player = game.players[game.current];
+    const need = Math.max(0, 7 - player.rack.length);
+    player.rack.push(...drawTiles(game.bag, need));
+
+    player.score += points;
+    game.log.push(`+${points} — ${player.name} played: ${words.map(w=>w.word).join(", ")}`);
+    game.moveCount++;
+
+    turn.placed.clear();
+    refresh();
+    advanceTurn();
+  }
+
+  // ---------- BUTTONS ----------
+  btnClear.addEventListener("click", clearTurn);
+  btnPlay.addEventListener("click", validateAndPlay);
+  btnPass.addEventListener("click", passTurn);
+  btnSwap.addEventListener("click", swapTiles);
+  btnReset.addEventListener("click", () => {
+    if (!confirm("Reset the game? This will erase the board and scores.")) return;
+    game = newGame();
+    turn = newTurn();
+    selectedRackIndex = null;
+    elStatus.textContent = dictReady ? "New game started." : "Loading dictionary…";
+    refresh();
+  });
+
+  // ---------- START ----------
+  function boot(){
+    game = newGame();
+    turn = newTurn();
+    elStatus.textContent = "Loading dictionary…";
+    refresh();
+    loadDictionary();
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
