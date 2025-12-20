@@ -16,7 +16,6 @@
       --tileEdge:#d9caa9;
       --bad:#ff6b6b;
 
-      /* Bottom dock height (approx). We keep it roomy for thumbs. */
       --dockPad: 14px;
       --dockMinH: 170px;
     }
@@ -33,35 +32,18 @@
     header{
       padding: 12px 14px;
       display:flex;
-      align-items:flex-start;
+      align-items:center;
       justify-content:space-between;
       gap:12px;
       border-bottom: 1px solid rgba(212,175,55,0.25);
       background: linear-gradient(to bottom, rgba(58,18,27,0.92), rgba(42,12,18,0.92));
     }
 
-    .brand{display:flex; flex-direction:column; gap:3px;}
-    .brand .title{
-      font-weight:900;
-      letter-spacing:1.2px;
-      color:var(--gold);
-      text-transform:uppercase;
-      font-size: 14px;
-    }
-    .brand .sub{font-size:12px; opacity:0.92;}
+    /* Logo placeholder (user will replace with image) */
+    .logoBox{
+     <img class="logoBox" src=“scrabblelogo.png" alt="Scrabble">
 
-    .scores{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
-      font-size:12px;
     }
-    .pill{
-      border:1px solid rgba(212,175,55,0.35);
-      background: rgba(243,236,221,0.06);
-      padding:6px 10px;
-      border-radius:999px;
-      white-space:nowrap;
-    }
-    .pill strong{ color:var(--gold) }
 
     .btn{
       appearance:none;
@@ -86,7 +68,6 @@
     }
     .btn:disabled{opacity:0.45; cursor:not-allowed; transform:none;}
 
-    /* Main content leaves room for the bottom dock */
     main{
       padding: 12px;
       max-width: 980px;
@@ -108,19 +89,68 @@
       align-items:center;
       justify-content:space-between;
     }
+
+    /* Turn line (no "Turn:" label) */
     .turnLine{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
       font-weight: 900;
-      letter-spacing: 0.8px;
-      font-size: 14px;
+      letter-spacing: 0.7px;
     }
-    .turnLine span{ color: var(--gold) }
+    .turnName{
+      color: var(--gold);
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: 0.9px;
+      text-transform: none;
+    }
+    .yourTurn{
+      font-size: 14px;
+      opacity: 0.92;
+      letter-spacing: 0.6px;
+    }
+
+    /* Scores moved here (right of turn line) */
+    .scoreRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+    .scorePill{
+      border:1px solid rgba(212,175,55,0.35);
+      background: rgba(243,236,221,0.06);
+      padding:8px 12px;
+      border-radius:999px;
+      white-space:nowrap;
+      display:flex;
+      gap:8px;
+      align-items:baseline;
+    }
+    .scorePill .label{
+      color: rgba(243,236,221,0.90);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .scorePill .val{
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 18px; /* larger for contrast */
+      letter-spacing: 0.3px;
+    }
+
     .status{
       font-size:12px;
       opacity:0.95;
       line-height:1.25;
+      margin-top: 2px;
     }
 
-    /* BOARD: scrollable area (independent) */
+    /* BOARD scroll area */
     .boardArea{
       margin-top: 10px;
       border-radius: 16px;
@@ -128,9 +158,7 @@
       background: rgba(0,0,0,0.08);
       overflow:auto;
       -webkit-overflow-scrolling: touch;
-
-      /* Key change: keep the board in its own scroller */
-      max-height: calc(100vh - 110px - var(--dockMinH) - env(safe-area-inset-bottom));
+      max-height: calc(100vh - 128px - var(--dockMinH) - env(safe-area-inset-bottom));
     }
 
     .board{
@@ -155,18 +183,28 @@
       text-transform:uppercase;
       letter-spacing:0.2px;
       user-select:none;
-      color: rgba(27,10,14,0.75);
+
+      /* default label color */
+      color: var(--maroon); /* requested: specialty labels same as background color */
       background: rgba(243,236,221,0.18);
       border: 1px solid rgba(231,220,200,0.25);
+      overflow:hidden;
     }
-    .sq.center::after{
+
+    /* center star: only visible when square is empty, and behind tiles */
+    .sq.center.empty::after{
       content:"★";
       position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       font-size:16px;
       color: rgba(212,175,55,0.85);
-      transform: translateY(-1px);
       pointer-events:none;
+      z-index: 0; /* behind */
     }
+
     .sq.mult-w3{ background: rgba(212,175,55,0.18); border-color: rgba(212,175,55,0.35) }
     .sq.mult-w2{ background: rgba(212,175,55,0.10); border-color: rgba(212,175,55,0.28) }
     .sq.mult-l3{ background: rgba(243,236,221,0.22); border-color: rgba(243,236,221,0.32) }
@@ -177,7 +215,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      opacity:0.75;
+      opacity:0.9;
+      z-index: 0;
     }
 
     /* TILE */
@@ -194,6 +233,7 @@
       color: var(--ink);
       user-select:none;
       touch-action: manipulation;
+      z-index: 2; /* above star/labels */
     }
     .tile.sel{ outline: 3px solid rgba(212,175,55,0.65) }
     .tile .L{ font-size: 16px; font-weight: 900; letter-spacing:0.5px }
@@ -221,7 +261,7 @@
       margin-top: 10px;
     }
 
-    /* Bottom Dock: always-visible rack + actions */
+    /* Bottom Dock */
     .dock{
       position: fixed;
       left: 0; right: 0; bottom: 0;
@@ -253,20 +293,18 @@
       flex-wrap:wrap;
       align-items:center;
     }
-
     .actionRight{
       display:flex;
       gap:8px;
       align-items:center;
       flex-wrap:wrap;
     }
-
     .btn.bigPlay{
       padding: 12px 14px;
       border-radius: 14px;
       font-size: 14px;
-      letter-spacing: 0.4px;
-      min-width: 140px;
+      letter-spacing: 0.6px;
+      min-width: 150px;
     }
 
     .rack{
@@ -299,6 +337,7 @@
       padding: 14px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.45);
       color: var(--cream);
+      text-align: center; /* center the content */
     }
     .modal h2{
       margin:0 0 6px;
@@ -309,7 +348,18 @@
       font-weight: 900;
     }
     .modal p{ margin: 8px 0; font-size: 13px; line-height:1.35 }
-    .modal .row{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top: 10px }
+    .modal .scoreBurst{
+      margin-top: 8px;
+      font-size: 18px;  /* larger score in modal */
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.4px;
+    }
+    .modal .row{
+      display:flex;
+      justify-content:center; /* centered button row */
+      margin-top: 12px;
+    }
     .modal input{
       width: 100%;
       padding: 10px 12px;
@@ -322,7 +372,7 @@
       outline:none;
       font-family: inherit;
     }
-    .hint{font-size:12px; opacity:0.85; margin-top: 6px;}
+    .hint{font-size:12px; opacity:0.85; margin-top: 6px; text-align:left;}
 
     @media (min-width: 860px){
       .board{
@@ -332,31 +382,33 @@
       .sq{ width:38px; height:38px }
       .tile{ width:36px; height:36px }
       :root{ --dockMinH: 185px; }
-      .dockInner{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
 <header>
-  <div class="brand">
-    <div class="title">Scrabble</div>
-    <div class="sub">Pass & play — <strong>Jim</strong> vs <strong>Jalaine</strong></div>
-  </div>
-  <div class="scores">
-    <div class="pill"><strong>Jim</strong>: <span id="scoreJim">0</span></div>
-    <div class="pill"><strong>Jalaine</strong>: <span id="scoreJalaine">0</span></div>
-    <div class="pill">Bag: <span id="bagCount">0</span></div>
-    <button class="btn danger" id="resetBtn">Reset</button>
-  </div>
+  <!-- Placeholder: replace with <img class="logoBox" src="logo.png" alt="Scrabble"> if you want -->
+  <div class="logoBox" id="logoBox">LOGO</div>
+
+  <button class="btn danger" id="resetBtn">Reset</button>
 </header>
 
 <main>
   <section class="panel">
     <div class="topRow">
       <div>
-        <div class="turnLine">Turn: <span id="turnName">Jim</span></div>
+        <div class="turnLine">
+          <div class="turnName" id="turnName">Jim</div>
+          <div class="yourTurn">your turn</div>
+        </div>
         <div class="status" id="statusLine">Loading dictionary…</div>
+      </div>
+
+      <div class="scoreRow">
+        <div class="scorePill"><span class="label">Jim</span> <span class="val" id="scoreJim">0</span></div>
+        <div class="scorePill"><span class="label">Jalaine</span> <span class="val" id="scoreJalaine">0</span></div>
+        <div class="scorePill"><span class="label">Bag</span> <span class="val" id="bagCount">0</span></div>
       </div>
     </div>
 
@@ -369,7 +421,7 @@
   </section>
 </main>
 
-<!-- Bottom Dock (always visible tiles + actions) -->
+<!-- Bottom Dock -->
 <div class="dock" id="dock">
   <div class="dockInner">
     <div class="dockActions">
@@ -382,7 +434,6 @@
         <button class="btn primary bigPlay" id="playBtn" disabled>Play Move</button>
       </div>
     </div>
-
     <div class="rack" id="rack"></div>
   </div>
 </div>
@@ -392,6 +443,7 @@
   <div class="modal">
     <h2>Pass the phone</h2>
     <p id="passText">Hand the phone to the next player.</p>
+    <div class="scoreBurst" id="passScoreBurst" style="display:none;"></div>
     <div class="row">
       <button class="btn primary" id="startNextBtn">Start next turn</button>
     </div>
@@ -414,7 +466,6 @@
 
 <script>
 (() => {
-  // ---------- CONFIG ----------
   const PLAYERS = ["Jim", "Jalaine"];
   const CENTER = { r: 7, c: 7 };
 
@@ -428,7 +479,6 @@
     ["S",4],["T",6],["U",4],["V",2],["W",2],["X",1],["Y",2],["Z",1],["?",2]
   ];
 
-  // Standard Scrabble multipliers
   const MULT = (() => {
     const empty = Array.from({length:15},()=>Array.from({length:15},()=>({W:1,L:1})));
     const set = (r,c,W,L)=>{ empty[r][c] = {W:W??1,L:L??1}; };
@@ -460,11 +510,9 @@
     return "";
   };
 
-  // Word list (ENABLE) cached via Cache API. Fallback if offline.
   const DICT_URL = "https://raw.githubusercontent.com/dolph/dictionary/master/enable1.txt";
   const FALLBACK_WORDS = ["apple","orange","pear","bear","bears","cat","cats","dog","dogs","fish","home","homes","house","houses","maroon","gold","cream","jim","jalaine","utah","lehi","trail","trails","run","runs","running","hike","hikes","hiking","word","words","tile","tiles","score","scores"];
 
-  // ---------- STATE ----------
   let dictReady = false;
   let DICT = new Set();
 
@@ -472,7 +520,9 @@
   let turn = null;
   let selectedRackIndex = null;
 
-  // ---------- DOM ----------
+  // for pass modal: last action summary
+  let lastTurnSummary = { points: 0, action: "played", words: "" };
+
   const elBoard = document.getElementById("board");
   const elRack = document.getElementById("rack");
   const elTurnName = document.getElementById("turnName");
@@ -491,6 +541,7 @@
 
   const passModal = document.getElementById("passModal");
   const passText = document.getElementById("passText");
+  const passScoreBurst = document.getElementById("passScoreBurst");
   const startNextBtn = document.getElementById("startNextBtn");
 
   const blankModal = document.getElementById("blankModal");
@@ -498,7 +549,6 @@
   const blankCancel = document.getElementById("blankCancel");
   const blankOk = document.getElementById("blankOk");
 
-  // ---------- HELPERS ----------
   const key = (r,c) => `${r},${c}`;
   const inBounds = (r,c) => r>=0 && r<15 && c>=0 && c<15;
 
@@ -543,7 +593,6 @@
     return { placed: new Map(), swapSelected: new Set() };
   }
 
-  // ---------- DICTIONARY ----------
   async function loadDictionary(){
     elStatus.textContent = "Loading dictionary… (first time may take a bit)";
     try{
@@ -572,7 +621,6 @@
     return DICT.has(w.toLowerCase());
   }
 
-  // ---------- BOARD / WORD FINDING ----------
   function getBoardTile(r,c){
     const placed = turn?.placed?.get(key(r,c));
     if (placed) return placed;
@@ -629,17 +677,11 @@
     }
 
     const words = [];
-
-    // main word
     let main;
-    if (axis === "row"){
-      main = scanWord(placedCoords[0].r, placedCoords[0].c, 0, 1);
-    } else {
-      main = scanWord(placedCoords[0].r, placedCoords[0].c, 1, 0);
-    }
+    if (axis === "row") main = scanWord(placedCoords[0].r, placedCoords[0].c, 0, 1);
+    else main = scanWord(placedCoords[0].r, placedCoords[0].c, 1, 0);
     if (main.word.length >= 2) words.push({ ...main, kind:"main" });
 
-    // cross words
     for (const p of placedCoords){
       const cross = axis === "row" ? scanWord(p.r,p.c,1,0) : scanWord(p.r,p.c,0,1);
       if (cross.word.length >= 2){
@@ -649,7 +691,6 @@
         if (!dup) words.push({ ...cross, kind:"cross" });
       }
     }
-
     return words;
   }
 
@@ -698,7 +739,6 @@
     return total;
   }
 
-  // ---------- UI RENDER ----------
   function tileElement(tile){
     const d = document.createElement("div");
     d.className = "tile" + (tile.L === "?" ? " blank" : "");
@@ -717,9 +757,10 @@
     for (let r=0;r<15;r++){
       for (let c=0;c<15;c++){
         const sq = document.createElement("div");
-        sq.className = "sq";
         const m = MULT[r][c];
         const lbl = labelForMult(m);
+
+        sq.className = "sq";
         if (lbl === "TW") sq.classList.add("mult-w3");
         if (lbl === "DW") sq.classList.add("mult-w2");
         if (lbl === "TL") sq.classList.add("mult-l3");
@@ -727,7 +768,9 @@
         if (r===CENTER.r && c===CENTER.c) sq.classList.add("center");
 
         const tile = getBoardTile(r,c);
+
         if (!tile){
+          sq.classList.add("empty");
           const lab = document.createElement("div");
           lab.className = "multLabel";
           lab.textContent = lbl;
@@ -813,7 +856,6 @@
     updateButtons();
   }
 
-  // ---------- INTERACTION ----------
   function highlightRack(forPlacementIdx){
     [...elRack.children].forEach((el,i) => {
       el.classList.toggle("sel", i===forPlacementIdx);
@@ -827,7 +869,6 @@
     const tile = rack[idx];
     if (!tile) return;
 
-    // double-tap toggles swap selection (only if no tiles placed yet)
     const now = performance.now();
     const last = onRackTap._last || { idx:null, t:0 };
     const isDouble = (last.idx === idx && (now - last.t) < 350);
@@ -853,7 +894,6 @@
   function onSquareTap(r,c){
     const k = key(r,c);
 
-    // undo: tap placed tile
     if (turn.placed.has(k)){
       const tile = turn.placed.get(k);
       game.players[game.current].rack.push(tile);
@@ -890,9 +930,23 @@
     refresh();
   }
 
-  // ---------- MODALS ----------
   function showPassModal(nextName){
     passText.textContent = `Hand the phone to ${nextName}.`;
+
+    // include last score / action
+    if (lastTurnSummary.action === "played"){
+      passScoreBurst.style.display = "block";
+      passScoreBurst.textContent = `+${lastTurnSummary.points} points`;
+    } else if (lastTurnSummary.action === "passed"){
+      passScoreBurst.style.display = "block";
+      passScoreBurst.textContent = `0 points (passed)`;
+    } else if (lastTurnSummary.action === "swapped"){
+      passScoreBurst.style.display = "block";
+      passScoreBurst.textContent = `0 points (swapped)`;
+    } else {
+      passScoreBurst.style.display = "none";
+    }
+
     startNextBtn.textContent = `Start ${nextName}'s turn`;
     passModal.style.display = "flex";
   }
@@ -935,8 +989,8 @@
     };
   }
 
-  // ---------- GAMEPLAY ----------
   function passTurn(){
+    lastTurnSummary = { points: 0, action: "passed", words: "" };
     game.log.push(`— ${game.players[game.current].name} passed.`);
     advanceTurn();
   }
@@ -963,6 +1017,7 @@
     game.bag.push(...pulled);
     shuffle(game.bag);
 
+    lastTurnSummary = { points: 0, action: "swapped", words: "" };
     game.log.push(`— ${game.players[game.current].name} swapped ${pulled.length} tile(s).`);
     turn.swapSelected.clear();
     advanceTurn();
@@ -1007,6 +1062,8 @@
     player.rack.push(...drawTiles(game.bag, need));
 
     player.score += points;
+    lastTurnSummary = { points, action: "played", words: words.map(w=>w.word).join(", ") };
+
     game.log.push(`+${points} — ${player.name} played: ${words.map(w=>w.word).join(", ")}`);
     game.moveCount++;
 
@@ -1015,7 +1072,6 @@
     advanceTurn();
   }
 
-  // ---------- BUTTONS ----------
   btnClear.addEventListener("click", clearTurn);
   btnPlay.addEventListener("click", validateAndPlay);
   btnPass.addEventListener("click", passTurn);
@@ -1025,33 +1081,10 @@
     game = newGame();
     turn = newTurn();
     selectedRackIndex = null;
+    lastTurnSummary = { points: 0, action: "played", words: "" };
     elStatus.textContent = dictReady ? "New game started." : "Loading dictionary…";
     refresh();
   });
-
-  // ---------- START ----------
-  async function loadDictionary(){
-    elStatus.textContent = "Loading dictionary… (first time may take a bit)";
-    try{
-      const cache = await caches.open("scrabble-dict-v1");
-      let resp = await cache.match(DICT_URL);
-      if (!resp){
-        resp = await fetch(DICT_URL, { mode:"cors" });
-        if (!resp.ok) throw new Error("Fetch failed");
-        await cache.put(DICT_URL, resp.clone());
-      }
-      const text = await resp.text();
-      const words = text.split(/\r?\n/).map(w=>w.trim()).filter(Boolean);
-      DICT = new Set(words);
-      dictReady = true;
-      elStatus.textContent = "Dictionary ready.";
-    } catch (e){
-      DICT = new Set(FALLBACK_WORDS);
-      dictReady = true;
-      elStatus.textContent = "Dictionary failed to load (offline?). Using a small fallback list.";
-    }
-    updateButtons();
-  }
 
   function boot(){
     game = newGame();
