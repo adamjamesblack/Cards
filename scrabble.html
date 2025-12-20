@@ -14,7 +14,9 @@
       --ink:#1b0a0e;
       --tile:#f7f0e3;
       --tileEdge:#d9caa9;
-      --bad:#ff6b6b;
+
+      /* improved label contrast */
+      --multText: rgba(243,236,221,0.92);
 
       --dockPad: 14px;
       --dockMinH: 170px;
@@ -39,10 +41,16 @@
       background: linear-gradient(to bottom, rgba(58,18,27,0.92), rgba(42,12,18,0.92));
     }
 
-    /* Logo placeholder (user will replace with image) */
-    .logoBox{
-     <img class="logoBox" src="scrabblelogo.png" alt="Scrabble">
-
+    /* Logo image */
+    .logoImg{
+      width: 160px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.22);
+      background: rgba(243,236,221,0.03);
+      padding: 6px 10px;
+      display:block;
     }
 
     .btn{
@@ -90,7 +98,7 @@
       justify-content:space-between;
     }
 
-    /* Turn line (no "Turn:" label) */
+    /* "Jim's turn" / "Jalaine's turn" */
     .turnLine{
       display:flex;
       align-items:baseline;
@@ -98,20 +106,13 @@
       font-weight: 900;
       letter-spacing: 0.7px;
     }
-    .turnName{
+    .turnText{
       color: var(--gold);
       font-size: 18px;
       line-height: 1;
       letter-spacing: 0.9px;
-      text-transform: none;
-    }
-    .yourTurn{
-      font-size: 14px;
-      opacity: 0.92;
-      letter-spacing: 0.6px;
     }
 
-    /* Scores moved here (right of turn line) */
     .scoreRow{
       display:flex;
       gap:10px;
@@ -139,18 +140,10 @@
     .scorePill .val{
       color: var(--gold);
       font-weight: 900;
-      font-size: 18px; /* larger for contrast */
+      font-size: 18px;
       letter-spacing: 0.3px;
     }
 
-    .status{
-      font-size:12px;
-      opacity:0.95;
-      line-height:1.25;
-      margin-top: 2px;
-    }
-
-    /* BOARD scroll area */
     .boardArea{
       margin-top: 10px;
       border-radius: 16px;
@@ -184,14 +177,13 @@
       letter-spacing:0.2px;
       user-select:none;
 
-      /* default label color */
-      color: var(--maroon); /* requested: specialty labels same as background color */
+      /* labels now lighter for contrast */
+      color: var(--multText);
       background: rgba(243,236,221,0.18);
       border: 1px solid rgba(231,220,200,0.25);
       overflow:hidden;
     }
 
-    /* center star: only visible when square is empty, and behind tiles */
     .sq.center.empty::after{
       content:"★";
       position:absolute;
@@ -202,7 +194,7 @@
       font-size:16px;
       color: rgba(212,175,55,0.85);
       pointer-events:none;
-      z-index: 0; /* behind */
+      z-index: 0;
     }
 
     .sq.mult-w3{ background: rgba(212,175,55,0.18); border-color: rgba(212,175,55,0.35) }
@@ -215,11 +207,10 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      opacity:0.9;
+      opacity:1;
       z-index: 0;
     }
 
-    /* TILE */
     .tile{
       width:32px; height:32px;
       border-radius: 10px;
@@ -233,7 +224,7 @@
       color: var(--ink);
       user-select:none;
       touch-action: manipulation;
-      z-index: 2; /* above star/labels */
+      z-index: 2;
     }
     .tile.sel{ outline: 3px solid rgba(212,175,55,0.65) }
     .tile .L{ font-size: 16px; font-weight: 900; letter-spacing:0.5px }
@@ -261,7 +252,6 @@
       margin-top: 10px;
     }
 
-    /* Bottom Dock */
     .dock{
       position: fixed;
       left: 0; right: 0; bottom: 0;
@@ -318,7 +308,6 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* MODALS */
     .modalBack{
       position:fixed;
       inset:0;
@@ -337,7 +326,7 @@
       padding: 14px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.45);
       color: var(--cream);
-      text-align: center; /* center the content */
+      text-align: center;
     }
     .modal h2{
       margin:0 0 6px;
@@ -349,15 +338,15 @@
     }
     .modal p{ margin: 8px 0; font-size: 13px; line-height:1.35 }
     .modal .scoreBurst{
-      margin-top: 8px;
-      font-size: 18px;  /* larger score in modal */
+      margin: 2px 0 10px;
+      font-size: 20px;
       font-weight: 900;
       color: var(--gold);
       letter-spacing: 0.4px;
     }
     .modal .row{
       display:flex;
-      justify-content:center; /* centered button row */
+      justify-content:center;
       margin-top: 12px;
     }
     .modal input{
@@ -388,21 +377,15 @@
 
 <body>
 <header>
-  <!-- Placeholder: replace with <img class="logoBox" src="logo.png" alt="Scrabble"> if you want -->
-  <div class="logoBox" id="logoBox">LOGO</div>
-
+  <img class="logoImg" src="scrabblelogo.png" alt="Scrabble logo" />
   <button class="btn danger" id="resetBtn">Reset</button>
 </header>
 
 <main>
   <section class="panel">
     <div class="topRow">
-      <div>
-        <div class="turnLine">
-          <div class="turnName" id="turnName">Jim</div>
-         
-        </div>
-        <div class="status" id="statusLine">Loading dictionary…</div>
+      <div class="turnLine">
+        <div class="turnText" id="turnText">Jim's turn</div>
       </div>
 
       <div class="scoreRow">
@@ -421,7 +404,6 @@
   </section>
 </main>
 
-<!-- Bottom Dock -->
 <div class="dock" id="dock">
   <div class="dockInner">
     <div class="dockActions">
@@ -438,19 +420,20 @@
   </div>
 </div>
 
-<!-- PASS PHONE MODAL -->
 <div class="modalBack" id="passModal">
   <div class="modal">
-   <div class="scoreBurst" id="passScoreBurst" style="display:none;"></div>
+    <!-- score burst FIRST -->
+    <div class="scoreBurst" id="passScoreBurst" style="display:none;"></div>
+
     <h2>Pass the phone</h2>
     <p id="passText">Hand the phone to the next player.</p>
+
     <div class="row">
       <button class="btn primary" id="startNextBtn">Start next turn</button>
     </div>
   </div>
 </div>
 
-<!-- BLANK TILE LETTER MODAL -->
 <div class="modalBack" id="blankModal">
   <div class="modal">
     <h2>Blank tile</h2>
@@ -520,13 +503,11 @@
   let turn = null;
   let selectedRackIndex = null;
 
-  // for pass modal: last action summary
   let lastTurnSummary = { points: 0, action: "played", words: "" };
 
   const elBoard = document.getElementById("board");
   const elRack = document.getElementById("rack");
-  const elTurnName = document.getElementById("turnName");
-  const elStatus = document.getElementById("statusLine");
+  const elTurnText = document.getElementById("turnText");
   const elPreview = document.getElementById("movePreview");
   const elLog = document.getElementById("log");
   const elScoreJim = document.getElementById("scoreJim");
@@ -594,7 +575,6 @@
   }
 
   async function loadDictionary(){
-    elStatus.textContent = "Loading dictionary… (first time may take a bit)";
     try{
       const cache = await caches.open("scrabble-dict-v1");
       let resp = await cache.match(DICT_URL);
@@ -607,11 +587,9 @@
       const words = text.split(/\r?\n/).map(w=>w.trim()).filter(Boolean);
       DICT = new Set(words);
       dictReady = true;
-      elStatus.textContent = "Dictionary ready.";
     } catch (e){
       DICT = new Set(FALLBACK_WORDS);
       dictReady = true;
-      elStatus.textContent = "Dictionary failed to load (offline?). Using a small fallback list.";
     }
     updateButtons();
   }
@@ -816,7 +794,7 @@
   }
 
   function renderHeader(){
-    elTurnName.textContent = game.players[game.current].name;
+    elTurnText.textContent = `${game.players[game.current].name}'s turn`;
     elScoreJim.textContent = game.players[0].score;
     elScoreJalaine.textContent = game.players[1].score;
     elBagCount.textContent = game.bag.length;
@@ -933,7 +911,6 @@
   function showPassModal(nextName){
     passText.textContent = `Hand the phone to ${nextName}.`;
 
-    // include last score / action
     if (lastTurnSummary.action === "played"){
       passScoreBurst.style.display = "block";
       passScoreBurst.textContent = `+${lastTurnSummary.points} points`;
@@ -962,7 +939,6 @@
     game.current = 1 - game.current;
     turn = newTurn();
     selectedRackIndex = null;
-    elStatus.textContent = "Your turn.";
     refresh();
   });
 
@@ -1082,14 +1058,12 @@
     turn = newTurn();
     selectedRackIndex = null;
     lastTurnSummary = { points: 0, action: "played", words: "" };
-    elStatus.textContent = dictReady ? "New game started." : "Loading dictionary…";
     refresh();
   });
 
   function boot(){
     game = newGame();
     turn = newTurn();
-    elStatus.textContent = "Loading dictionary…";
     refresh();
     loadDictionary();
   }
