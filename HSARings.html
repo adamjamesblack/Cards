@@ -194,40 +194,44 @@
   .pillar.save .sub { color: var(--save-a); } .pillar.spend .sub { color: var(--spend-a); } .pillar.invest .sub { color: var(--invest-a); }
   .pillar p { color: var(--text-dim); font-size: 0.93rem; line-height: 1.65; }
 
-  /* 3D glossy pulsing orbs */
-  .orb {
-    width: 92px; height: 92px; border-radius: 50%; position: relative;
-    display: grid; place-items: center;
-    animation: orbFloat 5.5s ease-in-out infinite;
-    transform-style: preserve-3d;
+  /* 3D glass coin icons */
+  .coin {
+    width: 112px; height: 112px; position: relative;
+    animation: coinFloat 5.5s ease-in-out infinite;
   }
-  .pillar.spend .orb { animation-delay: -1.8s; }
-  .pillar.invest .orb { animation-delay: -3.6s; }
-  @keyframes orbFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-  .orb::before { /* sphere body */
-    content: ""; position: absolute; inset: 0; border-radius: 50%;
-    background:
-      radial-gradient(circle at 32% 26%, rgba(255,255,255,0.95), rgba(255,255,255,0) 30%),
-      radial-gradient(circle at 50% 45%, var(--oa), var(--ob) 78%);
-    box-shadow:
-      inset 0 -14px 24px rgba(0,0,0,0.5),
-      inset 0 10px 18px rgba(255,255,255,0.3);
-    animation: orbPulse 3.2s ease-in-out infinite;
+  .pillar.spend .coin { animation-delay: -1.8s; }
+  .pillar.invest .coin { animation-delay: -3.6s; }
+  @keyframes coinFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+  .coin > svg {
+    width: 100%; height: 100%; overflow: visible; display: block;
+    transform: rotateX(12deg) rotateY(-10deg);
+    animation: coinPulse 3.2s ease-in-out infinite;
   }
-  .orb::after { /* ground glow */
-    content: ""; position: absolute; bottom: -18px; left: 14%; width: 72%; height: 16px; border-radius: 50%;
-    background: var(--oa); filter: blur(14px); opacity: 0.55;
-    animation: orbShadow 3.2s ease-in-out infinite;
+  @keyframes coinPulse {
+    0%,100% { filter: drop-shadow(0 0 12px var(--cg)) drop-shadow(0 16px 28px var(--cg2)); }
+    50%     { filter: drop-shadow(0 0 28px var(--cg)) drop-shadow(0 20px 44px var(--cg2)); }
   }
-  @keyframes orbPulse {
-    0%,100% { box-shadow: inset 0 -14px 24px rgba(0,0,0,0.5), inset 0 10px 18px rgba(255,255,255,0.3), 0 0 26px var(--og), 0 0 60px var(--og2); }
-    50%     { box-shadow: inset 0 -14px 24px rgba(0,0,0,0.5), inset 0 10px 18px rgba(255,255,255,0.3), 0 0 46px var(--og), 0 0 100px var(--og2); }
+  .coin::after { /* ground glow */
+    content: ""; position: absolute; bottom: -22px; left: 12%; width: 76%; height: 16px; border-radius: 50%;
+    background: var(--ca); filter: blur(15px); opacity: 0.5;
+    animation: coinShadow 3.2s ease-in-out infinite;
   }
-  @keyframes orbShadow { 0%,100% { opacity: 0.45; transform: scaleX(1); } 50% { opacity: 0.75; transform: scaleX(1.15); } }
-  .orb svg { position: relative; z-index: 1; width: 38px; height: 38px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.55)); }
-  .orb-save   { --oa: #33E4FF; --ob: #005a69; --og: rgba(51,228,255,0.55);  --og2: rgba(51,228,255,0.25); }
-  .orb-spend  { --oa: #C04CFF; --ob: #3a1670; --og: rgba(192,76,255,0.55);  --og2: rgba(192,76,255,0.25); }
-  .orb-invest { --oa: #00E5C3; --ob: #00564f; --og: rgba(0,229,195,0.5);    --og2: rgba(0,229,195,0.22); }
+  @keyframes coinShadow { 0%,100% { opacity: 0.4; transform: scaleX(1); } 50% { opacity: 0.7; transform: scaleX(1.14); } }
+  .coin-save   { --ca: #33E4FF; --cg: rgba(51,228,255,0.55); --cg2: rgba(51,228,255,0.28); }
+  .coin-spend  { --ca: #C04CFF; --cg: rgba(192,76,255,0.55); --cg2: rgba(192,76,255,0.28); }
+  .coin-invest { --ca: #00E5C3; --cg: rgba(0,229,195,0.5);   --cg2: rgba(0,229,195,0.25); }
+
+  /* floating glass beads around each coin */
+  .bead {
+    position: absolute; border-radius: 50%; z-index: 1;
+    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.95), var(--ca) 45%, rgba(8,4,26,0.9) 95%);
+    box-shadow: 0 0 10px var(--cg);
+    animation: beadFloat 4.6s ease-in-out infinite;
+  }
+  .bead.bd1 { width: 13px; height: 13px; top: -10px; right: -4px; }
+  .bead.bd2 { width: 9px;  height: 9px;  left: -16px; top: 42%; animation-delay: -1.6s; }
+  .bead.bd3 { width: 7px;  height: 7px;  bottom: -2px; right: -18px; animation-delay: -3.1s; }
+  @keyframes beadFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
   /* ============ Quiz ============ */
   .quiz-shell { max-width: 680px; margin: 36px auto 100px; }
@@ -497,24 +501,117 @@
 
     <div class="pillars">
       <div class="pillar save tilt">
-        <div class="orb orb-save" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8v6M9 11h6"/></svg>
+        <div class="coin coin-save" aria-hidden="true">
+          <span class="bead bd1"></span><span class="bead bd2"></span><span class="bead bd3"></span>
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="rim-sv" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#B8F6FF"/><stop offset="45%" stop-color="#33E4FF"/><stop offset="100%" stop-color="#05303F"/>
+              </linearGradient>
+              <radialGradient id="face-sv" cx="0.35" cy="0.28" r="0.95">
+                <stop offset="0%" stop-color="#8AF0FF"/><stop offset="55%" stop-color="#0E89A8"/><stop offset="100%" stop-color="#053341"/>
+              </radialGradient>
+              <linearGradient id="glyph-sv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#A8F2FF"/>
+              </linearGradient>
+              <filter id="soft-sv" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
+            </defs>
+            <ellipse cx="60" cy="66" rx="52" ry="49" fill="#031F2A"/>
+            <circle cx="60" cy="60" r="52" fill="url(#rim-sv)"/>
+            <circle cx="60" cy="60" r="43" fill="url(#face-sv)"/>
+            <g fill="#FFFFFF" opacity="0.25">
+              <circle cx="44" cy="86" r="3.2"/><circle cx="56" cy="91" r="2.4"/><circle cx="69" cy="88" r="2.8"/>
+              <circle cx="80" cy="79" r="2.2"/><circle cx="35" cy="76" r="2"/><circle cx="74" cy="94" r="1.6"/>
+            </g>
+            <g fill="none" stroke="rgba(2,24,32,0.6)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 64.4) scale(1.8) translate(-12 -12)">
+              <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8v6M9 11h6"/>
+            </g>
+            <g fill="none" stroke="url(#glyph-sv)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 62) scale(1.8) translate(-12 -12)">
+              <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8v6M9 11h6"/>
+            </g>
+            <ellipse cx="42" cy="36" rx="23" ry="11" fill="#FFFFFF" opacity="0.38" filter="url(#soft-sv)" transform="rotate(-26 42 36)"/>
+            <path d="M21 40 A 45 45 0 0 1 58 15" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
         </div>
         <h3>Save</h3>
         <div class="sub">Your emergency shield</div>
         <p>A surprise ER bill should never touch your paycheck. Ideal savers automate contributions, capture every employer dollar, and build a tax-free shield before they need it — because the moment you need it is too late to build it.</p>
       </div>
       <div class="pillar spend tilt">
-        <div class="orb orb-spend" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        <div class="coin coin-spend" aria-hidden="true">
+          <span class="bead bd1"></span><span class="bead bd2"></span><span class="bead bd3"></span>
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="rim-sp" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#EAC6FF"/><stop offset="45%" stop-color="#C04CFF"/><stop offset="100%" stop-color="#23083F"/>
+              </linearGradient>
+              <radialGradient id="face-sp" cx="0.35" cy="0.28" r="0.95">
+                <stop offset="0%" stop-color="#DD96FF"/><stop offset="55%" stop-color="#8A33CF"/><stop offset="100%" stop-color="#290B4E"/>
+              </radialGradient>
+              <linearGradient id="glyph-sp" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#EDCFFF"/>
+              </linearGradient>
+              <filter id="soft-sp" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
+            </defs>
+            <ellipse cx="60" cy="66" rx="52" ry="49" fill="#190530"/>
+            <circle cx="60" cy="60" r="52" fill="url(#rim-sp)"/>
+            <circle cx="60" cy="60" r="43" fill="url(#face-sp)"/>
+            <g fill="#FFFFFF" opacity="0.25">
+              <circle cx="44" cy="86" r="3.2"/><circle cx="56" cy="91" r="2.4"/><circle cx="69" cy="88" r="2.8"/>
+              <circle cx="80" cy="79" r="2.2"/><circle cx="35" cy="76" r="2"/><circle cx="74" cy="94" r="1.6"/>
+            </g>
+            <g fill="none" stroke="rgba(20,4,38,0.6)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 64.4) scale(1.8) translate(-12 -12)">
+              <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
+            </g>
+            <g fill="none" stroke="url(#glyph-sp)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 62) scale(1.8) translate(-12 -12)">
+              <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
+            </g>
+            <ellipse cx="42" cy="36" rx="23" ry="11" fill="#FFFFFF" opacity="0.38" filter="url(#soft-sp)" transform="rotate(-26 42 36)"/>
+            <path d="M21 40 A 45 45 0 0 1 58 15" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
         </div>
         <h3>Spend</h3>
         <div class="sub">Pay less for care</div>
         <p>The same scan can cost triple across town, and every dollar you don't overspend stays yours, growing tax-free. Ideal spenders price care like a major purchase, verify what qualifies, and keep every receipt — making healthcare genuinely more affordable.</p>
       </div>
       <div class="pillar invest tilt">
-        <div class="orb orb-invest" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 17l4-6 4 3 6-9"/><path d="M15 5h4v4"/></svg>
+        <div class="coin coin-invest" aria-hidden="true">
+          <span class="bead bd1"></span><span class="bead bd2"></span><span class="bead bd3"></span>
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="rim-in" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#B5FFEF"/><stop offset="45%" stop-color="#00E5C3"/><stop offset="100%" stop-color="#033329"/>
+              </linearGradient>
+              <radialGradient id="face-in" cx="0.35" cy="0.28" r="0.95">
+                <stop offset="0%" stop-color="#7DF7DC"/><stop offset="55%" stop-color="#008F7C"/><stop offset="100%" stop-color="#04362C"/>
+              </radialGradient>
+              <linearGradient id="glyph-in" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#C2FFF1"/>
+              </linearGradient>
+              <filter id="soft-in" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
+            </defs>
+            <ellipse cx="60" cy="66" rx="52" ry="49" fill="#02241C"/>
+            <circle cx="60" cy="60" r="52" fill="url(#rim-in)"/>
+            <circle cx="60" cy="60" r="43" fill="url(#face-in)"/>
+            <g fill="#FFFFFF" opacity="0.25">
+              <circle cx="44" cy="86" r="3.2"/><circle cx="56" cy="91" r="2.4"/><circle cx="69" cy="88" r="2.8"/>
+              <circle cx="80" cy="79" r="2.2"/><circle cx="35" cy="76" r="2"/><circle cx="74" cy="94" r="1.6"/>
+            </g>
+            <g fill="none" stroke="rgba(2,30,24,0.6)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 64.4) scale(1.8) translate(-12 -12)">
+              <path d="M3 21h18M5 17l4-6 4 3 6-9"/><path d="M15 5h4v4"/>
+            </g>
+            <g fill="none" stroke="url(#glyph-in)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 62) scale(1.8) translate(-12 -12)">
+              <path d="M3 21h18M5 17l4-6 4 3 6-9"/><path d="M15 5h4v4"/>
+            </g>
+            <ellipse cx="42" cy="36" rx="23" ry="11" fill="#FFFFFF" opacity="0.38" filter="url(#soft-in)" transform="rotate(-26 42 36)"/>
+            <path d="M21 40 A 45 45 0 0 1 58 15" fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
         </div>
         <h3>Invest</h3>
         <div class="sub">Long-term security</div>
