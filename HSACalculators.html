@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HSA Calculators</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: sans-serif;
+      background: #f7f5fa;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #512c62; /* Dark HealthEquity purple */
+      font-size: 2.5rem;
+      text-align: center;
+      margin: 0 0 0.25rem;
+    }
+    .subtitle {
+      color: #555;
+      text-align: center;
+      margin: 0 0 2rem;
+      font-size: 1.1rem;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      max-width: 700px;
+    }
+    .tab {
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border: 2px solid #00b1af; /* HealthEquity teal */
+      border-radius: 999px;
+      background: #ffffff;
+      color: #00807f;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab.active {
+      background: #00b1af;
+      color: #ffffff;
+    }
+    .calculator {
+      display: none;
+      background: #ffffff;
+      border: 1px solid #e3dce9;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 2px 8px rgba(81, 44, 98, 0.08);
+    }
+    .calculator.active {
+      display: block;
+    }
+    .calculator h2 {
+      color: #512c62;
+      margin: 0 0 0.25rem;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    .calculator .question {
+      color: #555;
+      text-align: center;
+      margin: 0 0 1.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1.25rem;
+      margin-bottom: 0.4rem;
+      font-weight: bold;
+      color: #333;
+    }
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 0.9rem;
+      font-size: 1.2rem;
+      border: 2px solid #cbc2d4;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #333;
+    }
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #00b1af;
+    }
+    .toggle-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .toggle-row button {
+      flex: 1;
+      padding: 0.9rem;
+      font-size: 1.1rem;
+      border: 2px solid #cbc2d4;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #333;
+      cursor: pointer;
+    }
+    .toggle-row button.selected {
+      border-color: #00b1af;
+      background: #e6f7f7;
+      color: #00807f;
+      font-weight: bold;
+    }
+    .result {
+      margin-top: 1.75rem;
+      padding: 1.25rem;
+      background: #f3eef7;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .result .label {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 0.25rem;
+    }
+    .result .value {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #512c62;
+    }
+    .result .detail {
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+    .footnote {
+      max-width: 480px;
+      text-align: center;
+      color: #777;
+      font-size: 0.85rem;
+      margin-top: 2rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <h1>HSA Calculators</h1>
+  <p class="subtitle">Quick answers to common HSA questions.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showCalc('contribution', this)">How much can I contribute?</button>
+    <button class="tab" onclick="showCalc('tax', this)">What will I save on taxes?</button>
+    <button class="tab" onclick="showCalc('growth', this)">What could my HSA grow to?</button>
+    <button class="tab" onclick="showCalc('paycheck', this)">How much per paycheck?</button>
+  </div>
+
+  <!-- Contribution room calculator -->
+  <div class="calculator active" id="contribution">
+    <h2>Contribution Room</h2>
+    <p class="question">See how much more you can put into your HSA this year.</p>
+
+    <label>Who does your health plan cover?</label>
+    <div class="toggle-row" id="coverageToggle">
+      <button class="selected" onclick="setCoverage('self', this)">Just me</button>
+      <button onclick="setCoverage('family', this)">My family</button>
+    </div>
+
+    <label>Are you 55 or older this year?</label>
+    <div class="toggle-row" id="catchupToggle">
+      <button class="selected" onclick="setCatchup(false, this)">No</button>
+      <button onclick="setCatchup(true, this)">Yes</button>
+    </div>
+
+    <label for="contributedSoFar">How much have you contributed so far this year?</label>
+    <input type="number" id="contributedSoFar" min="0" placeholder="0" oninput="calcContribution()" />
+
+    <div class="result">
+      <div class="label">You can still contribute</div>
+      <div class="value" id="contributionResult">$4,400</div>
+      <div class="detail" id="contributionDetail">Your 2026 limit is $4,400.</div>
+    </div>
+  </div>
+
+  <!-- Tax savings calculator -->
+  <div class="calculator" id="tax">
+    <h2>Tax Savings</h2>
+    <p class="question">HSA contributions are not taxed, so every dollar you put in lowers your tax bill.</p>
+
+    <label for="taxContribution">How much will you contribute this year?</label>
+    <input type="number" id="taxContribution" min="0" placeholder="e.g. 3000" oninput="calcTax()" />
+
+    <label for="taxRate">Your tax bracket</label>
+    <select id="taxRate" onchange="calcTax()">
+      <option value="12">12% — most earners</option>
+      <option value="22" selected>22% — common for middle incomes</option>
+      <option value="24">24%</option>
+      <option value="32">32%</option>
+      <option value="35">35% or higher</option>
+    </select>
+
+    <div class="result">
+      <div class="label">Estimated tax savings this year</div>
+      <div class="value" id="taxResult">$0</div>
+      <div class="detail">That money stays in your pocket instead of going to taxes.</div>
+    </div>
+  </div>
+
+  <!-- Growth calculator -->
+  <div class="calculator" id="growth">
+    <h2>Future Balance</h2>
+    <p class="question">See what your HSA could be worth down the road.</p>
+
+    <label for="growthBalance">Current HSA balance</label>
+    <input type="number" id="growthBalance" min="0" placeholder="e.g. 2000" oninput="calcGrowth()" />
+
+    <label for="growthMonthly">Monthly contribution</label>
+    <input type="number" id="growthMonthly" min="0" placeholder="e.g. 200" oninput="calcGrowth()" />
+
+    <label for="growthYears">Years until you need it</label>
+    <input type="number" id="growthYears" min="1" max="50" placeholder="e.g. 20" oninput="calcGrowth()" />
+
+    <label for="growthRate">Expected yearly growth</label>
+    <select id="growthRate" onchange="calcGrowth()">
+      <option value="0">0% — cash, no investing</option>
+      <option value="3">3% — conservative</option>
+      <option value="5" selected>5% — moderate</option>
+      <option value="7">7% — growth-focused</option>
+    </select>
+
+    <div class="result">
+      <div class="label">Estimated future balance</div>
+      <div class="value" id="growthResult">$0</div>
+      <div class="detail" id="growthDetail">Enter your numbers above to see an estimate.</div>
+    </div>
+  </div>
+
+  <!-- Paycheck calculator -->
+  <div class="calculator" id="paycheck">
+    <h2>Per-Paycheck Amount</h2>
+    <p class="question">Find out how much to set aside each paycheck to reach your goal.</p>
+
+    <label for="paycheckGoal">How much do you want to contribute this year?</label>
+    <input type="number" id="paycheckGoal" min="0" placeholder="e.g. 4400" oninput="calcPaycheck()" />
+
+    <label for="payFrequency">How often are you paid?</label>
+    <select id="payFrequency" onchange="calcPaycheck()">
+      <option value="52">Weekly (52 paychecks)</option>
+      <option value="26" selected>Every two weeks (26 paychecks)</option>
+      <option value="24">Twice a month (24 paychecks)</option>
+      <option value="12">Monthly (12 paychecks)</option>
+    </select>
+
+    <div class="result">
+      <div class="label">Set aside each paycheck</div>
+      <div class="value" id="paycheckResult">$0.00</div>
+      <div class="detail" id="paycheckDetail">Enter a yearly goal to see your per-paycheck amount.</div>
+    </div>
+  </div>
+
+  <p class="footnote">
+    These calculators provide estimates for planning purposes only and are not tax,
+    investment, or legal advice. 2026 IRS contribution limits: $4,400 for self-only
+    coverage, $8,750 for family coverage, plus a $1,000 catch-up if you are 55 or older.
+    Investment returns are not guaranteed.
+  </p>
+
+  <script>
+    // 2026 IRS HSA contribution limits
+    const LIMITS = { self: 4400, family: 8750 };
+    const CATCH_UP = 1000;
+
+    let coverage = 'self';
+    let catchup = false;
+
+    function showCalc(id, tabBtn) {
+      document.querySelectorAll('.calculator').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      tabBtn.classList.add('active');
+    }
+
+    function selectToggle(btn) {
+      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    function setCoverage(value, btn) {
+      coverage = value;
+      selectToggle(btn);
+      calcContribution();
+    }
+
+    function setCatchup(value, btn) {
+      catchup = value;
+      selectToggle(btn);
+      calcContribution();
+    }
+
+    function money(amount, cents) {
+      return '$' + amount.toLocaleString('en-US', {
+        minimumFractionDigits: cents ? 2 : 0,
+        maximumFractionDigits: cents ? 2 : 0
+      });
+    }
+
+    function calcContribution() {
+      const limit = LIMITS[coverage] + (catchup ? CATCH_UP : 0);
+      const soFar = Math.max(parseFloat(document.getElementById('contributedSoFar').value) || 0, 0);
+      const remaining = Math.max(limit - soFar, 0);
+
+      document.getElementById('contributionResult').innerText = money(remaining);
+      document.getElementById('contributionDetail').innerText =
+        soFar > limit
+          ? 'You are over the ' + money(limit) + ' limit. Consider contacting your HSA provider about excess contributions.'
+          : 'Your 2026 limit is ' + money(limit) + '.';
+    }
+
+    function calcTax() {
+      const amount = Math.max(parseFloat(document.getElementById('taxContribution').value) || 0, 0);
+      const rate = parseFloat(document.getElementById('taxRate').value) / 100;
+      document.getElementById('taxResult').innerText = money(Math.round(amount * rate));
+    }
+
+    function calcGrowth() {
+      const balance = Math.max(parseFloat(document.getElementById('growthBalance').value) || 0, 0);
+      const monthly = Math.max(parseFloat(document.getElementById('growthMonthly').value) || 0, 0);
+      const years = Math.max(parseFloat(document.getElementById('growthYears').value) || 0, 0);
+      const annualRate = parseFloat(document.getElementById('growthRate').value) / 100;
+
+      const months = Math.round(years * 12);
+      const monthlyRate = annualRate / 12;
+
+      let future;
+      if (monthlyRate === 0) {
+        future = balance + monthly * months;
+      } else {
+        future = balance * Math.pow(1 + monthlyRate, months) +
+                 monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+      }
+
+      const contributed = balance + monthly * months;
+      document.getElementById('growthResult').innerText = money(Math.round(future));
+      document.getElementById('growthDetail').innerText =
+        months > 0
+          ? money(Math.round(contributed)) + ' from contributions, ' +
+            money(Math.round(Math.max(future - contributed, 0))) + ' from growth.'
+          : 'Enter your numbers above to see an estimate.';
+    }
+
+    function calcPaycheck() {
+      const goal = Math.max(parseFloat(document.getElementById('paycheckGoal').value) || 0, 0);
+      const periods = parseInt(document.getElementById('payFrequency').value, 10);
+      const perCheck = goal / periods;
+
+      document.getElementById('paycheckResult').innerText = money(perCheck, true);
+      document.getElementById('paycheckDetail').innerText =
+        goal > 0
+          ? 'That adds up to ' + money(goal) + ' over ' + periods + ' paychecks.'
+          : 'Enter a yearly goal to see your per-paycheck amount.';
+    }
+  </script>
+</body>
+</html>
