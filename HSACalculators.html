@@ -30,7 +30,7 @@
       overflow-x: hidden;
     }
     .container {
-      max-width: 880px;
+      max-width: 920px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
@@ -52,10 +52,7 @@
       padding-top: 0.7rem;
       padding-bottom: 0.7rem;
     }
-    .tnav {
-      display: flex;
-      gap: 1.3rem;
-    }
+    .tnav { display: flex; gap: 1.3rem; }
     .tnav a {
       font-size: 0.88rem;
       font-weight: 700;
@@ -69,7 +66,6 @@
     }
     .tnav a:hover { color: var(--muted); }
     .tnav a.on { color: var(--teal-dark); border-bottom-color: var(--teal); }
-
     .tsum {
       margin-left: auto;
       display: flex;
@@ -86,10 +82,7 @@
       display: flex;
       flex-shrink: 0;
     }
-    .flowbar span {
-      height: 100%;
-      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    .flowbar span { height: 100%; transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
     #fbSpend { background: var(--purple-soft); }
     #fbInvest { background: var(--teal); }
     .tvals {
@@ -110,9 +103,7 @@
       .topbar-inner { gap: 1rem; }
       .tnav { gap: 0.9rem; }
     }
-    @media (max-width: 520px) {
-      .flowbar { display: none; }
-    }
+    @media (max-width: 520px) { .flowbar { display: none; } }
 
     /* ================= Reveal ================= */
     .reveal {
@@ -216,10 +207,7 @@
       transition: color 0.2s ease, border-color 0.2s ease;
       line-height: 1.3;
     }
-    .mtoggle button.on {
-      color: var(--teal-dark);
-      border-bottom-color: var(--teal);
-    }
+    .mtoggle button.on { color: var(--teal-dark); border-bottom-color: var(--teal); }
     .mtoggle button:not(.on):hover { color: var(--muted); }
     .mtoggle .sep { color: #cfc8da; font-weight: 400; padding: 0 0.05em; }
     .msel {
@@ -347,40 +335,56 @@
     }
     .soft-note b { color: var(--purple); font-weight: 700; }
 
-    /* ================= Spend presets ================= */
-    .presets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem 2rem;
-      margin: 2.2rem 0 0.5rem;
+    /* ================= Spend: presets + basket ================= */
+    .spend-grid {
+      display: grid;
+      grid-template-columns: 5fr 4fr;
+      gap: 2.5rem 3.5rem;
+      align-items: start;
+      margin-top: 2.2rem;
     }
+    @media (max-width: 760px) { .spend-grid { grid-template-columns: 1fr; } }
+
+    .presets { display: flex; flex-direction: column; gap: 0.4rem; }
     .preset {
       font-family: inherit;
       background: none;
       border: none;
       cursor: pointer;
       text-align: left;
-      padding: 0.55rem 0;
-      border-bottom: 3px solid transparent;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--hairline);
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      transition: all 0.2s ease;
+    }
+    .preset .mark {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--hairline);
+      flex-shrink: 0;
+      align-self: center;
       transition: all 0.2s ease;
     }
     .preset strong {
-      display: block;
-      font-size: 1.02rem;
-      color: #b6aec3;
+      font-size: 1.05rem;
+      color: #a89fb8;
       transition: color 0.2s ease;
     }
     .preset span {
       font-size: 0.82rem;
       color: #c5bdd2;
       transition: color 0.2s ease;
+      margin-left: auto;
+      text-align: right;
     }
     .preset:hover strong { color: var(--muted); }
-    .preset.on { border-bottom-color: var(--teal); }
+    .preset.on .mark { background: var(--teal); box-shadow: 0 0 0 4px rgba(0, 177, 175, 0.18); }
     .preset.on strong { color: var(--ink); }
     .preset.on span { color: var(--muted); }
 
-    #customSpendField { margin-top: 1.2rem; }
+    #customSpendField { margin-top: 1.4rem; }
     #customSpend {
       font-family: inherit;
       font-size: 1.6rem;
@@ -396,9 +400,104 @@
     #customSpend:focus { outline: none; }
     #customSpend::placeholder { color: #c5bdd2; font-weight: 500; }
 
-    /* ================= Marquee (full bleed) ================= */
+    /* Basket */
+    .basket {
+      border-left: 1px solid var(--hairline);
+      padding-left: 2rem;
+      min-height: 200px;
+    }
+    @media (max-width: 760px) {
+      .basket { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 1.5rem; }
+    }
+    .basket .bk-head {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .basket .bk-head em {
+      font-style: normal;
+      color: var(--teal-dark);
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 600;
+    }
+    .bk-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.42rem 0;
+      font-size: 0.92rem;
+      animation: bkIn 0.3s ease;
+    }
+    @keyframes bkIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .bk-row .e { font-size: 1.2rem; width: 1.6rem; text-align: center; }
+    .bk-row .nm { color: var(--ink); font-weight: 600; }
+    .bk-row .qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-left: auto;
+      font-variant-numeric: tabular-nums;
+    }
+    .bk-row .qty button {
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      width: 22px; height: 22px;
+      line-height: 1;
+      border: none;
+      border-radius: 50%;
+      background: #efe9f4;
+      color: var(--purple);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .bk-row .qty button:hover { background: #e2d8ea; }
+    .bk-row .qty .n { min-width: 1.2em; text-align: center; font-weight: 700; }
+    .bk-row .amt {
+      width: 4.6em;
+      text-align: right;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .bk-empty {
+      font-size: 0.92rem;
+      color: #b6aec3;
+      line-height: 1.6;
+      padding: 0.5rem 0;
+    }
+    .bk-total {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-top: 1px solid var(--hairline);
+      margin-top: 0.8rem;
+      padding-top: 0.9rem;
+    }
+    .bk-total .lbl {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .bk-total .v {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--purple);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ================= Marquee catalog (full bleed) ================= */
     .marquee-head {
-      margin: 3.4rem 0 0.4rem;
+      margin: 3.2rem 0 0.4rem;
       font-size: 1.05rem;
       font-weight: 700;
     }
@@ -430,10 +529,14 @@
 
     .tile {
       position: relative;
-      width: 120px;
+      width: 122px;
       text-align: center;
       flex-shrink: 0;
-      cursor: default;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+      padding: 0;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .tile::before {
@@ -458,6 +561,7 @@
       margin-top: 0.6rem;
       line-height: 1.2;
       position: relative;
+      color: var(--ink);
     }
     .tile .price {
       font-size: 0.78rem;
@@ -472,20 +576,49 @@
       opacity: 0;
       overflow: hidden;
       transition: all 0.3s ease;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.45;
     }
     .tile .save b {
       display: block;
-      font-size: 1.1rem;
+      font-size: 1.02rem;
       color: var(--teal-dark);
       font-variant-numeric: tabular-nums;
+    }
+    .tile .save .add {
+      display: block;
+      color: var(--teal-dark);
+      font-weight: 700;
+      margin-top: 0.1rem;
     }
     .tile:hover { transform: translateY(-10px) scale(1.12); z-index: 2; }
     .tile:hover::before { opacity: 1; }
     .tile:hover .emoji { transform: scale(1.2) rotate(-4deg); }
-    .tile:hover .save { max-height: 64px; opacity: 1; margin-top: 0.45rem; }
+    .tile:hover .save { max-height: 80px; opacity: 1; margin-top: 0.45rem; }
+    .tile.added .emoji { animation: pop 0.4s ease; }
+    @keyframes pop {
+      0% { transform: scale(1.2); }
+      45% { transform: scale(1.55) rotate(4deg); }
+      100% { transform: scale(1.2); }
+    }
+    .tile .flag {
+      position: absolute;
+      top: -10px; right: 6px;
+      min-width: 20px; height: 20px;
+      padding: 0 5px;
+      border-radius: 10px;
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      line-height: 20px;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 3;
+    }
+    .tile.inbasket .flag { opacity: 1; transform: none; }
 
     /* ================= Invest (full-bleed dark band) ================= */
     .dark-band {
@@ -589,11 +722,7 @@
       transform: translate(-50%, -110%);
       font-variant-numeric: tabular-nums;
     }
-    .chart-tip .yr {
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.04em;
-    }
+    .chart-tip .yr { font-weight: 700; color: #fff; letter-spacing: 0.04em; }
     .chart-tip .a { color: var(--green-soft); font-weight: 700; }
     .chart-tip .b { color: #b6b2c4; font-weight: 700; }
     .chart-tip .lab { color: #8b8799; }
@@ -659,8 +788,8 @@
         </div>
         <div class="tvals">
           <span>In <b id="tbIn">$4,400</b></span>
-          <span class="spendc">Spend <b id="tbSpend">$1,500</b></span>
-          <span class="investc">Invest <b id="tbInvest">$2,900</b></span>
+          <span class="spendc">Spend <b id="tbSpend">$1,478</b></span>
+          <span class="investc">Invest <b id="tbInvest">$2,922</b></span>
           <span class="taxc">Tax saved <b id="tbTax">$968</b></span>
         </div>
       </div>
@@ -743,55 +872,73 @@
         <span class="q">Medical bills come out of your HSA — not your monthly budget.</span>
       </div>
 
-      <p class="madlib">This year will probably bring</p>
-      <div class="presets" id="spendChips">
-        <button class="preset" onclick="setSpend(500, this)">
-          <strong>a healthy year</strong>
-          <span>checkups, the occasional visit · ~$500</span>
-        </button>
-        <button class="preset on" onclick="setSpend(1500, this)">
-          <strong>a typical year</strong>
-          <span>a few visits and prescriptions · ~$1,500</span>
-        </button>
-        <button class="preset" onclick="setSpend(3000, this)">
-          <strong>ongoing care</strong>
-          <span>managing a condition · ~$3,000</span>
-        </button>
-        <button class="preset" onclick="setSpend(null, this)">
-          <strong>my own number</strong>
-          <span>I know my deductible or costs</span>
-        </button>
-      </div>
-      <div id="customSpendField" style="display:none">
-        <input type="number" id="customSpend" min="0" placeholder="$ 2000" oninput="refresh()" />
+      <p class="madlib">This year will probably bring&hellip;</p>
+
+      <div class="spend-grid">
+        <div>
+          <div class="presets" id="spendChips">
+            <button class="preset" onclick="setPreset('healthy', this)">
+              <span class="mark"></span>
+              <strong>a healthy year</strong>
+              <span>checkups, the occasional visit</span>
+            </button>
+            <button class="preset on" onclick="setPreset('typical', this)">
+              <span class="mark"></span>
+              <strong>a typical year</strong>
+              <span>a few visits and prescriptions</span>
+            </button>
+            <button class="preset" onclick="setPreset('ongoing', this)">
+              <span class="mark"></span>
+              <strong>ongoing care</strong>
+              <span>managing a condition</span>
+            </button>
+            <button class="preset" onclick="setPreset('manual', this)">
+              <span class="mark"></span>
+              <strong>my own number</strong>
+              <span>I know my deductible or costs</span>
+            </button>
+          </div>
+          <div id="customSpendField" style="display:none">
+            <input type="number" id="customSpend" min="0" placeholder="$ 2000" oninput="refresh()" />
+          </div>
+        </div>
+
+        <div class="basket" id="basketPanel">
+          <div class="bk-head">My year of care <em id="bkTag"></em></div>
+          <div id="bkRows"></div>
+          <div class="bk-total">
+            <span class="lbl">Total care</span>
+            <span class="v" id="bkTotal">$0</span>
+          </div>
+        </div>
       </div>
 
       <div class="statrow">
         <div class="stat">
           <div class="k">Covered by my HSA</div>
-          <div class="v" id="spendAmount">$1,500</div>
+          <div class="v" id="spendAmount">$1,478</div>
           <div class="d">already set aside, ready for bills</div>
         </div>
         <div class="stat hot">
           <div class="k">Tax savings on care</div>
-          <div class="v" id="spendDiscount">$330</div>
+          <div class="v" id="spendDiscount">$325</div>
           <div class="d">because I paid pre-tax</div>
         </div>
       </div>
 
-      <p class="soft-note" id="spendNote">
+      <p class="soft-note">
         When a bill shows up, the money is already waiting — <b>none of it comes out
         of that month's budget</b>. No scrambling, no credit card, no skipped plans.
       </p>
 
       <div class="marquee-head">
-        Your HSA covers more than you think
-        <small>Hover any item to see what you get back by paying with HSA dollars.</small>
+        Browse what your HSA covers
+        <small>Click any item to add it to your year — hover to see what you get back in tax savings.</small>
       </div>
     </section>
   </div>
 
-  <!-- Full-bleed marquee rows -->
+  <!-- Full-bleed marquee catalog -->
   <div class="bleed reveal">
     <div class="m-row" id="rowA"></div>
   </div>
@@ -801,7 +948,7 @@
 
   <div class="container reveal">
     <div style="padding: 2.5rem 0 0; color: var(--muted); font-size: 0.95rem;" id="connectorInvest">
-      You have <strong style="color: var(--purple);">$2,900</strong> left unspent — here is what it could do.
+      You have <strong style="color: var(--purple);">$2,922</strong> left unspent — here is what it could do.
     </div>
   </div>
 
@@ -816,7 +963,7 @@
 
       <p class="madlib">
         If I invest the
-        <span style="color: var(--green-soft); font-weight: 700;" id="investAmt">$2,900</span>
+        <span style="color: var(--green-soft); font-weight: 700;" id="investAmt">$2,922</span>
         I am not spending, for
         <select class="msel" id="years" onchange="refresh()">
           <option value="10">10 years</option>
@@ -866,17 +1013,17 @@
       <div class="statrow">
         <div class="stat">
           <div class="k">Invested this year</div>
-          <div class="v" id="investLeftover">$2,900</div>
+          <div class="v" id="investLeftover">$2,922</div>
           <div class="d">unspent contributions</div>
         </div>
         <div class="stat">
           <div class="k">This year's, grown</div>
-          <div class="v" id="investTotal">$7,695</div>
+          <div class="v" id="investTotal">$7,753</div>
           <div class="d" id="investTotalDetail">in 20 years at 5%</div>
         </div>
         <div class="stat hot">
           <div class="k">If I repeat every year</div>
-          <div class="v" id="investRepeatV">$95,890</div>
+          <div class="v" id="investRepeatV">$96,617</div>
           <div class="d" id="investRepeatDetail">my HSA in 20 years</div>
         </div>
       </div>
@@ -897,36 +1044,45 @@
     const LIMITS = { self: 4400, family: 8750 };
     const CATCH_UP = 1000;
 
-    // Eligible expense tiles: [emoji, name, typical price]
-    const ITEMS_A = [
-      ['💊', 'Prescriptions', 30],
-      ['👓', 'Eyeglasses', 250],
-      ['🦷', 'Dental visit', 150],
-      ['🧴', 'Sunscreen', 18],
-      ['🩹', 'First aid kit', 25],
-      ['🧠', 'Therapy session', 120],
-      ['🤧', 'Allergy meds', 15],
-      ['🩺', 'Doctor visit', 130],
-      ['🦻', 'Hearing aids', 1400],
-      ['🌡️', 'Thermometer', 30],
-    ];
-    const ITEMS_B = [
-      ['😬', 'Braces', 3500],
-      ['🕶️', 'Rx sunglasses', 180],
-      ['🩸', 'Glucose monitor', 80],
-      ['💉', 'Vaccines', 60],
-      ['🧘', 'Acupuncture', 90],
-      ['🦴', 'Chiropractor', 75],
-      ['🧪', 'Lab tests', 110],
-      ['🤰', 'Prenatal care', 250],
-      ['👶', 'Breast pump', 200],
-      ['🚑', 'Ambulance ride', 500],
-    ];
+    /* ---------- eligible expense catalog ---------- */
+    const CATALOG = {
+      rx:      ['💊', 'Prescriptions', 30],
+      eye:     ['👓', 'Eyeglasses', 250],
+      dental:  ['🦷', 'Dental visit', 150],
+      sun:     ['🧴', 'Sunscreen', 18],
+      aid:     ['🩹', 'First aid kit', 25],
+      therapy: ['🧠', 'Therapy session', 120],
+      allergy: ['🤧', 'Allergy meds', 15],
+      doc:     ['🩺', 'Doctor visit', 130],
+      hearing: ['🦻', 'Hearing aids', 1400],
+      thermo:  ['🌡️', 'Thermometer', 30],
+      braces:  ['😬', 'Braces', 3500],
+      sung:    ['🕶️', 'Rx sunglasses', 180],
+      glucose: ['🩸', 'Glucose monitor', 80],
+      vax:     ['💉', 'Vaccines', 60],
+      acu:     ['🧘', 'Acupuncture', 90],
+      chiro:   ['🦴', 'Chiropractor', 75],
+      lab:     ['🧪', 'Lab tests', 110],
+      prenatal:['🤰', 'Prenatal care', 250],
+      pump:    ['👶', 'Breast pump', 200],
+      amb:     ['🚑', 'Ambulance ride', 500],
+    };
+    const ROW_A_IDS = ['rx','eye','dental','sun','aid','therapy','allergy','doc','hearing','thermo'];
+    const ROW_B_IDS = ['braces','sung','glucose','vax','acu','chiro','lab','prenatal','pump','amb'];
+
+    /* Preset baskets: id -> quantity */
+    const PRESETS = {
+      healthy: { doc: 1, dental: 2, sun: 1, allergy: 1, aid: 1 },
+      typical: { doc: 2, dental: 2, rx: 6, eye: 1, vax: 1, lab: 1, therapy: 1, allergy: 2, chiro: 2, sun: 1 },
+      ongoing: { rx: 12, doc: 4, lab: 4, therapy: 6, glucose: 1, dental: 2, eye: 1, chiro: 4 },
+    };
 
     let coverage = 'self';
     let catchup = false;
-    let presetSpend = 1500;   // null when "my own number" is selected
-    let saveAtMax = true;     // keep the dial pinned to the limit until the user moves it
+    let spendMode = 'basket';        // 'basket' | 'manual'
+    let basket = new Map(Object.entries(PRESETS.typical));
+    let customized = false;
+    let saveAtMax = true;            // keep the dial pinned to the limit until the user moves it
 
     const $ = id => document.getElementById(id);
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -976,25 +1132,89 @@
     }
     window.addEventListener('scroll', updateNav, { passive: true });
 
-    /* ---------- expense marquee ---------- */
-    function buildRow(rowEl, items) {
-      const html = items.map(([emoji, name, price]) => `
-        <div class="tile" data-price="${price}">
+    /* ---------- marquee catalog ---------- */
+    function buildRow(rowEl, ids) {
+      const html = ids.map(id => {
+        const [emoji, name, price] = CATALOG[id];
+        return `
+        <button class="tile" data-id="${id}" onclick="addItem('${id}', this)">
+          <span class="flag"></span>
           <span class="emoji">${emoji}</span>
           <div class="name">${name}</div>
           <div class="price">~${money(price)}</div>
-          <div class="save"><b class="amt"></b>back in tax savings</div>
-        </div>`).join('');
+          <div class="save"><b class="amt"></b>back in tax savings<span class="add">+ add to my year</span></div>
+        </button>`;
+      }).join('');
       rowEl.innerHTML = html + html; // duplicate for a seamless loop
     }
-    buildRow($('rowA'), ITEMS_A);
-    buildRow($('rowB'), ITEMS_B);
+    buildRow($('rowA'), ROW_A_IDS);
+    buildRow($('rowB'), ROW_B_IDS);
 
     function updateTiles(rate) {
       document.querySelectorAll('.tile').forEach(tile => {
-        const price = parseFloat(tile.dataset.price);
+        const id = tile.dataset.id;
+        const price = CATALOG[id][2];
         tile.querySelector('.amt').innerText = money(Math.round(price * rate));
+        const qty = spendMode === 'basket' ? (basket.get(id) || 0) : 0;
+        tile.classList.toggle('inbasket', qty > 0);
+        tile.querySelector('.flag').innerText = qty > 0 ? '×' + qty : '';
       });
+    }
+
+    function addItem(id, tileEl) {
+      if (spendMode === 'manual') {
+        // Switch back to basket mode, starting from what they had
+        spendMode = 'basket';
+        $('customSpendField').style.display = 'none';
+        $('basketPanel').style.display = '';
+        document.querySelectorAll('#spendChips .preset').forEach(c => c.classList.remove('on'));
+      }
+      basket.set(id, (basket.get(id) || 0) + 1);
+      customized = true;
+      tileEl.classList.remove('added');
+      void tileEl.offsetWidth; // restart the pop animation
+      tileEl.classList.add('added');
+      refresh();
+    }
+
+    function bumpItem(id, delta) {
+      const qty = (basket.get(id) || 0) + delta;
+      if (qty <= 0) basket.delete(id); else basket.set(id, qty);
+      customized = true;
+      refresh();
+    }
+
+    /* ---------- basket rendering ---------- */
+    function basketTotal() {
+      let total = 0;
+      basket.forEach((qty, id) => { total += CATALOG[id][2] * qty; });
+      return total;
+    }
+
+    function renderBasket() {
+      const rows = $('bkRows');
+      if (basket.size === 0) {
+        rows.innerHTML = '<div class="bk-empty">Nothing yet — pick a kind of year on the left, or click items in the rows below to build your own.</div>';
+      } else {
+        let html = '';
+        basket.forEach((qty, id) => {
+          const [emoji, name, price] = CATALOG[id];
+          html += `
+          <div class="bk-row">
+            <span class="e">${emoji}</span>
+            <span class="nm">${name}</span>
+            <span class="qty">
+              <button onclick="bumpItem('${id}', -1)" aria-label="fewer">&minus;</button>
+              <span class="n">${qty}</span>
+              <button onclick="bumpItem('${id}', 1)" aria-label="more">+</button>
+            </span>
+            <span class="amt">${money(price * qty)}</span>
+          </div>`;
+        });
+        rows.innerHTML = html;
+      }
+      $('bkTag').innerText = customized ? '· customized' : '';
+      setMoney($('bkTotal'), basketTotal());
     }
 
     /* ---------- controls ---------- */
@@ -1010,31 +1230,39 @@
       refresh();
     }
     function saveToMax() { saveAtMax = true; refresh(); }
-    function setSpend(value, btn) {
-      presetSpend = value;
+
+    function setPreset(name, btn) {
       document.querySelectorAll('#spendChips .preset').forEach(c => c.classList.remove('on'));
       btn.classList.add('on');
-      $('customSpendField').style.display = value === null ? '' : 'none';
-      if (value === null) $('customSpend').focus();
+      if (name === 'manual') {
+        spendMode = 'manual';
+        $('customSpendField').style.display = '';
+        $('basketPanel').style.display = 'none';
+        $('customSpend').focus();
+      } else {
+        spendMode = 'basket';
+        $('customSpendField').style.display = 'none';
+        $('basketPanel').style.display = '';
+        basket = new Map(Object.entries(PRESETS[name]));
+        customized = false;
+      }
       refresh();
     }
-    function spend() {
-      return presetSpend === null
+
+    function spending() {
+      return spendMode === 'manual'
         ? Math.max(parseFloat($('customSpend').value) || 0, 0)
-        : presetSpend;
+        : basketTotal();
     }
 
-    /* ---------- morphing two-line growth chart ----------
-       Both curves are sampled at a fixed count so any input change
-       tweens smoothly from the current shape to the new one.
-       Green solid: invest the leftover every year.
-       Gray dashed: just this year's leftover, left to grow. */
+    /* ---------- morphing two-line growth chart ---------- */
     const SAMPLES = 60;
     const CW = 600, CH = 240, PAD_T = 30, PAD_B = 12, PAD_R = 64;
     const PW = CW - PAD_R - 2;
     let ptsA = new Array(SAMPLES + 1).fill(0);   // every-year curve
     let ptsB = new Array(SAMPLES + 1).fill(0);   // single-year curve
     let chartYears = 20, chartLeftover = 0, chartGrowth = 0.05;
+    let chartMaxV = 1;
     let chartRaf = null;
 
     const vEvery = (leftover, g, t) => g === 0 ? leftover * t : leftover * ((Math.pow(1 + g, t) - 1) / g);
@@ -1045,7 +1273,6 @@
       for (let i = 0; i <= SAMPLES; i++) pts.push(leftover > 0 ? fn(leftover, g, years * i / SAMPLES) : 0);
       return pts;
     }
-
     const xAt = i => (i / SAMPLES) * PW + 2;
     const xYr = (yr, years) => (yr / years) * PW + 2;
 
@@ -1075,20 +1302,17 @@
       $('chartEnd').innerText = ptsA[SAMPLES] > 0 ? money(Math.round(ptsA[SAMPLES])) : '';
       chartMaxV = maxV;
     }
-    let chartMaxV = 1;
 
     function buildAxis(years) {
       const step = years > 15 ? 5 : (years > 6 ? 2 : 1);
-      const axis = $('axis');
-      const ticksG = $('ticksG');
       let spans = '', ticks = '';
       for (let yr = 0; yr <= years; yr += step) {
         const leftPct = (xYr(yr, years) / CW) * 100;
         spans += `<span style="left:${leftPct}%">${yr === 0 ? 'today' : yr + ' yr'}</span>`;
         ticks += `<line class="tick" x1="${xYr(yr, years)}" y1="${CH - PAD_B}" x2="${xYr(yr, years)}" y2="${CH - PAD_B + 6}"/>`;
       }
-      axis.innerHTML = spans;
-      ticksG.innerHTML = ticks;
+      $('axis').innerHTML = spans;
+      $('ticksG').innerHTML = ticks;
     }
 
     function morphChart(leftover, years, growth) {
@@ -1184,20 +1408,21 @@
       $('savePaycheckDetail').innerText = periods + ' paychecks per year';
 
       // ----- SPEND -----
-      const spending = spend();
-      const hsaSpending = Math.min(spending, contribution);
+      if (spendMode === 'basket') renderBasket();
+      const spendTotal = spending();
+      const hsaSpending = Math.min(spendTotal, contribution);
       const discount = Math.round(hsaSpending * rate);
       setMoney($('spendAmount'), hsaSpending);
       setMoney($('spendDiscount'), discount);
       updateTiles(rate);
 
       // ----- INVEST -----
-      const leftover = Math.max(contribution - spending, 0);
+      const leftover = Math.max(contribution - spendTotal, 0);
       const connector = $('connectorInvest');
       if (leftover > 0) {
         connector.innerHTML = 'You have <strong style="color: var(--purple);">' + money(leftover) +
           '</strong> left unspent — here is what it could do.';
-      } else if (spending > contribution) {
+      } else if (spendTotal > contribution) {
         connector.innerHTML = 'Your care costs more than you are contributing — contribute more so every bill gets the tax savings.';
       } else {
         connector.innerHTML = 'Nothing left over — contribute more than you spend to start investing.';
