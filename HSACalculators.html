@@ -3,273 +3,466 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HSA Calculators</title>
+  <title>HSA Planner</title>
   <style>
-    * {
-      box-sizing: border-box;
+    :root {
+      --purple: #512c62;
+      --purple-deep: #3c1f4a;
+      --teal: #00b1af;
+      --teal-dark: #00807f;
+      --ink: #2b2233;
+      --muted: #6f6580;
+      --line: #e9e3f0;
+      --bg: #f6f4f9;
+      --card: #ffffff;
+      --radius: 18px;
+      --shadow: 0 8px 30px rgba(81, 44, 98, 0.10);
     }
+    * { box-sizing: border-box; margin: 0; }
     body {
-      font-family: sans-serif;
-      background: #f7f5fa;
-      margin: 0;
-      padding: 2rem 1rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 55%, #1f6e74 130%);
+      color: #fff;
+      padding: 3.5rem 1.5rem 6.5rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      margin-top: 0.6rem;
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: -4.5rem auto 0;
+      padding: 0 1.25rem 4rem;
+    }
+
+    /* ---------- Cards ---------- */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+    }
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 0.5rem;
+    }
+    .step-tag::before {
+      content: "";
+      width: 22px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--teal);
+    }
+    .card h2 {
+      font-size: 1.45rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.35rem;
+    }
+    .card .hint {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1.6rem;
+    }
+
+    /* ---------- Plan card layout ---------- */
+    .plan-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .plan-grid { grid-template-columns: 1fr; }
+    }
+
+    .field { margin-bottom: 1.4rem; }
+    .field-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.55rem;
+    }
+    .field-label small {
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* Segmented control */
+    .segment {
+      display: flex;
+      background: #efeaf4;
+      border-radius: 12px;
+      padding: 4px;
+    }
+    .segment button {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 0.7rem 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--muted);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .segment button.on {
+      background: #fff;
+      color: var(--purple);
+      box-shadow: 0 2px 8px rgba(81, 44, 98, 0.18);
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-size: 1.05rem;
+      font-family: inherit;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.15s ease;
+    }
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0, 177, 175, 0.15);
+    }
+
+    /* Slider side */
+    .amount-panel {
+      background: linear-gradient(160deg, #faf8fc, #f1ecf6);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.6rem 1.5rem;
+    }
+    .amount-panel .field-label { color: var(--muted); }
+    .amount-value {
+      font-size: clamp(2.2rem, 6vw, 3rem);
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      color: var(--purple);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .amount-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      min-height: 1.3em;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin: 1.3rem 0 0.4rem;
+      accent-color: var(--teal);
+      cursor: pointer;
+      height: 6px;
+    }
+    .range-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .max-note {
+      margin-top: 0.9rem;
+      font-size: 0.85rem;
+      color: var(--teal-dark);
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+    }
+    .max-note:hover { text-decoration: underline; }
+
+    /* ---------- Connector ---------- */
+    .connector {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 1.4rem 0 1.1rem;
+      color: var(--muted);
+      font-size: 0.92rem;
     }
-    h1 {
-      color: #512c62; /* Dark HealthEquity purple */
-      font-size: 2.5rem;
-      text-align: center;
-      margin: 0 0 0.25rem;
+    .connector .line {
+      width: 2px;
+      height: 26px;
+      background: linear-gradient(var(--teal), rgba(0,177,175,0.15));
+      border-radius: 2px;
+      margin-bottom: 0.55rem;
     }
-    .subtitle {
-      color: #555;
-      text-align: center;
-      margin: 0 0 2rem;
-      font-size: 1.1rem;
+    .connector strong { color: var(--purple); font-variant-numeric: tabular-nums; }
+
+    /* ---------- Results ---------- */
+    .results {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
     }
-    .tabs {
+    @media (max-width: 860px) {
+      .results { grid-template-columns: 1fr; }
+    }
+    .result-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.6rem 1.5rem;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      max-width: 700px;
+      flex-direction: column;
     }
-    .tab {
-      padding: 0.8rem 1.2rem;
-      font-size: 1rem;
-      border: 2px solid #00b1af; /* HealthEquity teal */
-      border-radius: 999px;
-      background: #ffffff;
-      color: #00807f;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .tab.active {
-      background: #00b1af;
-      color: #ffffff;
-    }
-    .calculator {
-      display: none;
-      background: #ffffff;
-      border: 1px solid #e3dce9;
+    .result-card .icon {
+      width: 42px;
+      height: 42px;
       border-radius: 12px;
-      padding: 2rem 1.5rem;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 2px 8px rgba(81, 44, 98, 0.08);
+      display: grid;
+      place-items: center;
+      margin-bottom: 1rem;
+      background: rgba(0, 177, 175, 0.12);
     }
-    .calculator.active {
-      display: block;
+    .result-card .icon svg { width: 22px; height: 22px; fill: var(--teal-dark); }
+    .result-card h3 {
+      font-size: 1.02rem;
+      margin-bottom: 0.15rem;
     }
-    .calculator h2 {
-      color: #512c62;
-      margin: 0 0 0.25rem;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-    .calculator .question {
-      color: #555;
-      text-align: center;
-      margin: 0 0 1.5rem;
-    }
-    label {
-      display: block;
-      margin-top: 1.25rem;
-      margin-bottom: 0.4rem;
-      font-weight: bold;
-      color: #333;
-    }
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 0.9rem;
-      font-size: 1.2rem;
-      border: 2px solid #cbc2d4;
-      border-radius: 8px;
-      background: #ffffff;
-      color: #333;
-    }
-    input[type="number"]:focus,
-    select:focus {
-      outline: none;
-      border-color: #00b1af;
-    }
-    .toggle-row {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.25rem;
-    }
-    .toggle-row button {
-      flex: 1;
-      padding: 0.9rem;
-      font-size: 1.1rem;
-      border: 2px solid #cbc2d4;
-      border-radius: 8px;
-      background: #ffffff;
-      color: #333;
-      cursor: pointer;
-    }
-    .toggle-row button.selected {
-      border-color: #00b1af;
-      background: #e6f7f7;
-      color: #00807f;
-      font-weight: bold;
-    }
-    .result {
-      margin-top: 1.75rem;
-      padding: 1.25rem;
-      background: #f3eef7;
-      border-radius: 10px;
-      text-align: center;
-    }
-    .result .label {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 0.25rem;
-    }
-    .result .value {
-      font-size: 2.2rem;
-      font-weight: bold;
-      color: #512c62;
-    }
-    .result .detail {
-      font-size: 0.95rem;
-      color: #555;
-      margin-top: 0.5rem;
-    }
-    .footnote {
-      max-width: 480px;
-      text-align: center;
-      color: #777;
+    .result-card .sub {
       font-size: 0.85rem;
-      margin-top: 2rem;
-      line-height: 1.5;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-bottom: 1.1rem;
+    }
+    .big {
+      font-size: 1.9rem;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+      color: var(--purple);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 0.2rem;
+    }
+    .big-sub {
+      font-size: 0.84rem;
+      color: var(--muted);
+      min-height: 2.4em;
+      line-height: 1.45;
+    }
+    .result-card .controls {
+      margin-top: auto;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 0.7rem;
+    }
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .control-row span {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    select, .control-row input[type="number"] {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      padding: 0.45rem 0.6rem;
+      background: #fff;
+      max-width: 170px;
+      width: 100%;
+    }
+    select:focus { outline: none; border-color: var(--teal); }
+
+    .footnote {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      max-width: 640px;
+      margin: 2.5rem auto 0;
     }
   </style>
 </head>
 <body>
-  <h1>HSA Calculators</h1>
-  <p class="subtitle">Quick answers to common HSA questions.</p>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showCalc('contribution', this)">How much can I contribute?</button>
-    <button class="tab" onclick="showCalc('tax', this)">What will I save on taxes?</button>
-    <button class="tab" onclick="showCalc('growth', this)">What could my HSA grow to?</button>
-    <button class="tab" onclick="showCalc('paycheck', this)">How much per paycheck?</button>
-  </div>
+  <header class="hero">
+    <h1>Plan your HSA, in one place</h1>
+    <p>Choose how much to contribute this year, and instantly see your tax savings, paycheck amount, and long-term growth.</p>
+  </header>
 
-  <!-- Contribution room calculator -->
-  <div class="calculator active" id="contribution">
-    <h2>Contribution Room</h2>
-    <p class="question">See how much more you can put into your HSA this year.</p>
+  <main class="wrap">
 
-    <label>Who does your health plan cover?</label>
-    <div class="toggle-row" id="coverageToggle">
-      <button class="selected" onclick="setCoverage('self', this)">Just me</button>
-      <button onclick="setCoverage('family', this)">My family</button>
+    <!-- Step 1: contribution -->
+    <section class="card">
+      <div class="step-tag">Step 1</div>
+      <h2>Choose your yearly contribution</h2>
+      <p class="hint">Tell us about your coverage and we will set your IRS limit automatically.</p>
+
+      <div class="plan-grid">
+        <div>
+          <div class="field">
+            <span class="field-label">Who does your health plan cover?</span>
+            <div class="segment" id="coverageSeg">
+              <button class="on" onclick="setCoverage('self', this)">Just me</button>
+              <button onclick="setCoverage('family', this)">My family</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Are you 55 or older this year?</span>
+            <div class="segment" id="catchupSeg">
+              <button class="on" onclick="setCatchup(false, this)">No</button>
+              <button onclick="setCatchup(true, this)">Yes</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="soFar">Already contributed this year <small>(optional)</small></label>
+            <input type="number" id="soFar" min="0" placeholder="$0" oninput="refresh()" />
+          </div>
+        </div>
+
+        <div class="amount-panel">
+          <span class="field-label">Your contribution this year</span>
+          <div class="amount-value" id="amountValue">$4,400</div>
+          <div class="amount-sub" id="amountSub"></div>
+          <input type="range" id="amountSlider" min="0" max="4400" step="50" value="4400" oninput="refresh()" />
+          <div class="range-ends"><span>$0</span><span id="rangeMax">$4,400</span></div>
+          <button class="max-note" onclick="setMax()">Set to my maximum</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div>Based on your <strong id="connectorAmount">$4,400</strong> yearly contribution</div>
     </div>
 
-    <label>Are you 55 or older this year?</label>
-    <div class="toggle-row" id="catchupToggle">
-      <button class="selected" onclick="setCatchup(false, this)">No</button>
-      <button onclick="setCatchup(true, this)">Yes</button>
-    </div>
+    <!-- Step 2: results -->
+    <section class="results">
 
-    <label for="contributedSoFar">How much have you contributed so far this year?</label>
-    <input type="number" id="contributedSoFar" min="0" placeholder="0" oninput="calcContribution()" />
+      <article class="result-card">
+        <div class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M444-200h70v-50q50-9 86-39t36-89q0-42-24-77t-96-61q-60-20-83-35t-23-41q0-26 18.5-41t53.5-15q32 0 50 15.5t26 38.5l64-26q-11-35-40.5-61T516-710v-50h-70v50q-50 11-78 44t-28 74q0 47 27.5 76t86.5 50q63 23 87.5 41t24.5 47q0 33-23.5 48.5T486-314q-33 0-58.5-20.5T390-396l-66 26q14 48 43.5 77.5T444-252v52Zm36 120q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
+        </div>
+        <h3>Tax savings</h3>
+        <p class="sub">Contributions come out before taxes, so this stays in your pocket.</p>
+        <div class="big" id="taxResult">$968</div>
+        <div class="big-sub" id="taxSub">saved this year at a 22% tax rate</div>
+        <div class="controls">
+          <div class="control-row">
+            <span>Tax bracket</span>
+            <select id="taxRate" onchange="refresh()">
+              <option value="12">12%</option>
+              <option value="22" selected>22%</option>
+              <option value="24">24%</option>
+              <option value="32">32%</option>
+              <option value="35">35%+</option>
+            </select>
+          </div>
+        </div>
+      </article>
 
-    <div class="result">
-      <div class="label">You can still contribute</div>
-      <div class="value" id="contributionResult">$4,400</div>
-      <div class="detail" id="contributionDetail">Your 2026 limit is $4,400.</div>
-    </div>
-  </div>
+      <article class="result-card">
+        <div class="icon">
+          <svg viewBox="0 -960 960 960"><path d="M240-160q-66 0-113-47T80-320v-320q0-66 47-113t113-47h480q66 0 113 47t47 113v320q0 66-47 113t-113 47H240Zm0-560h480q22 0 42 5t38 16v-21q0-33-23.5-56.5T720-800H240q-33 0-56.5 23.5T160-720v21q18-11 38-16t42-5Zm-74 130 445 108q9 2 18 0t17-8l139-116q-11-15-28-24.5t-37-9.5H240q-26 0-45.5 13.5T166-590Z"/></svg>
+        </div>
+        <h3>From each paycheck</h3>
+        <p class="sub">Set this aside per paycheck to reach your goal by year end.</p>
+        <div class="big" id="paycheckResult">$169.23</div>
+        <div class="big-sub" id="paycheckSub">over 26 paychecks</div>
+        <div class="controls">
+          <div class="control-row">
+            <span>I am paid</span>
+            <select id="payFreq" onchange="refresh()">
+              <option value="52">Weekly</option>
+              <option value="26" selected>Every 2 weeks</option>
+              <option value="24">Twice a month</option>
+              <option value="12">Monthly</option>
+            </select>
+          </div>
+        </div>
+      </article>
 
-  <!-- Tax savings calculator -->
-  <div class="calculator" id="tax">
-    <h2>Tax Savings</h2>
-    <p class="question">HSA contributions are not taxed, so every dollar you put in lowers your tax bill.</p>
+      <article class="result-card">
+        <div class="icon">
+          <svg viewBox="0 -960 960 960"><path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z"/></svg>
+        </div>
+        <h3>Future balance</h3>
+        <p class="sub">What your HSA could be worth if you keep this up.</p>
+        <div class="big" id="growthResult">$0</div>
+        <div class="big-sub" id="growthSub"></div>
+        <div class="controls">
+          <div class="control-row">
+            <span>Starting balance</span>
+            <input type="number" id="startBalance" min="0" placeholder="$0" oninput="refresh()" />
+          </div>
+          <div class="control-row">
+            <span>Years</span>
+            <select id="years" onchange="refresh()">
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <span>Yearly growth</span>
+            <select id="growthRate" onchange="refresh()">
+              <option value="0">0% (cash)</option>
+              <option value="3">3%</option>
+              <option value="5" selected>5%</option>
+              <option value="7">7%</option>
+            </select>
+          </div>
+        </div>
+      </article>
 
-    <label for="taxContribution">How much will you contribute this year?</label>
-    <input type="number" id="taxContribution" min="0" placeholder="e.g. 3000" oninput="calcTax()" />
+    </section>
 
-    <label for="taxRate">Your tax bracket</label>
-    <select id="taxRate" onchange="calcTax()">
-      <option value="12">12% — most earners</option>
-      <option value="22" selected>22% — common for middle incomes</option>
-      <option value="24">24%</option>
-      <option value="32">32%</option>
-      <option value="35">35% or higher</option>
-    </select>
-
-    <div class="result">
-      <div class="label">Estimated tax savings this year</div>
-      <div class="value" id="taxResult">$0</div>
-      <div class="detail">That money stays in your pocket instead of going to taxes.</div>
-    </div>
-  </div>
-
-  <!-- Growth calculator -->
-  <div class="calculator" id="growth">
-    <h2>Future Balance</h2>
-    <p class="question">See what your HSA could be worth down the road.</p>
-
-    <label for="growthBalance">Current HSA balance</label>
-    <input type="number" id="growthBalance" min="0" placeholder="e.g. 2000" oninput="calcGrowth()" />
-
-    <label for="growthMonthly">Monthly contribution</label>
-    <input type="number" id="growthMonthly" min="0" placeholder="e.g. 200" oninput="calcGrowth()" />
-
-    <label for="growthYears">Years until you need it</label>
-    <input type="number" id="growthYears" min="1" max="50" placeholder="e.g. 20" oninput="calcGrowth()" />
-
-    <label for="growthRate">Expected yearly growth</label>
-    <select id="growthRate" onchange="calcGrowth()">
-      <option value="0">0% — cash, no investing</option>
-      <option value="3">3% — conservative</option>
-      <option value="5" selected>5% — moderate</option>
-      <option value="7">7% — growth-focused</option>
-    </select>
-
-    <div class="result">
-      <div class="label">Estimated future balance</div>
-      <div class="value" id="growthResult">$0</div>
-      <div class="detail" id="growthDetail">Enter your numbers above to see an estimate.</div>
-    </div>
-  </div>
-
-  <!-- Paycheck calculator -->
-  <div class="calculator" id="paycheck">
-    <h2>Per-Paycheck Amount</h2>
-    <p class="question">Find out how much to set aside each paycheck to reach your goal.</p>
-
-    <label for="paycheckGoal">How much do you want to contribute this year?</label>
-    <input type="number" id="paycheckGoal" min="0" placeholder="e.g. 4400" oninput="calcPaycheck()" />
-
-    <label for="payFrequency">How often are you paid?</label>
-    <select id="payFrequency" onchange="calcPaycheck()">
-      <option value="52">Weekly (52 paychecks)</option>
-      <option value="26" selected>Every two weeks (26 paychecks)</option>
-      <option value="24">Twice a month (24 paychecks)</option>
-      <option value="12">Monthly (12 paychecks)</option>
-    </select>
-
-    <div class="result">
-      <div class="label">Set aside each paycheck</div>
-      <div class="value" id="paycheckResult">$0.00</div>
-      <div class="detail" id="paycheckDetail">Enter a yearly goal to see your per-paycheck amount.</div>
-    </div>
-  </div>
-
-  <p class="footnote">
-    These calculators provide estimates for planning purposes only and are not tax,
-    investment, or legal advice. 2026 IRS contribution limits: $4,400 for self-only
-    coverage, $8,750 for family coverage, plus a $1,000 catch-up if you are 55 or older.
-    Investment returns are not guaranteed.
-  </p>
+    <p class="footnote">
+      Estimates for planning purposes only — not tax, investment, or legal advice.
+      2026 IRS contribution limits: $4,400 for self-only coverage, $8,750 for family
+      coverage, plus a $1,000 catch-up if you are 55 or older. Investment returns
+      are not guaranteed.
+    </p>
+  </main>
 
   <script>
     // 2026 IRS HSA contribution limits
@@ -279,29 +472,7 @@
     let coverage = 'self';
     let catchup = false;
 
-    function showCalc(id, tabBtn) {
-      document.querySelectorAll('.calculator').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      tabBtn.classList.add('active');
-    }
-
-    function selectToggle(btn) {
-      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    }
-
-    function setCoverage(value, btn) {
-      coverage = value;
-      selectToggle(btn);
-      calcContribution();
-    }
-
-    function setCatchup(value, btn) {
-      catchup = value;
-      selectToggle(btn);
-      calcContribution();
-    }
+    const $ = id => document.getElementById(id);
 
     function money(amount, cents) {
       return '$' + amount.toLocaleString('en-US', {
@@ -310,31 +481,90 @@
       });
     }
 
-    function calcContribution() {
-      const limit = LIMITS[coverage] + (catchup ? CATCH_UP : 0);
-      const soFar = Math.max(parseFloat(document.getElementById('contributedSoFar').value) || 0, 0);
-      const remaining = Math.max(limit - soFar, 0);
-
-      document.getElementById('contributionResult').innerText = money(remaining);
-      document.getElementById('contributionDetail').innerText =
-        soFar > limit
-          ? 'You are over the ' + money(limit) + ' limit. Consider contacting your HSA provider about excess contributions.'
-          : 'Your 2026 limit is ' + money(limit) + '.';
+    function segSelect(btn) {
+      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
     }
 
-    function calcTax() {
-      const amount = Math.max(parseFloat(document.getElementById('taxContribution').value) || 0, 0);
-      const rate = parseFloat(document.getElementById('taxRate').value) / 100;
-      document.getElementById('taxResult').innerText = money(Math.round(amount * rate));
+    function setCoverage(value, btn) {
+      coverage = value;
+      segSelect(btn);
+      syncSlider(true);
     }
 
-    function calcGrowth() {
-      const balance = Math.max(parseFloat(document.getElementById('growthBalance').value) || 0, 0);
-      const monthly = Math.max(parseFloat(document.getElementById('growthMonthly').value) || 0, 0);
-      const years = Math.max(parseFloat(document.getElementById('growthYears').value) || 0, 0);
-      const annualRate = parseFloat(document.getElementById('growthRate').value) / 100;
+    function setCatchup(value, btn) {
+      catchup = value;
+      segSelect(btn);
+      syncSlider(true);
+    }
 
-      const months = Math.round(years * 12);
+    function limit() {
+      return LIMITS[coverage] + (catchup ? CATCH_UP : 0);
+    }
+
+    function remainingRoom() {
+      const soFar = Math.max(parseFloat($('soFar').value) || 0, 0);
+      return Math.max(limit() - soFar, 0);
+    }
+
+    // Keep the slider range in sync with the user's limit and prior contributions.
+    // snapToMax pins the slider at the new max when the limit itself changes.
+    function syncSlider(snapToMax) {
+      const slider = $('amountSlider');
+      const max = remainingRoom();
+      const wasAtMax = parseFloat(slider.value) >= parseFloat(slider.max);
+      slider.max = max;
+      if (snapToMax || wasAtMax || parseFloat(slider.value) > max) {
+        slider.value = max;
+      }
+      refresh();
+    }
+
+    function setMax() {
+      $('amountSlider').value = remainingRoom();
+      refresh();
+    }
+
+    function refresh() {
+      const slider = $('amountSlider');
+      const max = remainingRoom();
+      if (parseFloat(slider.max) !== max) {
+        const atMax = parseFloat(slider.value) >= parseFloat(slider.max);
+        slider.max = max;
+        if (atMax || parseFloat(slider.value) > max) slider.value = max;
+      }
+
+      const amount = Math.max(parseFloat(slider.value) || 0, 0);
+      const soFar = Math.max(parseFloat($('soFar').value) || 0, 0);
+
+      // Step 1 panel
+      $('amountValue').innerText = money(amount);
+      $('rangeMax').innerText = money(max);
+      $('connectorAmount').innerText = money(amount);
+      if (soFar > limit()) {
+        $('amountSub').innerText = 'You are over the ' + money(limit()) + ' limit — ask your HSA provider about excess contributions.';
+      } else if (soFar > 0) {
+        $('amountSub').innerText = money(soFar) + ' already in, ' + money(max) + ' of room left this year.';
+      } else {
+        $('amountSub').innerText = 'Your 2026 limit is ' + money(limit()) + '.';
+      }
+
+      // Tax savings
+      const rate = parseFloat($('taxRate').value);
+      $('taxResult').innerText = money(Math.round(amount * rate / 100));
+      $('taxSub').innerText = 'saved this year at a ' + rate + '% tax rate';
+
+      // Per paycheck
+      const periods = parseInt($('payFreq').value, 10);
+      $('paycheckResult').innerText = money(amount / periods, true);
+      $('paycheckSub').innerText = 'over ' + periods + ' paychecks';
+
+      // Future balance — assumes this year's contribution continues monthly
+      const balance = Math.max(parseFloat($('startBalance').value) || 0, 0);
+      const years = parseInt($('years').value, 10);
+      const annualRate = parseFloat($('growthRate').value) / 100;
+      const months = years * 12;
+      const monthly = amount / 12;
       const monthlyRate = annualRate / 12;
 
       let future;
@@ -344,27 +574,14 @@
         future = balance * Math.pow(1 + monthlyRate, months) +
                  monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
       }
-
       const contributed = balance + monthly * months;
-      document.getElementById('growthResult').innerText = money(Math.round(future));
-      document.getElementById('growthDetail').innerText =
-        months > 0
-          ? money(Math.round(contributed)) + ' from contributions, ' +
-            money(Math.round(Math.max(future - contributed, 0))) + ' from growth.'
-          : 'Enter your numbers above to see an estimate.';
+
+      $('growthResult').innerText = money(Math.round(future));
+      $('growthSub').innerText = 'in ' + years + ' years — ' +
+        money(Math.round(Math.max(future - contributed, 0))) + ' of that is growth';
     }
 
-    function calcPaycheck() {
-      const goal = Math.max(parseFloat(document.getElementById('paycheckGoal').value) || 0, 0);
-      const periods = parseInt(document.getElementById('payFrequency').value, 10);
-      const perCheck = goal / periods;
-
-      document.getElementById('paycheckResult').innerText = money(perCheck, true);
-      document.getElementById('paycheckDetail').innerText =
-        goal > 0
-          ? 'That adds up to ' + money(goal) + ' over ' + periods + ' paychecks.'
-          : 'Enter a yearly goal to see your per-paycheck amount.';
-    }
+    refresh();
   </script>
 </body>
 </html>
