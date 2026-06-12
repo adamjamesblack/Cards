@@ -15,14 +15,15 @@
 
   NOTES FOR PRODUCTION:
   - Replace the text wordmark with the approved primary logo SVG.
-  - License and load Neue Haas Grotesk Text Pro (55/65/75). Helvetica Neue is the dev fallback.
+  - License and load Neue Haas Grotesk Text/Display Pro (55/65/75). Inter / Inter Tight
+    are loaded here as visually close dev stand-ins so the concept renders faithfully.
   - Scale figures, limits, and savings estimates are placeholders — verify with Finance/Legal/Compliance.
   - Photography slots intentionally omitted in favor of brand-graphic compositions; lifestyle imagery
     can be layered into the Save chapter and Business section per guide 8.2.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
 <style>
 /* ================= Brand tokens ================= */
 :root{
@@ -34,8 +35,10 @@
   --gray:#F2F3F4;
   --white:#FFFFFF;
   --black:#000000;
-  --radius:12px;
-  --sans:"Neue Haas Grotesk Text Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --radius:16px;
+  --radius-lg:32px;
+  --sans:"Neue Haas Grotesk Text Pro","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --display:"Neue Haas Grotesk Display Pro","Inter Tight","Inter","Helvetica Neue",sans-serif;
   --serif:"Libre Baskerville",Georgia,serif;
   --grad-1:linear-gradient(118deg,var(--dark-purple) 0%,var(--purple) 38%,var(--bright-purple) 78%,var(--cyan) 115%);
   --grad-3:radial-gradient(120% 140% at 85% 10%,var(--bright-purple) 0%,var(--purple) 45%,var(--dark-purple) 100%);
@@ -54,7 +57,9 @@ a{color:inherit}
 button{font:inherit}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
 .serif{font-family:var(--serif);font-style:italic;font-weight:400}
-h1,h2,h3{font-weight:700;letter-spacing:-0.02em;line-height:1.08}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-0.03em;line-height:1.06}
+.j-title,.vmarq-item,.stat .num,.save-amt,.loader-logo,.foot-mega{font-family:var(--display)}
+section[id],footer[id]{scroll-margin-top:96px}
 sup{font-size:.55em}
 :focus-visible{outline:3px solid var(--bright-purple);outline-offset:3px;border-radius:4px}
 .skip{position:absolute;left:-999px;top:0;background:var(--white);padding:10px 16px;z-index:300}
@@ -78,19 +83,19 @@ body::after{
   display:none;
 }
 html.fine .cur-dot,html.fine .cur-ring{display:block}
-.cur-dot{width:8px;height:8px;background:var(--bright-purple);transform:translate(-50%,-50%)}
+.cur-dot{width:8px;height:8px;background:var(--bright-purple);transform:translate(-100px,-100px)}
 .cur-ring{
   width:38px;height:38px;border:1.5px solid var(--bright-purple);
-  transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),background .3s,border-color .3s;
+  transform:translate(-100px,-100px);transition:width .3s var(--ease),height .3s var(--ease),background .3s,border-color .3s;
   display:none;align-items:center;justify-content:center;
   font-size:.62rem;font-weight:700;letter-spacing:.14em;color:var(--black);
 }
 html.fine .cur-ring{display:flex}
+html.fine,html.fine *{cursor:none!important}
 .cur-ring span{opacity:0;transition:opacity .25s}
 .cur-ring.hover{width:62px;height:62px;background:rgba(192,76,255,.12)}
 .cur-ring.drag{width:78px;height:78px;background:var(--cyan);border-color:var(--cyan)}
 .cur-ring.drag span{opacity:1}
-html.fine.dragging *{cursor:grabbing!important}
 
 /* ================= Buttons ================= */
 .btn{
@@ -142,12 +147,19 @@ html.no-loader .loader{display:none}
 
 /* ================= Nav ================= */
 .nav{
-  position:fixed;inset:0 0 auto 0;z-index:240;
-  transition:transform .5s var(--ease),background .3s,box-shadow .3s;
+  position:fixed;inset:0 0 auto 0;z-index:240;padding:14px 16px;
+  transition:transform .5s var(--ease);
 }
-.nav.hidden{transform:translateY(-100%)}
-.nav.scrolled{background:rgba(255,255,255,.88);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,0,0,.06)}
-.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 28px;height:74px;display:flex;align-items:center;gap:40px}
+.nav.hidden{transform:translateY(-120%)}
+.nav-inner{
+  max-width:var(--maxw);margin:0 auto;padding:0 9px 0 26px;height:62px;
+  display:flex;align-items:center;gap:36px;border-radius:999px;
+  background:rgba(255,255,255,.68);backdrop-filter:blur(20px) saturate(1.5);
+  -webkit-backdrop-filter:blur(20px) saturate(1.5);
+  border:1px solid rgba(49,14,110,.10);box-shadow:0 4px 22px rgba(49,14,110,.06);
+  transition:background .3s,box-shadow .3s;
+}
+.nav.scrolled .nav-inner{background:rgba(255,255,255,.88);box-shadow:0 16px 44px rgba(49,14,110,.13)}
 .logo{font-size:1.45rem;letter-spacing:-0.02em;text-decoration:none;color:var(--purple);line-height:1}
 .logo b{font-weight:700}.logo span{font-weight:400}
 .nav-links{display:flex;gap:30px;list-style:none}
@@ -156,7 +168,7 @@ html.no-loader .loader{display:none}
 .nav-cta{margin-left:auto;display:flex;align-items:center;gap:22px}
 .nav-cta .login{font-size:.95rem;font-weight:500;text-decoration:none;transition:opacity .2s}
 .nav-cta .login:hover{opacity:.5}
-.nav-cta .btn{padding:12px 24px;font-size:.95rem}
+.nav-cta .btn{padding:12px 24px;font-size:.92rem}
 
 /* ================= Hero ================= */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:clip;padding:120px 0 60px}
@@ -165,13 +177,25 @@ html.no-loader .loader{display:none}
   filter:blur(70px) saturate(1.15);opacity:.5;pointer-events:none;
 }
 .hero-inner{position:relative;width:100%;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
-.hero h1{font-size:clamp(2.9rem,6.2vw,5.6rem);letter-spacing:-0.03em}
-.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
-.hero h1 .wi{display:inline-block;transform:translateY(115%) rotate(3deg);transition:transform .9s var(--ease)}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;font-size:.76rem;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--purple);
+  padding:9px 18px;border-radius:999px;border:1px solid rgba(79,41,132,.18);
+  background:rgba(255,255,255,.55);backdrop-filter:blur(8px);margin-bottom:32px;
+  opacity:0;transform:translateY(16px);transition:opacity .7s ease .3s,transform .7s var(--ease) .3s;
+}
+html.loaded .hero-eyebrow{opacity:1;transform:none}
+.hero-eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.hero h1{font-size:clamp(3rem,6.4vw,6.1rem);letter-spacing:-0.045em;line-height:1}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.1em;margin-bottom:-.1em}
+.hero h1 .wi{display:inline-block;transform:translateY(115%) rotate(3deg);transition:transform .9s var(--ease);transition-delay:calc(var(--i)*.06s)}
 html.loaded .hero h1 .wi{transform:translateY(0) rotate(0)}
-.hero h1 .accent{color:var(--purple)}
+.hero h1 .accent{
+  background:linear-gradient(95deg,var(--purple) 5%,var(--bright-purple) 95%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
 .hero-sub{
-  margin:34px 0 40px;font-size:1.2rem;line-height:1.5;max-width:33em;
+  margin:32px 0 40px;font-size:1.18rem;line-height:1.55;max-width:30em;color:rgba(0,0,0,.76);
   opacity:0;transform:translateY(24px);transition:opacity .8s ease .55s,transform .8s var(--ease) .55s;
 }
 html.loaded .hero-sub{opacity:1;transform:none}
@@ -184,12 +208,14 @@ html.loaded .hero-ctas{opacity:1;transform:none}
 html.loaded .hero-member{opacity:1}
 .hero-chips{position:relative;height:480px;pointer-events:none}
 .g-chip{
-  position:absolute;background:rgba(255,255,255,.62);backdrop-filter:blur(18px);
-  border:1px solid rgba(79,41,132,.14);border-radius:var(--radius);
-  box-shadow:0 24px 60px rgba(49,14,110,.16);padding:16px 20px;
+  position:absolute;background:rgba(255,255,255,.74);backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  border:1px solid rgba(79,41,132,.10);border-radius:18px;
+  box-shadow:0 24px 56px rgba(49,14,110,.13),inset 0 1px 0 rgba(255,255,255,.8);padding:16px 20px;
   display:flex;align-items:center;gap:14px;font-size:.92rem;font-weight:500;
   will-change:transform;
 }
+.g-chip .spark{flex:none;opacity:.9}
 .g-chip small{display:block;font-weight:400;opacity:.6;font-size:.78rem;margin-top:2px}
 .g-chip .dot{width:40px;height:40px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center}
 .g-chip .big{font-size:1.4rem;font-weight:700;letter-spacing:-0.02em}
@@ -205,17 +231,17 @@ html.loaded .hero-member{opacity:1}
 @keyframes scrollcue{0%{transform:translateY(-100%)}55%{transform:translateY(0)}100%{transform:translateY(100%)}}
 
 /* ================= Velocity marquee ================= */
-.vmarq{padding:54px 0;border-top:1px solid rgba(0,0,0,.08);border-bottom:1px solid rgba(0,0,0,.08);overflow:clip;background:var(--white)}
-.vmarq-track{display:flex;gap:64px;width:max-content;will-change:transform;align-items:center}
+.vmarq{padding:62px 0;border-top:1px solid rgba(0,0,0,.07);border-bottom:1px solid rgba(0,0,0,.07);overflow:clip;background:var(--white)}
+.vmarq-track{display:flex;gap:72px;width:max-content;will-change:transform;align-items:center}
 .vmarq-item{
-  font-size:clamp(3rem,7vw,6rem);font-weight:700;letter-spacing:-0.03em;white-space:nowrap;
-  color:var(--white);-webkit-text-stroke:1.5px var(--purple);
+  font-size:clamp(3rem,7vw,6rem);font-weight:700;letter-spacing:-0.035em;white-space:nowrap;
+  color:var(--white);-webkit-text-stroke:1.25px rgba(79,41,132,.85);
 }
 .vmarq-item.fill{color:var(--purple);-webkit-text-stroke:0}
 .vmarq-way{flex:none}
 
 /* ================= Stats / odometer ================= */
-.stats{background:var(--purple);color:var(--white);padding:120px 0;position:relative;overflow:clip}
+.stats{background:var(--purple);color:var(--white);padding:130px 0;position:relative;overflow:clip;margin:18px 16px;border-radius:var(--radius-lg)}
 .stats::before{
   content:"";position:absolute;width:70vw;height:70vw;right:-30vw;top:-40vw;border-radius:50%;
   background:radial-gradient(circle,var(--bright-purple),transparent 65%);opacity:.25;filter:blur(50px);
@@ -224,7 +250,7 @@ html.loaded .hero-member{opacity:1}
 .stats-head h2{font-size:clamp(2rem,4vw,3.2rem)}
 .stats-head p{margin-top:18px;font-size:1.1rem;line-height:1.5;opacity:.85;max-width:30em}
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;position:relative}
-.stat{border-top:1px solid rgba(255,255,255,.25);padding-top:26px}
+.stat{border-top:1px solid rgba(255,255,255,.18);padding-top:26px}
 .stat .num{font-size:clamp(2.8rem,5vw,4.6rem);font-weight:700;letter-spacing:-0.03em;line-height:1;display:flex;align-items:baseline}
 .stat .num em{font-style:normal;color:var(--cyan);font-size:.6em;margin-left:2px}
 .od{display:inline-flex;overflow:hidden;height:1em}
@@ -273,14 +299,14 @@ html.js .reveal.in{opacity:1;transform:none}
 }
 .jp-dark .j-ghost{color:var(--cyan)}
 /* chapter content cards */
-.j-card{border-radius:var(--radius);padding:42px;position:relative;will-change:transform}
+.j-card{border-radius:24px;padding:42px;position:relative;will-change:transform}
 .jc-save{background:var(--purple);color:var(--white);box-shadow:0 40px 90px rgba(49,14,110,.25)}
 .jc-save .save-cap{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
 .jc-save .save-amt{font-size:clamp(3.4rem,6.5vw,5.6rem);font-weight:700;letter-spacing:-0.03em;line-height:1;margin:14px 0 6px;font-variant-numeric:tabular-nums}
 .jc-save .save-sub{font-size:.95rem;opacity:.8}
 .save-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 .save-chip{
-  border:1.5px solid rgba(255,255,255,.4);border-radius:999px;padding:9px 18px;font-size:.85rem;font-weight:500;
+  border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:9px 18px;font-size:.85rem;font-weight:500;
   opacity:0;transform:translateY(14px) scale(.92);transition:opacity .5s ease,transform .5s var(--ease);
 }
 .save-chip.on{opacity:1;transform:none}
@@ -318,22 +344,22 @@ html.js .reveal.in{opacity:1;transform:none}
 .j-rail .jr i{width:26px;height:2px;background:currentColor;display:block}
 
 /* ================= Marketplace — physics field ================= */
-.market{background:var(--bright-purple);color:var(--black);padding:140px 0 0;overflow:clip;position:relative}
+.market{background:var(--bright-purple);color:var(--black);padding:130px 0 0;overflow:clip;position:relative;margin:0 16px 18px;border-radius:var(--radius-lg)}
 .market .sec-head{max-width:46em}
 .market h2{font-size:clamp(2.4rem,5.4vw,4.4rem);letter-spacing:-0.03em}
 .market .m-sub{margin-top:22px;font-size:1.15rem;line-height:1.5;max-width:32em;opacity:.85}
 .market-ctas{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap}
 .m-hint{margin-top:46px;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;opacity:.55;display:flex;align-items:center;gap:10px}
-.m-field{position:relative;height:600px;margin-top:8px;cursor:grab}
+.m-field{position:relative;height:600px;margin-top:8px}
 .m-card{
-  position:absolute;left:0;top:0;background:var(--white);border-radius:var(--radius);padding:18px 20px;width:228px;
+  position:absolute;left:0;top:0;background:var(--white);border-radius:18px;padding:18px 20px;width:228px;
   display:flex;flex-direction:column;gap:12px;box-shadow:0 18px 44px rgba(49,14,110,.25);
   will-change:transform;user-select:none;touch-action:none;
 }
 .m-card.grab{box-shadow:0 40px 80px rgba(49,14,110,.4)}
 .m-card .m-top{display:flex;align-items:center;justify-content:space-between;pointer-events:none}
-.m-card .m-ico{width:42px;height:42px;border-radius:var(--radius);background:var(--gray);display:flex;align-items:center;justify-content:center}
-.m-card .m-tag{font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--gray);border-radius:999px;padding:5px 10px}
+.m-card .m-ico{width:42px;height:42px;border-radius:13px;background:var(--gray);display:flex;align-items:center;justify-content:center}
+.m-card .m-tag{font-size:.64rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--teal);color:var(--white);border-radius:999px;padding:5px 11px}
 .m-card .m-name{font-weight:500;font-size:.95rem;pointer-events:none}
 .m-card .m-price{font-weight:700;font-size:1.05rem;pointer-events:none}
 /* mobile fallback: snap rows */
@@ -346,7 +372,7 @@ html.js .reveal.in{opacity:1;transform:none}
 }
 
 /* ================= App — pinned 3D showcase ================= */
-.app-section{background:var(--black);color:var(--white);height:380vh;position:relative}
+.app-section{background:var(--black);color:var(--white);height:380vh;position:relative;margin:0 16px 18px;border-radius:var(--radius-lg)}
 .app-sticky{
   position:sticky;top:0;height:100vh;overflow:clip;
   display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;
@@ -417,9 +443,11 @@ html.js .reveal.in{opacity:1;transform:none}
 .biz-head .j-kick{color:var(--purple);margin-bottom:22px}
 .biz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .biz-card{
-  background:var(--gray);border-radius:var(--radius);padding:38px;position:relative;overflow:hidden;
-  transform-style:preserve-3d;will-change:transform;transition:transform .2s linear;
+  background:var(--gray);border-radius:24px;padding:40px;position:relative;overflow:hidden;
+  border:1px solid rgba(49,14,110,.06);
+  transform-style:preserve-3d;will-change:transform;transition:transform .2s linear,box-shadow .35s ease;
 }
+.biz-card:hover{box-shadow:0 30px 60px rgba(49,14,110,.10)}
 .biz-card .sheen{
   position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
   background:radial-gradient(420px circle at var(--shx,50%) var(--shy,50%),rgba(192,76,255,.18),transparent 65%);
@@ -434,7 +462,7 @@ html.js .reveal.in{opacity:1;transform:none}
 .biz-ctas{display:flex;gap:18px;align-items:center;margin-top:36px;flex-wrap:wrap}
 
 /* ================= Closing ================= */
-.closing{background:var(--grad-3);color:var(--white);padding:170px 0;text-align:center;position:relative;overflow:clip}
+.closing{background:var(--grad-3);color:var(--white);padding:170px 0;text-align:center;position:relative;overflow:clip;margin:0 16px 18px;border-radius:var(--radius-lg)}
 .closing h2{font-size:clamp(2.6rem,6vw,5rem);max-width:14em;margin:0 auto}
 .closing .c-sub{margin:28px auto 54px;font-size:1.15rem;opacity:.85;max-width:30em;line-height:1.5}
 .close-ctas{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
@@ -453,6 +481,11 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
 .foot-col a:hover{opacity:.45}
 .footnotes{font-size:.78rem;line-height:1.6;opacity:.55;display:flex;flex-direction:column;gap:6px;margin-bottom:32px}
 .legal{border-top:1px solid rgba(255,255,255,.15);padding-top:28px;font-size:.8rem;opacity:.55}
+.foot-mega{
+  margin-top:64px;font-weight:700;letter-spacing:-0.045em;line-height:.9;
+  font-size:clamp(3.2rem,11.5vw,10.5rem);white-space:nowrap;user-select:none;
+  color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.22);
+}
 
 /* ================= Responsive ================= */
 @media (max-width:1100px){
@@ -460,7 +493,11 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
   .hero-inner{grid-template-columns:1fr}
 }
 @media (max-width:899px){
+  .nav{padding:10px}
   .nav-links{display:none}
+  .nav-inner{height:58px;gap:20px}
+  .stats,.market,.app-section,.closing{margin:10px;border-radius:24px}
+  .stats{margin:12px 10px}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
   /* journey collapses to stacked chapters */
   .journey{height:auto}
@@ -485,6 +522,7 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
 }
 @media (max-width:560px){
   .nav-cta .btn{display:none}
+  .hero-eyebrow{font-size:.62rem;letter-spacing:.11em;padding:8px 14px;gap:8px}
   .phone{width:264px;height:540px}
   .stat-grid{gap:28px}
 }
@@ -544,6 +582,7 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
   <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
   <div class="wrap hero-inner">
     <div class="hero-copy">
+      <p class="hero-eyebrow"><i></i>HSA&ensp;·&ensp;FSA&ensp;·&ensp;HRA&ensp;·&ensp;COBRA&ensp;·&ensp;Commuter</p>
       <h1 id="heroH1">Better save, spend, and <span class="accent">invest</span> for health</h1>
       <p class="hero-sub">
         HealthEquity connects health and wealth for millions of members — helping the
@@ -567,6 +606,10 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
     <div class="g-chip gc-2" data-depth="42">
       <span class="big" style="color:var(--purple)">$6,240</span>
       <span>HSA balance<small>+ invested and growing</small></span>
+      <svg class="spark" width="58" height="26" viewBox="0 0 58 26" aria-hidden="true">
+        <path d="M1 22 C12 20 16 16 24 14 S40 8 46 6 55 3 57 2" fill="none" stroke="#008093" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="57" cy="2" r="2.6" fill="#C04CFF"/>
+      </svg>
     </div>
     <div class="g-chip gc-3" data-depth="30">
       <span class="dot" style="background:var(--gray)">
@@ -589,6 +632,10 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
 <section class="stats" aria-label="HealthEquity at scale">
   <div class="wrap">
     <div class="stats-head">
+      <div class="j-kick reveal" style="color:var(--cyan)">
+        <svg viewBox="0 0 64 14" height="12" aria-hidden="true"><path d="M2 0h44l16 7-16 7H2a2 2 0 01-2-2V2a2 2 0 012-2z" fill="#33E4FF"/></svg>
+        At scale
+      </div>
       <h2 class="split">The scale to move healthcare forward</h2>
       <p class="reveal" style="--d:.15s">For more than two decades, organizations of every size have trusted
       HealthEquity to connect their people's health and financial wellbeing.</p>
@@ -918,6 +965,7 @@ footer.site{background:var(--dark-purple);color:var(--white);padding:90px 0 44px
       <span>All scale figures shown are directional placeholders for this concept and must be verified against current reported metrics before publication.</span>
     </div>
     <p class="legal">Copyright © 2026 HealthEquity Inc. All rights reserved. | HealthEquity does not provide legal, tax or financial advice.</p>
+    <div class="foot-mega" aria-hidden="true">Health<b>Equity</b></div>
   </div>
 </footer>
 
@@ -1020,7 +1068,8 @@ $$(".od").forEach(function(od){
 var vm = $("#vmarq");
 var WAY = '<svg class="vmarq-way" width="54" height="26" viewBox="0 0 54 26"><path d="M3 0h33l18 13-18 13H3a3 3 0 01-3-3V3a3 3 0 013-3z" fill="#C04CFF"/></svg>';
 var phrases = ['<span class="vmarq-item">Health, meet wealth</span>', WAY,
-               '<span class="vmarq-item fill">The nation’s HSA leader</span>', WAY];
+               '<span class="vmarq-item fill">The nation’s HSA leader</span>', WAY,
+               '<span class="vmarq-item">Save · Spend · Invest</span>', WAY];
 vm.innerHTML = phrases.join("") + phrases.join("") + phrases.join("");
 var vmX = 0, vmW = 0;
 function measureVm(){ vmW = vm.scrollWidth / 3; }
@@ -1061,8 +1110,10 @@ var chartLen = chartLine.getTotalLength();
 chartLine.style.strokeDasharray = chartLen;
 chartLine.style.strokeDashoffset = chartLen;
 
-/* phase visibility windows: [enterStart, enterEnd, exitStart, exitEnd] */
-var WIN = [[0, 0, .30, .36], [.32, .38, .62, .68], [.64, .70, 1.01, 1.02]];
+/* phase visibility windows: [enterStart, enterEnd, exitStart, exitEnd].
+   Ch2 hands off to ch3 right as the scene darkens — no dead frame, and the
+   purple ch2 text is gone before the background gets dark enough to clash. */
+var WIN = [[0, 0, .26, .33], [.31, .38, .55, .63], [.63, .71, 1.01, 1.02]];
 function phaseAlpha(p, w){
   var inA  = w[1] <= w[0] ? 1 : seg(p, w[0], w[1]);
   var outA = 1 - seg(p, w[2], w[3]);
@@ -1076,10 +1127,11 @@ function mixToBlack(t){ /* #FFFFFF -> #000000 */
 function journeyScrub(){
   var rect = journey.getBoundingClientRect();
   var total = journey.offsetHeight - window.innerHeight;
+  if (total <= 0) return;
   var p = clamp(-rect.top / total, 0, 1);
-  /* background: light through ch1+2, fades to black entering ch3 */
-  jSticky.style.background = mixToBlack(seg(p, .56, .68));
-  jSticky.classList.toggle("dark", p > .6);
+  /* background: light through ch1+2, fades to black across the ch2->ch3 handoff */
+  jSticky.style.background = mixToBlack(seg(p, .58, .68));
+  jSticky.classList.toggle("dark", p > .63);
 
   phases.forEach(function(ph, i){
     var w = WIN[i];
@@ -1110,10 +1162,10 @@ function journeyScrub(){
       var pt = chartLine.getPointAtLength(chartLen * tl);
       chartDot.setAttribute("cx", pt.x); chartDot.setAttribute("cy", pt.y);
       chartDot.style.opacity = tl > .02 ? 1 : 0;
-      investVal.textContent = fmt(165000 * tl) + (tl >= 1 ? "" : "");
+      investVal.textContent = fmt(165000 * tl);
     }
   });
-  var idx = p < .33 ? 0 : p < .66 ? 1 : 2;
+  var idx = p < .295 ? 0 : p < .64 ? 1 : 2;
   rails.forEach(function(r,i){ r.classList.toggle("on", i === idx); });
 }
 
@@ -1159,7 +1211,7 @@ var ICONS = [
 ];
 var STROKES = ["#4F2984","#008093","#C04CFF","#310E6E"];
 function cardHTML(i){
-  return '<div class="m-top"><span class="m-ico">' +
+  return '<div class="m-top"><span class="m-ico" style="background:' + STROKES[i % 4] + '14">' +
     '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="' + STROKES[i % 4] + '" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICONS[i] + '"/></svg>' +
     '</span><span class="m-tag">HSA eligible</span></div>' +
     '<span class="m-name">' + ITEMS[i][0] + '</span><span class="m-price">' + ITEMS[i][1] + '</span>';
@@ -1182,12 +1234,14 @@ if (usePhysics) {
   function layoutField(){
     fieldRect = field.getBoundingClientRect();
     var W = field.offsetWidth, H = field.offsetHeight;
-    var cols = 6, cw = 232, ch = 132;
+    var cw = 228;
+    var cols = clamp(Math.floor(W / (cw + 28)), 2, 6);
+    var rows = Math.ceil(bodies.length / cols);
     bodies.forEach(function(b, i){
       var col = i % cols, row = Math.floor(i / cols);
-      b.bx = (col + .5) * (W / cols) - cw/2 + (Math.sin(i*7) * 24);
-      b.by = H * (row === 0 ? .16 : .56) + (Math.cos(i*5) * 26);
-      if (b.x === 0 && b.y === 0) { b.x = b.bx; b.y = b.by; }
+      b.bx = clamp((col + .5) * (W / cols) - cw/2 + Math.sin(i*7) * 18, 14, W - cw - 14);
+      b.by = ((row + .5) / rows) * (H - 150) + 14 + Math.cos(i*5) * 20;
+      if (!b.placed) { b.x = b.bx; b.y = b.by; b.placed = true; }
     });
   }
   layoutField();
@@ -1198,9 +1252,12 @@ if (usePhysics) {
     if (!el) return;
     dragBody = bodies.find(function(b){ return b.el === el; });
     if (!dragBody) return;
+    fieldRect = field.getBoundingClientRect(); /* refresh: page may have scrolled since layout */
     dragBody.ox = e.clientX - (fieldRect.left + dragBody.x);
     dragBody.oy = e.clientY - (fieldRect.top + dragBody.y);
     dragBody.px = dragBody.x; dragBody.py = dragBody.y;
+    dragBody.pt = e.timeStamp;
+    dragBody.vx = 0; dragBody.vy = 0;
     el.classList.add("grab"); el.style.zIndex = 10;
     doc.classList.add("dragging");
     field.setPointerCapture(e.pointerId);
@@ -1214,8 +1271,11 @@ if (usePhysics) {
       dragBody.px = dragBody.x; dragBody.py = dragBody.y;
       dragBody.x = e.clientX - fieldRect.left - dragBody.ox;
       dragBody.y = e.clientY - fieldRect.top - dragBody.oy;
-      dragBody.vx = (dragBody.x - dragBody.px) * .9;
-      dragBody.vy = (dragBody.y - dragBody.py) * .9;
+      /* dt-normalized so throw strength is independent of pointer polling rate */
+      var dt = Math.max(e.timeStamp - (dragBody.pt || e.timeStamp), 1);
+      dragBody.pt = e.timeStamp;
+      dragBody.vx = clamp((dragBody.x - dragBody.px) / dt * 15, -34, 34);
+      dragBody.vy = clamp((dragBody.y - dragBody.py) / dt * 15, -34, 34);
     }
   });
   function endDrag(){
@@ -1260,7 +1320,7 @@ var mx = -100, my = -100, rx = -100, ry = -100;
 if (fine) {
   document.addEventListener("mousemove", function(e){
     mx = e.clientX; my = e.clientY;
-    curDot.style.transform = "translate(" + (mx - 4) + "px," + (my - 4) + "px)";
+    curDot.style.transform = "translate(" + mx + "px," + my + "px) translate(-50%,-50%)";
     var target = e.target.closest("a,button,.m-card,[data-cur]");
     var dragArea = e.target.closest('[data-cur="drag"]');
     curRing.classList.toggle("drag", !!dragArea);
@@ -1312,8 +1372,15 @@ var nav = $("#nav"), lastNavY = 0;
 /* =============== Main loop =============== */
 var lastY = window.scrollY, smoothV = 0;
 var desktop = function(){ return window.innerWidth >= 900; };
-window.addEventListener("resize", function(){ sizeCanvas(); measureVm(); });
+window.addEventListener("resize", function(){
+  sizeCanvas(); measureVm();
+  /* leaving desktop: drop the inline scrubbed background so the stacked
+     mobile CSS (white/black per chapter) takes over */
+  if (!desktop()) jSticky.style.background = "";
+});
 sizeCanvas(); measureVm();
+/* re-measure once webfonts swap in, so the marquee loop has no seam jump */
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ measureVm(); });
 
 function frame(t){
   var y = window.scrollY;
@@ -1334,18 +1401,18 @@ function frame(t){
     /* hero canvas (only while visible) */
     if (y < window.innerHeight * 1.3) drawHero(t);
 
-    /* hero chip parallax: mouse + scroll */
-    if (fine) chipsEls.forEach(function(c){
+    /* hero chip parallax: mouse + scroll + idle bob (skip once offscreen) */
+    if (fine && y < window.innerHeight * 1.2) chipsEls.forEach(function(c, i){
       var d = parseFloat(c.getAttribute("data-depth"));
       var ox = (mx / window.innerWidth - .5) * d;
-      var oy = (my / window.innerHeight - .5) * d + y * (d * .012);
+      var oy = (my / window.innerHeight - .5) * d + y * (d * .012) + Math.sin(t * .0011 + i * 2.1) * 5;
       c.style.transform = "translate(" + ox + "px," + oy + "px)";
     });
 
-    /* cursor ring lerp */
+    /* cursor ring lerp (translate(-50%,-50%) centers without a layout read) */
     if (fine) {
       rx = lerp(rx, mx, .16); ry = lerp(ry, my, .16);
-      curRing.style.transform = "translate(" + (rx - curRing.offsetWidth/2) + "px," + (ry - curRing.offsetHeight/2) + "px)";
+      curRing.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
     }
 
     if (desktop()) { journeyScrub(); appScrub(); }
