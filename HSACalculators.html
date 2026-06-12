@@ -7,74 +7,122 @@
   <style>
     :root {
       --purple: #512c62;
-      --purple-deep: #3c1f4a;
+      --purple-deep: #2c1538;
       --teal: #00b1af;
       --teal-dark: #00807f;
+      --green: #00c805;          /* invest accent */
       --ink: #2b2233;
       --muted: #6f6580;
       --line: #e9e3f0;
       --bg: #f6f4f9;
       --card: #ffffff;
-      --radius: 18px;
-      --shadow: 0 8px 30px rgba(81, 44, 98, 0.10);
+      --radius: 22px;
+      --shadow: 0 10px 40px rgba(81, 44, 98, 0.12);
     }
     * { box-sizing: border-box; margin: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       background: var(--bg);
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ---------- Hero ---------- */
+    /* ================= Hero ================= */
     .hero {
-      background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 55%, #1f6e74 130%);
+      position: relative;
+      background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 50%, #14555c 130%);
       color: #fff;
-      padding: 3.5rem 1.5rem 6.5rem;
+      padding: 5rem 1.5rem 8rem;
       text-align: center;
+      overflow: hidden;
     }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .orb.a {
+      width: 420px; height: 420px;
+      background: #7a4d92;
+      top: -120px; left: -80px;
+      animation: drift1 14s ease-in-out infinite alternate;
+    }
+    .orb.b {
+      width: 380px; height: 380px;
+      background: #00b1af;
+      bottom: -160px; right: -60px;
+      animation: drift2 18s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 { to { transform: translate(80px, 60px) scale(1.15); } }
+    @keyframes drift2 { to { transform: translate(-90px, -50px) scale(1.1); } }
+
     .hero h1 {
-      font-size: clamp(1.9rem, 4.5vw, 2.8rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      position: relative;
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(90deg, #5ee7e5, #00b1af);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     .hero p {
-      margin-top: 0.6rem;
-      font-size: 1.05rem;
-      color: rgba(255, 255, 255, 0.78);
-      max-width: 540px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+      position: relative;
+      margin: 1rem auto 0;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 520px;
+      line-height: 1.55;
     }
     .hero .pillars {
+      position: relative;
       display: inline-flex;
-      gap: 0.5rem;
-      margin-top: 1.4rem;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
       font-size: 0.85rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
     }
     .hero .pillars span {
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(6px);
       border-radius: 999px;
-      padding: 0.45rem 1rem;
+      padding: 0.5rem 1.15rem;
     }
 
     .wrap {
-      max-width: 880px;
-      margin: -4.5rem auto 0;
+      max-width: 920px;
+      margin: -5rem auto 0;
       padding: 0 1.25rem 4rem;
+      position: relative;
     }
 
-    /* ---------- Cards ---------- */
+    /* ================= Reveal animation ================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ================= Cards ================= */
     .card {
       background: var(--card);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 2rem;
+      padding: 2.4rem 2.2rem;
     }
     .step-tag {
       display: inline-flex;
@@ -82,47 +130,42 @@
       gap: 0.5rem;
       font-size: 0.8rem;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--teal-dark);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
     }
     .step-tag::before {
       content: "";
-      width: 22px;
-      height: 3px;
+      width: 24px; height: 3px;
       border-radius: 2px;
-      background: var(--teal);
+      background: linear-gradient(90deg, var(--teal), #5ee7e5);
     }
     .card h2 {
-      font-size: 1.45rem;
-      letter-spacing: -0.01em;
+      font-size: clamp(1.4rem, 3vw, 1.7rem);
+      letter-spacing: -0.02em;
       margin-bottom: 0.35rem;
     }
     .card .hint {
       color: var(--muted);
       font-size: 0.95rem;
       line-height: 1.5;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.7rem;
     }
 
     .field { margin-bottom: 1.4rem; }
-    .field:last-child { margin-bottom: 0; }
     .field-label {
       display: block;
       font-size: 0.9rem;
       font-weight: 600;
       margin-bottom: 0.55rem;
     }
-
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0 2.5rem;
     }
-    @media (max-width: 680px) {
-      .two-col { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
 
     /* Segmented control */
     .segment {
@@ -142,23 +185,174 @@
       color: var(--muted);
       border-radius: 9px;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: all 0.2s ease;
     }
     .segment button.on {
       background: #fff;
       color: var(--purple);
-      box-shadow: 0 2px 8px rgba(81, 44, 98, 0.18);
+      box-shadow: 0 2px 10px rgba(81, 44, 98, 0.2);
     }
 
-    /* Preset chips */
+    /* ================= Slider ================= */
+    .dial {
+      background: linear-gradient(160deg, #faf8fc, #f0eaf6);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.6rem 1.6rem 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .dial-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .dial-label { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+    .dial-value {
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(110deg, var(--purple), var(--teal-dark));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-variant-numeric: tabular-nums;
+    }
+    input[type="range"] {
+      --p: 100%;
+      width: 100%;
+      margin: 1.2rem 0 0.6rem;
+      appearance: none;
+      -webkit-appearance: none;
+      height: 10px;
+      border-radius: 6px;
+      background: linear-gradient(to right, var(--teal) var(--p), #e4dcec var(--p));
+      cursor: pointer;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--teal);
+      box-shadow: 0 3px 12px rgba(0, 177, 175, 0.45);
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+    input[type="range"]::-moz-range-thumb {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--teal);
+      box-shadow: 0 3px 12px rgba(0, 177, 175, 0.45);
+    }
+    .range-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      gap: 1rem;
+    }
+    .range-ends b { color: var(--ink); }
+    .linklike {
+      font-size: 0.85rem;
+      color: var(--teal-dark);
+      font-weight: 700;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+      margin-top: 0.9rem;
+    }
+    .linklike:hover { text-decoration: underline; }
+
+    /* ================= Stats ================= */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .stats.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 680px) { .stats, .stats.cols-2 { grid-template-columns: 1fr; } }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.2rem 1.25rem;
+      background: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .stat:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(81, 44, 98, 0.12);
+    }
+    .stat.featured {
+      background: linear-gradient(150deg, var(--teal-dark), var(--teal));
+      border: none;
+      color: #fff;
+    }
+    .stat .k {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat.featured .k { color: rgba(255,255,255,0.85); }
+    .stat .v {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--purple);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat.featured .v { color: #fff; }
+    .stat .d {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+    .stat.featured .d { color: rgba(255,255,255,0.85); }
+
+    .takeaway {
+      margin-top: 1.1rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .takeaway b { color: var(--purple); font-variant-numeric: tabular-nums; }
+
+    /* ================= Connector ================= */
+    .connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 0 1.2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    .connector .line {
+      width: 2px; height: 30px;
+      background: linear-gradient(var(--teal), rgba(0,177,175,0.1));
+      border-radius: 2px;
+      margin-bottom: 0.55rem;
+    }
+    .connector strong { color: var(--purple); font-variant-numeric: tabular-nums; }
+
+    /* ================= Spend: expense marquee ================= */
     .chips {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.6rem;
     }
-    @media (max-width: 680px) {
-      .chips { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 680px) { .chips { grid-template-columns: 1fr; } }
     .chip {
       border: 1.5px solid var(--line);
       background: #fff;
@@ -167,18 +361,16 @@
       text-align: left;
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
     }
+    .chip:hover { transform: translateY(-2px); }
     .chip strong {
       display: block;
       font-size: 0.93rem;
       color: var(--ink);
       margin-bottom: 0.15rem;
     }
-    .chip span {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
+    .chip span { font-size: 0.8rem; color: var(--muted); }
     .chip.on {
       border-color: var(--teal);
       background: #e9f8f8;
@@ -195,7 +387,6 @@
       border-radius: 12px;
       color: var(--ink);
       background: #fff;
-      transition: border-color 0.15s ease;
     }
     input[type="number"]:focus {
       outline: none;
@@ -203,151 +394,214 @@
       box-shadow: 0 0 0 3px rgba(0, 177, 175, 0.15);
     }
 
-    /* Slider panel */
-    .dial {
-      background: linear-gradient(160deg, #faf8fc, #f1ecf6);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 1.5rem 1.5rem 1.3rem;
-      margin-bottom: 1.5rem;
+    .marquee-head {
+      margin: 2rem 0 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
     }
-    .dial-top {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-    .dial-label { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
-    .dial-value {
-      font-size: clamp(1.9rem, 5.5vw, 2.5rem);
-      font-weight: 750;
-      letter-spacing: -0.03em;
-      color: var(--purple);
-      font-variant-numeric: tabular-nums;
-    }
-    input[type="range"] {
-      width: 100%;
-      margin: 1rem 0 0.5rem;
-      accent-color: var(--teal);
-      cursor: pointer;
-      height: 6px;
-    }
-    .range-ends {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.82rem;
+    .marquee-head small {
+      display: block;
+      font-weight: 400;
       color: var(--muted);
-      font-variant-numeric: tabular-nums;
-      gap: 1rem;
-    }
-    .range-ends b { color: var(--ink); }
-    .linklike {
+      margin-top: 0.15rem;
       font-size: 0.85rem;
-      color: var(--teal-dark);
-      font-weight: 600;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      padding: 0;
-      margin-top: 0.8rem;
     }
-    .linklike:hover { text-decoration: underline; }
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      margin: 0 -2.2rem;
+      padding: 0.4rem 0;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .m-row {
+      display: flex;
+      gap: 0.9rem;
+      width: max-content;
+      padding: 1rem 0 0.6rem;
+      animation: scrollL 55s linear infinite;
+    }
+    .m-row.rev { animation: scrollR 62s linear infinite; }
+    .marquee:hover .m-row { animation-play-state: paused; }
+    @keyframes scrollL { to { transform: translateX(-50%); } }
+    @keyframes scrollR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
-    /* ---------- Stat grid ---------- */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    .stats.cols-2 { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 680px) {
-      .stats, .stats.cols-2 { grid-template-columns: 1fr; }
-    }
-    .stat {
+    .tile {
+      position: relative;
+      width: 132px;
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 1.15rem 1.2rem;
+      border-radius: 16px;
+      background: linear-gradient(165deg, #fdfcfe, #f4eff8);
+      padding: 1rem 0.9rem 0.9rem;
+      text-align: center;
+      cursor: default;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
     }
-    .stat.featured {
-      background: linear-gradient(150deg, var(--teal-dark), var(--teal));
-      border: none;
-      color: #fff;
+    .tile .emoji {
+      font-size: 2.2rem;
+      line-height: 1;
+      display: block;
+      transition: transform 0.28s ease;
     }
-    .stat .k {
+    .tile .name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-top: 0.55rem;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .tile .price {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .tile .save {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.28s ease;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      margin-top: 0;
+    }
+    .tile .save b {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--teal-dark);
+      font-variant-numeric: tabular-nums;
+    }
+    .tile:hover {
+      transform: translateY(-8px) scale(1.07);
+      border-color: var(--teal);
+      box-shadow: 0 16px 34px rgba(0, 177, 175, 0.25);
+      background: #fff;
+      z-index: 2;
+    }
+    .tile:hover .emoji { transform: scale(1.18); }
+    .tile:hover .save {
+      max-height: 70px;
+      opacity: 1;
+      margin-top: 0.5rem;
+    }
+
+    /* ================= Invest: dark section ================= */
+    .card.dark {
+      background: #0e0e13;
+      color: #f2f2f5;
+      box-shadow: 0 14px 50px rgba(10, 8, 16, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .card.dark::before {
+      content: "";
+      position: absolute;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 200, 5, 0.14), transparent 65%);
+      top: -180px; right: -140px;
+      pointer-events: none;
+    }
+    .card.dark .step-tag { color: var(--green); }
+    .card.dark .step-tag::before { background: linear-gradient(90deg, var(--green), #7dff80); }
+    .card.dark h2 { color: #fff; }
+    .card.dark .hint { color: #9a96a8; }
+
+    .chart-box {
+      position: relative;
+      margin: 0.4rem 0 1.4rem;
+      border: 1px solid #232330;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #121218, #0e0e13);
+      padding: 1.1rem 1.1rem 0.6rem;
+    }
+    .chart-box svg { width: 100%; height: auto; display: block; }
+    .chart-label {
+      position: absolute;
+      top: 1rem; left: 1.2rem;
       font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
+      color: #8b8799;
     }
-    .stat.featured .k { color: rgba(255,255,255,0.85); }
-    .stat .v {
-      font-size: 1.8rem;
-      font-weight: 750;
-      letter-spacing: -0.02em;
-      color: var(--purple);
+    .chart-end {
+      position: absolute;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--green);
       font-variant-numeric: tabular-nums;
+      transform: translate(-100%, -130%);
+      white-space: nowrap;
+      text-shadow: 0 0 18px rgba(0, 200, 5, 0.5);
     }
-    .stat.featured .v { color: #fff; }
-    .stat .d {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-      line-height: 1.4;
+    #growLine {
+      fill: none;
+      stroke: var(--green);
+      stroke-width: 3;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px rgba(0, 200, 5, 0.55));
     }
-    .stat.featured .d { color: rgba(255,255,255,0.85); }
+    #growArea { fill: url(#areaGrad); }
+    .gridline { stroke: #232330; stroke-width: 1; }
+    #endDot {
+      fill: var(--green);
+      filter: drop-shadow(0 0 8px rgba(0, 200, 5, 0.9));
+    }
+    .pulse {
+      fill: none;
+      stroke: var(--green);
+      stroke-width: 2;
+      opacity: 0.8;
+      animation: pulse 2s ease-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    @keyframes pulse {
+      from { transform: scale(0.5); opacity: 0.8; }
+      to { transform: scale(2.6); opacity: 0; }
+    }
 
-    /* One-line takeaway under stats */
-    .takeaway {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.5;
+    .card.dark .stat {
+      background: #15151c;
+      border-color: #232330;
     }
-    .takeaway b { color: var(--purple); font-variant-numeric: tabular-nums; }
+    .card.dark .stat:hover { box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5); }
+    .card.dark .stat .k { color: #8b8799; }
+    .card.dark .stat .v { color: #fff; }
+    .card.dark .stat .d { color: #8b8799; }
+    .card.dark .stat.featured {
+      background: linear-gradient(150deg, #003d02, #00890a);
+      border: none;
+    }
+    .card.dark .stat.featured .v {
+      color: #7dff80;
+      text-shadow: 0 0 20px rgba(0, 200, 5, 0.45);
+    }
+    .card.dark .stat.featured .k,
+    .card.dark .stat.featured .d { color: rgba(190, 255, 192, 0.8); }
+    .card.dark .takeaway { color: #9a96a8; }
+    .card.dark .takeaway b { color: #7dff80; }
 
-    /* ---------- Connector ---------- */
-    .connector {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.3rem 0 1rem;
-      color: var(--muted);
-      font-size: 0.92rem;
-      text-align: center;
-    }
-    .connector .line {
-      width: 2px;
-      height: 24px;
-      background: linear-gradient(var(--teal), rgba(0,177,175,0.15));
-      border-radius: 2px;
-      margin-bottom: 0.5rem;
-    }
-    .connector strong { color: var(--purple); font-variant-numeric: tabular-nums; }
-
-    /* Assumption controls */
     .assumptions {
       display: flex;
       flex-wrap: wrap;
       gap: 0.7rem 1.6rem;
-      margin-top: 1.4rem;
-      padding-top: 1.2rem;
+      margin-top: 1.5rem;
+      padding-top: 1.3rem;
       border-top: 1px solid var(--line);
     }
-    .assumption {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-    }
+    .card.dark .assumptions { border-top-color: #232330; }
+    .assumption { display: flex; align-items: center; gap: 0.55rem; }
     .assumption span {
       font-size: 0.84rem;
       font-weight: 600;
       color: var(--muted);
       white-space: nowrap;
     }
+    .card.dark .assumption span { color: #8b8799; }
     select {
       font-family: inherit;
       font-size: 0.9rem;
@@ -355,10 +609,17 @@
       color: var(--ink);
       border: 1.5px solid var(--line);
       border-radius: 10px;
-      padding: 0.45rem 0.6rem;
+      padding: 0.5rem 0.65rem;
       background: #fff;
+      cursor: pointer;
+    }
+    .card.dark select {
+      background: #15151c;
+      color: #f2f2f5;
+      border-color: #2c2c3a;
     }
     select:focus { outline: none; border-color: var(--teal); }
+    .card.dark select:focus { border-color: var(--green); }
 
     .footnote {
       text-align: center;
@@ -366,14 +627,21 @@
       font-size: 0.8rem;
       line-height: 1.6;
       max-width: 640px;
-      margin: 2.5rem auto 0;
+      margin: 2.6rem auto 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .m-row, .orb, .pulse { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
     }
   </style>
 </head>
 <body>
 
   <header class="hero">
-    <h1>Make your HSA work harder</h1>
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+    <h1>Make your HSA<br/><span class="grad">work harder</span></h1>
     <p>Your HSA does three jobs. See what each one is worth to you this year.</p>
     <div class="pillars"><span>Save</span><span>Spend</span><span>Invest</span></div>
   </header>
@@ -381,7 +649,7 @@
   <main class="wrap">
 
     <!-- SAVE -->
-    <section class="card">
+    <section class="card reveal">
       <div class="step-tag">Save</div>
       <h2>How much could you save?</h2>
       <p class="hint">Contributions come out of your paycheck before taxes.</p>
@@ -430,13 +698,13 @@
       </div>
     </section>
 
-    <div class="connector">
+    <div class="connector reveal">
       <div class="line"></div>
       <div>You are contributing <strong id="connectorSave">$4,400</strong></div>
     </div>
 
     <!-- SPEND -->
-    <section class="card">
+    <section class="card reveal">
       <div class="step-tag">Spend</div>
       <h2>How much will you spend on care?</h2>
       <p class="hint">Pick the year that sounds like yours, or enter your own number.</p>
@@ -476,7 +744,7 @@
         <div class="stat featured">
           <div class="k">Tax savings on care</div>
           <div class="v" id="spendDiscount">$330</div>
-          <div class="d" id="spendDiscountDetail">because I paid pre-tax</div>
+          <div class="d">because I paid pre-tax</div>
         </div>
         <div class="stat">
           <div class="k">True cost to me</div>
@@ -484,18 +752,49 @@
           <div class="d">after tax savings</div>
         </div>
       </div>
+
+      <div class="marquee-head">
+        Your HSA covers more than you think
+        <small>Hover any item to see what you save by paying with HSA dollars.</small>
+      </div>
+      <div class="marquee">
+        <div class="m-row" id="rowA"></div>
+      </div>
+      <div class="marquee">
+        <div class="m-row rev" id="rowB"></div>
+      </div>
     </section>
 
-    <div class="connector">
+    <div class="connector reveal">
       <div class="line"></div>
       <div id="connectorInvest">You have <strong>$2,900</strong> left unspent</div>
     </div>
 
     <!-- INVEST -->
-    <section class="card">
+    <section class="card dark reveal">
       <div class="step-tag">Invest</div>
       <h2>How much could you earn?</h2>
       <p class="hint">Unspent money stays yours and can be invested. Growth is never taxed when used for care.</p>
+
+      <div class="chart-box">
+        <span class="chart-label" id="chartLabel">Your money, invested</span>
+        <span class="chart-end" id="chartEnd"></span>
+        <svg viewBox="0 0 600 230" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(0,200,5,0.28)"/>
+              <stop offset="100%" stop-color="rgba(0,200,5,0)"/>
+            </linearGradient>
+          </defs>
+          <line class="gridline" x1="0" y1="58" x2="600" y2="58"/>
+          <line class="gridline" x1="0" y1="116" x2="600" y2="116"/>
+          <line class="gridline" x1="0" y1="174" x2="600" y2="174"/>
+          <path id="growArea" d=""/>
+          <path id="growLine" d=""/>
+          <circle class="pulse" id="pulseDot" r="6" cx="0" cy="0"/>
+          <circle id="endDot" r="5" cx="0" cy="0"/>
+        </svg>
+      </div>
 
       <div class="stats">
         <div class="stat">
@@ -561,8 +860,9 @@
     <p class="footnote">
       Estimates for planning purposes only — not tax, investment, or legal advice.
       2026 IRS contribution limits: $4,400 for self-only coverage, $8,750 for family
-      coverage, plus a $1,000 catch-up if you are 55 or older. Investment returns
-      are not guaranteed. State tax treatment varies.
+      coverage, plus a $1,000 catch-up if you are 55 or older. Item prices are
+      typical examples; eligibility rules apply. Investment returns are not
+      guaranteed. State tax treatment varies.
     </p>
   </main>
 
@@ -570,6 +870,32 @@
     // 2026 IRS HSA contribution limits
     const LIMITS = { self: 4400, family: 8750 };
     const CATCH_UP = 1000;
+
+    // Eligible expense tiles: [emoji, name, typical price]
+    const ITEMS_A = [
+      ['💊', 'Prescriptions', 30],
+      ['👓', 'Eyeglasses', 250],
+      ['🦷', 'Dental visit', 150],
+      ['🧴', 'Sunscreen', 18],
+      ['🩹', 'First aid kit', 25],
+      ['🧠', 'Therapy session', 120],
+      ['🤧', 'Allergy meds', 15],
+      ['🩺', 'Doctor visit', 130],
+      ['🦻', 'Hearing aids', 1400],
+      ['🌡️', 'Thermometer', 30],
+    ];
+    const ITEMS_B = [
+      ['😬', 'Braces', 3500],
+      ['🕶️', 'Rx sunglasses', 180],
+      ['🩸', 'Glucose monitor', 80],
+      ['💉', 'Vaccines', 60],
+      ['🧘', 'Acupuncture', 90],
+      ['🦴', 'Chiropractor', 75],
+      ['🧪', 'Lab tests', 110],
+      ['🤰', 'Prenatal care', 250],
+      ['👶', 'Breast pump', 200],
+      ['🚑', 'Ambulance ride', 500],
+    ];
 
     let coverage = 'self';
     let catchup = false;
@@ -585,37 +911,63 @@
       });
     }
 
+    /* ---------- animated count-up ---------- */
+    function setMoney(el, target, cents) {
+      const from = el._v ?? 0;
+      if (from === target) { el.innerText = money(target, cents); return; }
+      el._v = target;
+      const start = performance.now();
+      const dur = 450;
+      cancelAnimationFrame(el._raf);
+      function tick(now) {
+        const t = Math.min((now - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        el.innerText = money(from + (target - from) * ease, cents);
+        if (t < 1) el._raf = requestAnimationFrame(tick);
+      }
+      el._raf = requestAnimationFrame(tick);
+    }
+
+    /* ---------- scroll reveal ---------- */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ---------- expense marquee ---------- */
+    function buildRow(rowEl, items) {
+      const html = items.map(([emoji, name, price]) => `
+        <div class="tile" data-price="${price}">
+          <span class="emoji">${emoji}</span>
+          <div class="name">${name}</div>
+          <div class="price">~${money(price)}</div>
+          <div class="save"><b class="amt"></b>back in tax savings</div>
+        </div>`).join('');
+      rowEl.innerHTML = html + html; // duplicate for a seamless loop
+    }
+    buildRow($('rowA'), ITEMS_A);
+    buildRow($('rowB'), ITEMS_B);
+
+    function updateTiles(rate) {
+      document.querySelectorAll('.tile').forEach(tile => {
+        const price = parseFloat(tile.dataset.price);
+        tile.querySelector('.amt').innerText = money(Math.round(price * rate));
+      });
+    }
+
+    /* ---------- controls ---------- */
     function segSelect(btn) {
       btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
     }
-
-    function limit() {
-      return LIMITS[coverage] + (catchup ? CATCH_UP : 0);
-    }
-
-    function setCoverage(value, btn) {
-      coverage = value;
-      segSelect(btn);
-      refresh();
-    }
-
-    function setCatchup(value, btn) {
-      catchup = value;
-      segSelect(btn);
-      refresh();
-    }
-
+    function limit() { return LIMITS[coverage] + (catchup ? CATCH_UP : 0); }
+    function setCoverage(value, btn) { coverage = value; segSelect(btn); refresh(); }
+    function setCatchup(value, btn) { catchup = value; segSelect(btn); refresh(); }
     function saveDialMoved() {
       saveAtMax = parseFloat($('saveDial').value) >= limit();
       refresh();
     }
-
-    function saveToMax() {
-      saveAtMax = true;
-      refresh();
-    }
-
+    function saveToMax() { saveAtMax = true; refresh(); }
     function setSpend(value, btn) {
       presetSpend = value;
       document.querySelectorAll('#spendChips .chip').forEach(c => c.classList.remove('on'));
@@ -624,18 +976,72 @@
       if (value === null) $('customSpend').focus();
       refresh();
     }
-
     function spend() {
       return presetSpend === null
         ? Math.max(parseFloat($('customSpend').value) || 0, 0)
         : presetSpend;
     }
 
+    /* ---------- growth chart ---------- */
+    function drawChart(leftover, years, growth) {
+      const W = 600, H = 230, PAD_T = 36, PAD_B = 14;
+      const line = $('growLine'), area = $('growArea');
+      const endDot = $('endDot'), pulse = $('pulseDot'), endLabel = $('chartEnd');
+
+      if (leftover <= 0) {
+        line.setAttribute('d', '');
+        area.setAttribute('d', '');
+        endDot.setAttribute('cx', -20); pulse.setAttribute('cx', -20);
+        endLabel.innerText = '';
+        $('chartLabel').innerText = 'Contribute more than you spend to grow this chart';
+        return;
+      }
+      $('chartLabel').innerText = 'Your money, invested';
+
+      // Balance if the leftover is contributed every year
+      const pts = [];
+      let maxV = 0;
+      for (let y = 0; y <= years; y++) {
+        const v = growth === 0
+          ? leftover * y
+          : leftover * ((Math.pow(1 + growth, y) - 1) / growth);
+        pts.push(v);
+        maxV = Math.max(maxV, v);
+      }
+      const x = i => (i / years) * (W - 70) + 4;
+      const yPos = v => H - PAD_B - (v / maxV) * (H - PAD_T - PAD_B);
+
+      let d = 'M' + x(0) + ',' + yPos(pts[0]);
+      for (let i = 1; i <= years; i++) d += ' L' + x(i) + ',' + yPos(pts[i]);
+      line.setAttribute('d', d);
+      area.setAttribute('d', d + ' L' + x(years) + ',' + (H - PAD_B) + ' L' + x(0) + ',' + (H - PAD_B) + ' Z');
+
+      const len = line.getTotalLength();
+      line.style.transition = 'none';
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+      line.getBoundingClientRect(); // flush
+      line.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(0.25, 1, 0.4, 1)';
+      line.style.strokeDashoffset = 0;
+
+      const ex = x(years), ey = yPos(pts[years]);
+      endDot.setAttribute('cx', ex); endDot.setAttribute('cy', ey);
+      pulse.setAttribute('cx', ex); pulse.setAttribute('cy', ey);
+
+      const box = endLabel.parentElement.getBoundingClientRect();
+      const svgBox = endLabel.parentElement.querySelector('svg').getBoundingClientRect();
+      endLabel.style.left = (svgBox.left - box.left + (ex / W) * svgBox.width) + 'px';
+      endLabel.style.top = (svgBox.top - box.top + (ey / H) * svgBox.height) + 'px';
+      endLabel.innerText = money(Math.round(pts[years]));
+    }
+
+    /* ---------- main refresh ---------- */
     function refresh() {
       const dial = $('saveDial');
       const max = limit();
       dial.max = max;
       if (saveAtMax || parseFloat(dial.value) > max) dial.value = max;
+      dial.style.setProperty('--p', (parseFloat(dial.value) / max * 100) + '%');
 
       const contribution = parseFloat(dial.value) || 0;
       const rate = parseFloat($('taxRate').value) / 100;
@@ -644,11 +1050,11 @@
       const growth = parseFloat($('growthRate').value) / 100;
 
       // ----- SAVE -----
-      $('saveValue').innerText = money(contribution);
+      setMoney($('saveValue'), contribution);
       $('saveMax').innerText = money(max);
-      $('saveTax').innerText = money(Math.round(contribution * rate));
+      setMoney($('saveTax'), Math.round(contribution * rate));
       $('saveTaxDetail').innerText = 'at a ' + Math.round(rate * 100) + '% tax rate';
-      $('savePaycheck').innerText = money(contribution / periods, true);
+      setMoney($('savePaycheck'), contribution / periods, true);
       $('savePaycheckDetail').innerText = periods + ' paychecks per year';
       $('connectorSave').innerText = money(contribution);
 
@@ -656,9 +1062,10 @@
       const spending = spend();
       const hsaSpending = Math.min(spending, contribution);
       const discount = Math.round(hsaSpending * rate);
-      $('spendAmount').innerText = money(hsaSpending);
-      $('spendDiscount').innerText = money(discount);
-      $('spendNet').innerText = money(hsaSpending - discount);
+      setMoney($('spendAmount'), hsaSpending);
+      setMoney($('spendDiscount'), discount);
+      setMoney($('spendNet'), hsaSpending - discount);
+      updateTiles(rate);
 
       // ----- INVEST -----
       const leftover = Math.max(contribution - spending, 0);
@@ -671,30 +1078,33 @@
         connector.innerHTML = 'Nothing left over — contribute more than you spend to start investing';
       }
 
-      $('investLeftover').innerText = money(leftover);
+      setMoney($('investLeftover'), leftover);
 
       if (leftover > 0) {
-        // This year's leftover, invested once and left to grow
         const totalOnce = leftover * Math.pow(1 + growth, years);
-        $('investEarn').innerText = money(Math.round(totalOnce - leftover));
+        setMoney($('investEarn'), Math.round(totalOnce - leftover));
         $('investEarnDetail').innerText = 'growth over ' + years + ' years at ' + Math.round(growth * 100) + '%';
-        $('investTotal').innerText = money(Math.round(totalOnce));
+        setMoney($('investTotal'), Math.round(totalOnce));
         $('investTotalDetail').innerText = 'in ' + years + ' years';
 
-        // The same leftover contributed every year
-        const totalYearly = leftover * ((Math.pow(1 + growth, years) - 1) / growth);
-        $('investRepeat').innerHTML = 'Do this every year and your HSA could hold <b>' +
+        const totalYearly = growth === 0
+          ? leftover * years
+          : leftover * ((Math.pow(1 + growth, years) - 1) / growth);
+        $('investRepeat').innerHTML = 'The chart shows the bigger story — do this every year and your HSA could hold <b>' +
           money(Math.round(totalYearly)) + '</b> in ' + years + ' years.';
       } else {
-        $('investEarn').innerText = '$0';
+        setMoney($('investEarn'), 0);
         $('investEarnDetail').innerText = 'nothing invested yet';
-        $('investTotal').innerText = '$0';
+        setMoney($('investTotal'), 0);
         $('investTotalDetail').innerText = 'in ' + years + ' years';
         $('investRepeat').innerHTML = 'Contribute more than you spend to see what investing could earn you.';
       }
+
+      drawChart(leftover, years, growth);
     }
 
     refresh();
+    window.addEventListener('resize', () => refresh());
   </script>
 </body>
 </html>
