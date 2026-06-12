@@ -7,10 +7,11 @@
   <style>
     :root {
       --purple: #512c62;
-      --purple-deep: #2c1538;
+      --purple-soft: #8a63a8;
       --teal: #00b1af;
       --teal-dark: #00807f;
       --green: #00c805;
+      --green-soft: #7dff80;
       --ink: #221a2a;
       --muted: #756b85;
       --hairline: #ddd5e6;
@@ -34,6 +35,85 @@
       padding: 0 1.5rem;
     }
 
+    /* ================= Sticky topbar ================= */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 249, 252, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding-top: 0.7rem;
+      padding-bottom: 0.7rem;
+    }
+    .tnav {
+      display: flex;
+      gap: 1.3rem;
+    }
+    .tnav a {
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #b6aec3;
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .tnav a:hover { color: var(--muted); }
+    .tnav a.on { color: var(--teal-dark); border-bottom-color: var(--teal); }
+
+    .tsum {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      min-width: 0;
+    }
+    .flowbar {
+      width: 130px;
+      height: 8px;
+      background: var(--hairline);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-shrink: 0;
+    }
+    .flowbar span {
+      height: 100%;
+      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #fbSpend { background: var(--purple-soft); }
+    #fbInvest { background: var(--teal); }
+    .tvals {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .tvals b { color: var(--ink); font-weight: 700; }
+    .tvals .spendc b { color: var(--purple-soft); }
+    .tvals .investc b { color: var(--teal-dark); }
+    .tvals .taxc b { color: var(--teal-dark); }
+    @media (max-width: 760px) {
+      .tvals .spendc, .tvals .investc { display: none; }
+      .flowbar { width: 90px; }
+      .topbar-inner { gap: 1rem; }
+      .tnav { gap: 0.9rem; }
+    }
+    @media (max-width: 520px) {
+      .flowbar { display: none; }
+    }
+
     /* ================= Reveal ================= */
     .reveal {
       opacity: 0;
@@ -43,9 +123,7 @@
     .reveal.in { opacity: 1; transform: none; }
 
     /* ================= Hero ================= */
-    .hero {
-      padding: 7.5rem 0 5.5rem;
-    }
+    .hero { padding: 6.5rem 0 5rem; }
     .hero .kicker {
       font-size: 0.85rem;
       font-weight: 700;
@@ -116,13 +194,15 @@
       line-height: 2.1;
       font-weight: 500;
       color: var(--ink);
-      max-width: 36ch;
+      max-width: 40ch;
     }
-    .mtoggle {
-      display: inline-flex;
-      gap: 0;
-      vertical-align: baseline;
+    .madlib .note {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
     }
+    .mtoggle { display: inline-flex; vertical-align: baseline; }
     .mtoggle button {
       font-family: inherit;
       font-size: inherit;
@@ -142,7 +222,6 @@
     }
     .mtoggle button:not(.on):hover { color: var(--muted); }
     .mtoggle .sep { color: #cfc8da; font-weight: 400; padding: 0 0.05em; }
-
     .msel {
       font-family: inherit;
       font-size: inherit;
@@ -259,6 +338,14 @@
       color: var(--muted);
       margin-top: 0.35rem;
     }
+    .soft-note {
+      margin-top: 2.2rem;
+      font-size: 1.02rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 50ch;
+    }
+    .soft-note b { color: var(--purple); font-weight: 700; }
 
     /* ================= Spend presets ================= */
     .presets {
@@ -412,45 +499,46 @@
       margin-top: 4rem;
       padding: 5rem 0 5.5rem;
     }
-    .dark-band .sect-head { border-top-color: #26263200; border-top: none; padding-top: 0; }
+    .dark-band .sect-head { border-top: none; padding-top: 0; }
     .dark-band .sect-head .n { color: var(--green); }
     .dark-band .sect-head .q { color: #8b8799; }
     .dark-band .madlib { color: #e8e6ee; }
-    .dark-band .msel {
-      color: #7dff80;
-      border-bottom-color: var(--green);
-      background: transparent;
-    }
+    .dark-band .msel { color: var(--green-soft); border-bottom-color: var(--green); }
     .dark-band .msel option { background: #15151c; color: #f2f2f5; }
 
     .chart-wrap {
       position: relative;
-      margin: 3rem 0 0.6rem;
+      margin: 3rem 0 0;
+      padding-bottom: 1.9rem;
     }
     .chart-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
     .chart-end {
       position: absolute;
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
       font-weight: 800;
-      color: #7dff80;
+      color: var(--green-soft);
       font-variant-numeric: tabular-nums;
-      transform: translate(-100%, -135%);
+      transform: translate(-100%, -140%);
       white-space: nowrap;
       text-shadow: 0 0 24px rgba(0, 200, 5, 0.55);
       pointer-events: none;
     }
-    .chart-zero {
+    .axis {
       position: absolute;
-      left: 0; bottom: -1.4rem;
-      font-size: 0.78rem;
-      color: #66617a;
+      left: 0; right: 0; bottom: 0;
+      height: 1.2rem;
+      pointer-events: none;
     }
-    .chart-yr {
+    .axis span {
       position: absolute;
-      right: 0; bottom: -1.4rem;
-      font-size: 0.78rem;
+      transform: translateX(-50%);
+      font-size: 0.76rem;
       color: #66617a;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
+    .axis span:first-child { transform: none; }
+
     #growLine {
       fill: none;
       stroke: var(--green);
@@ -458,9 +546,17 @@
       stroke-linecap: round;
       filter: drop-shadow(0 0 8px rgba(0, 200, 5, 0.55));
     }
+    #onceLine {
+      fill: none;
+      stroke: #8b8799;
+      stroke-width: 2;
+      stroke-dasharray: 6 7;
+      stroke-linecap: round;
+    }
     #growArea { fill: url(#areaGrad); }
     .gridline { stroke: #1d1d28; stroke-width: 1; }
-    #endDot { fill: #7dff80; filter: drop-shadow(0 0 10px rgba(0, 200, 5, 0.95)); }
+    .tick { stroke: #2c2c3a; stroke-width: 1; }
+    #endDot { fill: var(--green-soft); filter: drop-shadow(0 0 10px rgba(0, 200, 5, 0.95)); }
     .pulse {
       fill: none;
       stroke: var(--green);
@@ -474,23 +570,61 @@
       from { transform: scale(0.5); opacity: 0.8; }
       to { transform: scale(2.8); opacity: 0; }
     }
+    #hoverLine { stroke: #3a3a4c; stroke-width: 1.5; visibility: hidden; }
+    #hoverDotA { fill: var(--green-soft); visibility: hidden; }
+    #hoverDotB { fill: #b6b2c4; visibility: hidden; }
 
-    .dark-band .statrow { margin-top: 3.4rem; }
+    .chart-tip {
+      position: absolute;
+      visibility: hidden;
+      background: rgba(21, 21, 28, 0.95);
+      border: 1px solid #2c2c3a;
+      border-radius: 10px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 5;
+      transform: translate(-50%, -110%);
+      font-variant-numeric: tabular-nums;
+    }
+    .chart-tip .yr {
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+    .chart-tip .a { color: var(--green-soft); font-weight: 700; }
+    .chart-tip .b { color: #b6b2c4; font-weight: 700; }
+    .chart-tip .lab { color: #8b8799; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      margin-top: 1.6rem;
+      font-size: 0.85rem;
+      color: #9a96a8;
+    }
+    .legend .sw {
+      display: inline-block;
+      width: 22px;
+      height: 0;
+      border-top: 3px solid var(--green);
+      vertical-align: middle;
+      margin-right: 0.5rem;
+      border-radius: 2px;
+    }
+    .legend .sw.dash { border-top: 2.5px dashed #8b8799; }
+
+    .dark-band .statrow { margin-top: 3rem; }
     .dark-band .stat .k { color: #8b8799; }
     .dark-band .stat .v { color: #fff; }
     .dark-band .stat.hot .v {
-      color: #7dff80;
+      color: var(--green-soft);
       text-shadow: 0 0 26px rgba(0, 200, 5, 0.4);
     }
     .dark-band .stat .d { color: #8b8799; }
-    .dark-band .takeaway {
-      margin-top: 2.6rem;
-      font-size: 1rem;
-      color: #9a96a8;
-      line-height: 1.6;
-      max-width: 52ch;
-    }
-    .dark-band .takeaway b { color: #7dff80; font-variant-numeric: tabular-nums; }
 
     /* ================= Footnote ================= */
     .footnote {
@@ -511,6 +645,28 @@
 </head>
 <body>
 
+  <!-- Sticky nav + running summary -->
+  <nav class="topbar">
+    <div class="topbar-inner container">
+      <div class="tnav" id="tnav">
+        <a href="#save" data-s="save" class="on">Save</a>
+        <a href="#spend" data-s="spend">Spend</a>
+        <a href="#invest" data-s="invest">Invest</a>
+      </div>
+      <div class="tsum">
+        <div class="flowbar" title="How your contribution splits between spending and investing">
+          <span id="fbSpend"></span><span id="fbInvest"></span>
+        </div>
+        <div class="tvals">
+          <span>In <b id="tbIn">$4,400</b></span>
+          <span class="spendc">Spend <b id="tbSpend">$1,500</b></span>
+          <span class="investc">Invest <b id="tbInvest">$2,900</b></span>
+          <span class="taxc">Tax saved <b id="tbTax">$968</b></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
   <header class="hero container">
     <div class="kicker">Save &middot; Spend &middot; Invest</div>
     <h1>Make your HSA <span class="grad">work harder</span></h1>
@@ -529,22 +685,23 @@
 
       <p class="madlib">
         My health plan covers
-        <span class="mtoggle" id="covToggle">
+        <span class="mtoggle">
           <button class="on" onclick="setCoverage('self', this)">just me</button><span class="sep">/</span><button onclick="setCoverage('family', this)">my family</button>
         </span>,
         I am
-        <span class="mtoggle" id="ageToggle">
+        <span class="mtoggle">
           <button class="on" onclick="setCatchup(false, this)">under 55</button><span class="sep">/</span><button onclick="setCatchup(true, this)">55 or older</button>
         </span>,
-        in the
+        I earn
         <select class="msel" id="taxRate" onchange="refresh()">
-          <option value="12">12%</option>
-          <option value="22" selected>22%</option>
-          <option value="24">24%</option>
-          <option value="32">32%</option>
-          <option value="35">35%+</option>
+          <option value="12">under $50k</option>
+          <option value="22" selected>$50k&ndash;$105k</option>
+          <option value="24">$105k&ndash;$200k</option>
+          <option value="32">$200k&ndash;$255k</option>
+          <option value="35">over $255k</option>
         </select>
-        tax bracket, and paid
+        <span class="note" id="bracketNote">(&approx;22% federal bracket)</span>,
+        and I am paid
         <select class="msel" id="payFreq" onchange="refresh()">
           <option value="52">weekly</option>
           <option value="26" selected>every 2 weeks</option>
@@ -583,7 +740,7 @@
       <div class="sect-head">
         <span class="n">02</span>
         <h2>Spend</h2>
-        <span class="q">Care paid with pre-tax dollars costs you less.</span>
+        <span class="q">Medical bills come out of your HSA — not your monthly budget.</span>
       </div>
 
       <p class="madlib">This year will probably bring</p>
@@ -611,21 +768,21 @@
 
       <div class="statrow">
         <div class="stat">
-          <div class="k">My care costs</div>
+          <div class="k">Covered by my HSA</div>
           <div class="v" id="spendAmount">$1,500</div>
-          <div class="d">paid from my HSA</div>
+          <div class="d">already set aside, ready for bills</div>
         </div>
         <div class="stat hot">
           <div class="k">Tax savings on care</div>
           <div class="v" id="spendDiscount">$330</div>
           <div class="d">because I paid pre-tax</div>
         </div>
-        <div class="stat">
-          <div class="k">True cost to me</div>
-          <div class="v" id="spendNet">$1,170</div>
-          <div class="d">after tax savings</div>
-        </div>
       </div>
+
+      <p class="soft-note" id="spendNote">
+        When a bill shows up, the money is already waiting — <b>none of it comes out
+        of that month's budget</b>. No scrambling, no credit card, no skipped plans.
+      </p>
 
       <div class="marquee-head">
         Your HSA covers more than you think
@@ -643,13 +800,13 @@
   </div>
 
   <div class="container reveal">
-    <div class="connectorish" style="padding: 2.5rem 0 0; color: var(--muted); font-size: 0.95rem;" id="connectorInvest">
+    <div style="padding: 2.5rem 0 0; color: var(--muted); font-size: 0.95rem;" id="connectorInvest">
       You have <strong style="color: var(--purple);">$2,900</strong> left unspent — here is what it could do.
     </div>
   </div>
 
   <!-- INVEST -->
-  <div class="dark-band reveal">
+  <div class="dark-band reveal" id="invest">
     <div class="container">
       <div class="sect-head">
         <span class="n">03</span>
@@ -658,7 +815,9 @@
       </div>
 
       <p class="madlib">
-        If I invest what I do not spend, every year, for
+        If I invest the
+        <span style="color: var(--green-soft); font-weight: 700;" id="investAmt">$2,900</span>
+        I am not spending, for
         <select class="msel" id="years" onchange="refresh()">
           <option value="10">10 years</option>
           <option value="20" selected>20 years</option>
@@ -673,57 +832,64 @@
         growth&hellip;
       </p>
 
-      <div class="chart-wrap">
+      <div class="chart-wrap" id="chartWrap">
         <span class="chart-end" id="chartEnd"></span>
         <svg viewBox="0 0 600 240" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(0,200,5,0.25)"/>
+              <stop offset="0%" stop-color="rgba(0,200,5,0.22)"/>
               <stop offset="100%" stop-color="rgba(0,200,5,0)"/>
             </linearGradient>
           </defs>
           <line class="gridline" x1="0" y1="60" x2="600" y2="60"/>
           <line class="gridline" x1="0" y1="120" x2="600" y2="120"/>
           <line class="gridline" x1="0" y1="180" x2="600" y2="180"/>
+          <g id="ticksG"></g>
           <path id="growArea" d=""/>
+          <path id="onceLine" d=""/>
           <path id="growLine" d=""/>
+          <line id="hoverLine" x1="0" y1="30" x2="0" y2="228"/>
+          <circle id="hoverDotA" r="4.5" cx="0" cy="0"/>
+          <circle id="hoverDotB" r="4" cx="0" cy="0"/>
           <circle class="pulse" id="pulseDot" r="6" cx="-20" cy="0"/>
           <circle id="endDot" r="5" cx="-20" cy="0"/>
         </svg>
-        <span class="chart-zero">today</span>
-        <span class="chart-yr" id="chartYr">20 years</span>
+        <div class="axis" id="axis"></div>
+        <div class="chart-tip" id="chartTip"></div>
+      </div>
+
+      <div class="legend">
+        <span><span class="sw"></span>If I do this every year</span>
+        <span><span class="sw dash"></span>Just this year's money, left to grow</span>
       </div>
 
       <div class="statrow">
         <div class="stat">
-          <div class="k">Left to invest</div>
+          <div class="k">Invested this year</div>
           <div class="v" id="investLeftover">$2,900</div>
-          <div class="d">unspent this year</div>
-        </div>
-        <div class="stat hot">
-          <div class="k">Earnings on this year's</div>
-          <div class="v" id="investEarn">$4,795</div>
-          <div class="d" id="investEarnDetail">growth over 20 years at 5%</div>
+          <div class="d">unspent contributions</div>
         </div>
         <div class="stat">
           <div class="k">This year's, grown</div>
           <div class="v" id="investTotal">$7,695</div>
-          <div class="d" id="investTotalDetail">in 20 years</div>
+          <div class="d" id="investTotalDetail">in 20 years at 5%</div>
+        </div>
+        <div class="stat hot">
+          <div class="k">If I repeat every year</div>
+          <div class="v" id="investRepeatV">$95,890</div>
+          <div class="d" id="investRepeatDetail">my HSA in 20 years</div>
         </div>
       </div>
-
-      <p class="takeaway" id="investRepeat">
-        The chart shows the bigger story — repeat this every year and your HSA could hold <b>$95,890</b> in 20 years.
-      </p>
     </div>
   </div>
 
   <p class="footnote">
     Estimates for planning purposes only — not tax, investment, or legal advice.
     2026 IRS contribution limits: $4,400 for self-only coverage, $8,750 for family
-    coverage, plus a $1,000 catch-up if you are 55 or older. Item prices are typical
-    examples; eligibility rules apply. Investment returns are not guaranteed.
-    State tax treatment varies.
+    coverage, plus a $1,000 catch-up if you are 55 or older. Salary ranges are
+    approximate 2026 federal brackets for a single filer; your bracket may differ.
+    Item prices are typical examples; eligibility rules apply. Investment returns
+    are not guaranteed. State tax treatment varies.
   </p>
 
   <script>
@@ -799,6 +965,17 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+    /* ---------- sticky nav active state ---------- */
+    const navLinks = document.querySelectorAll('#tnav a');
+    const sections = ['save', 'spend', 'invest'].map(id => $(id));
+    function updateNav() {
+      const probe = window.scrollY + window.innerHeight * 0.38;
+      let current = 'save';
+      sections.forEach(s => { if (s.offsetTop <= probe) current = s.id; });
+      navLinks.forEach(a => a.classList.toggle('on', a.dataset.s === current));
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+
     /* ---------- expense marquee ---------- */
     function buildRow(rowEl, items) {
       const html = items.map(([emoji, name, price]) => `
@@ -847,73 +1024,140 @@
         : presetSpend;
     }
 
-    /* ---------- morphing growth chart ----------
-       The line is sampled at a fixed number of points so any change
-       (slider, years, rate) tweens smoothly from the current curve
-       to the new one instead of redrawing. */
+    /* ---------- morphing two-line growth chart ----------
+       Both curves are sampled at a fixed count so any input change
+       tweens smoothly from the current shape to the new one.
+       Green solid: invest the leftover every year.
+       Gray dashed: just this year's leftover, left to grow. */
     const SAMPLES = 60;
     const CW = 600, CH = 240, PAD_T = 30, PAD_B = 12, PAD_R = 64;
-    let chartPts = new Array(SAMPLES + 1).fill(0);
+    const PW = CW - PAD_R - 2;
+    let ptsA = new Array(SAMPLES + 1).fill(0);   // every-year curve
+    let ptsB = new Array(SAMPLES + 1).fill(0);   // single-year curve
+    let chartYears = 20, chartLeftover = 0, chartGrowth = 0.05;
     let chartRaf = null;
 
-    function targetPts(leftover, years, growth) {
+    const vEvery = (leftover, g, t) => g === 0 ? leftover * t : leftover * ((Math.pow(1 + g, t) - 1) / g);
+    const vOnce  = (leftover, g, t) => leftover * Math.pow(1 + g, t);
+
+    function sample(fn, leftover, g, years) {
       const pts = [];
-      for (let i = 0; i <= SAMPLES; i++) {
-        const t = years * i / SAMPLES;
-        pts.push(growth === 0
-          ? leftover * t
-          : leftover * ((Math.pow(1 + growth, t) - 1) / growth));
-      }
+      for (let i = 0; i <= SAMPLES; i++) pts.push(leftover > 0 ? fn(leftover, g, years * i / SAMPLES) : 0);
       return pts;
     }
 
-    function renderChart(pts) {
-      const maxV = Math.max(...pts, 1);
-      const x = i => (i / SAMPLES) * (CW - PAD_R) + 2;
+    const xAt = i => (i / SAMPLES) * PW + 2;
+    const xYr = (yr, years) => (yr / years) * PW + 2;
+
+    function pathFrom(pts, maxV) {
+      const y = v => CH - PAD_B - (v / maxV) * (CH - PAD_T - PAD_B);
+      let d = 'M' + xAt(0) + ',' + y(pts[0]).toFixed(1);
+      for (let i = 1; i <= SAMPLES; i++) d += 'L' + xAt(i).toFixed(1) + ',' + y(pts[i]).toFixed(1);
+      return d;
+    }
+
+    function renderChart() {
+      const maxV = Math.max(...ptsA, ...ptsB, 1);
       const y = v => CH - PAD_B - (v / maxV) * (CH - PAD_T - PAD_B);
 
-      let d = 'M' + x(0) + ',' + y(pts[0]);
-      for (let i = 1; i <= SAMPLES; i++) d += 'L' + x(i).toFixed(1) + ',' + y(pts[i]).toFixed(1);
-      $('growLine').setAttribute('d', d);
-      $('growArea').setAttribute('d',
-        d + 'L' + x(SAMPLES) + ',' + (CH - PAD_B) + 'L' + x(0) + ',' + (CH - PAD_B) + 'Z');
+      const dA = pathFrom(ptsA, maxV);
+      $('growLine').setAttribute('d', dA);
+      $('growArea').setAttribute('d', dA + 'L' + xAt(SAMPLES) + ',' + (CH - PAD_B) + 'L' + xAt(0) + ',' + (CH - PAD_B) + 'Z');
+      $('onceLine').setAttribute('d', pathFrom(ptsB, maxV));
 
-      const ex = x(SAMPLES), ey = y(pts[SAMPLES]);
+      const ex = xAt(SAMPLES), ey = y(ptsA[SAMPLES]);
       $('endDot').setAttribute('cx', ex); $('endDot').setAttribute('cy', ey);
       $('pulseDot').setAttribute('cx', ex); $('pulseDot').setAttribute('cy', ey);
 
-      const wrap = $('chartEnd').parentElement;
-      const svgEl = wrap.querySelector('svg');
+      const svgEl = $('chartWrap').querySelector('svg');
       $('chartEnd').style.left = (svgEl.offsetLeft + (ex / CW) * svgEl.clientWidth) + 'px';
       $('chartEnd').style.top = (svgEl.offsetTop + (ey / CH) * svgEl.clientHeight) + 'px';
+      $('chartEnd').innerText = ptsA[SAMPLES] > 0 ? money(Math.round(ptsA[SAMPLES])) : '';
+      chartMaxV = maxV;
+    }
+    let chartMaxV = 1;
+
+    function buildAxis(years) {
+      const step = years > 15 ? 5 : (years > 6 ? 2 : 1);
+      const axis = $('axis');
+      const ticksG = $('ticksG');
+      let spans = '', ticks = '';
+      for (let yr = 0; yr <= years; yr += step) {
+        const leftPct = (xYr(yr, years) / CW) * 100;
+        spans += `<span style="left:${leftPct}%">${yr === 0 ? 'today' : yr + ' yr'}</span>`;
+        ticks += `<line class="tick" x1="${xYr(yr, years)}" y1="${CH - PAD_B}" x2="${xYr(yr, years)}" y2="${CH - PAD_B + 6}"/>`;
+      }
+      axis.innerHTML = spans;
+      ticksG.innerHTML = ticks;
     }
 
     function morphChart(leftover, years, growth) {
-      const target = targetPts(leftover, years, growth);
-      const endVal = target[SAMPLES];
-      $('chartEnd').innerText = endVal > 0 ? money(Math.round(endVal)) : '';
-      $('chartYr').innerText = years + ' years';
+      chartYears = years; chartLeftover = leftover; chartGrowth = growth;
+      buildAxis(years);
+      const tA = sample(vEvery, leftover, growth, years);
+      const tB = sample(vOnce, leftover, growth, years);
 
       if (reduceMotion) {
-        chartPts = target;
-        renderChart(chartPts);
+        ptsA = tA; ptsB = tB;
+        renderChart();
         return;
       }
-      const from = chartPts.slice();
+      const fA = ptsA.slice(), fB = ptsB.slice();
       const start = performance.now();
       const dur = 650;
       cancelAnimationFrame(chartRaf);
       function tick(now) {
         const t = Math.min((now - start) / dur, 1);
         const ease = 1 - Math.pow(1 - t, 3);
-        chartPts = from.map((v, i) => v + (target[i] - v) * ease);
-        renderChart(chartPts);
+        ptsA = fA.map((v, i) => v + (tA[i] - v) * ease);
+        ptsB = fB.map((v, i) => v + (tB[i] - v) * ease);
+        renderChart();
         if (t < 1) chartRaf = requestAnimationFrame(tick);
       }
       chartRaf = requestAnimationFrame(tick);
     }
 
+    /* ---------- chart hover: snap to year, show both totals ---------- */
+    const chartWrap = $('chartWrap');
+    const tip = $('chartTip');
+    function hideHover() {
+      tip.style.visibility = 'hidden';
+      $('hoverLine').style.visibility = 'hidden';
+      $('hoverDotA').style.visibility = 'hidden';
+      $('hoverDotB').style.visibility = 'hidden';
+    }
+    chartWrap.addEventListener('mousemove', e => {
+      if (chartLeftover <= 0) { hideHover(); return; }
+      const svgEl = chartWrap.querySelector('svg');
+      const r = svgEl.getBoundingClientRect();
+      const fx = (e.clientX - r.left) / r.width * CW;
+      const yr = Math.max(0, Math.min(chartYears, Math.round((fx - 2) / PW * chartYears)));
+
+      const valA = vEvery(chartLeftover, chartGrowth, yr);
+      const valB = vOnce(chartLeftover, chartGrowth, yr);
+      const px = xYr(yr, chartYears);
+      const yOf = v => CH - PAD_B - (v / chartMaxV) * (CH - PAD_T - PAD_B);
+
+      $('hoverLine').setAttribute('x1', px); $('hoverLine').setAttribute('x2', px);
+      $('hoverLine').style.visibility = 'visible';
+      $('hoverDotA').setAttribute('cx', px); $('hoverDotA').setAttribute('cy', yOf(valA));
+      $('hoverDotA').style.visibility = 'visible';
+      $('hoverDotB').setAttribute('cx', px); $('hoverDotB').setAttribute('cy', yOf(valB));
+      $('hoverDotB').style.visibility = 'visible';
+
+      tip.innerHTML =
+        '<div class="yr">' + (yr === 0 ? 'Today' : 'Year ' + yr) + '</div>' +
+        '<div><span class="a">' + money(Math.round(valA)) + '</span> <span class="lab">every year</span></div>' +
+        '<div><span class="b">' + money(Math.round(valB)) + '</span> <span class="lab">this year only</span></div>';
+      const leftPx = svgEl.offsetLeft + (px / CW) * r.width;
+      tip.style.left = Math.min(Math.max(leftPx, 90), r.width - 90) + 'px';
+      tip.style.top = (svgEl.offsetTop + (yOf(valA) / CH) * r.height) + 'px';
+      tip.style.visibility = 'visible';
+    });
+    chartWrap.addEventListener('mouseleave', hideHover);
+
     /* ---------- main refresh ---------- */
+    const BRACKETS = { 12: '12%', 22: '22%', 24: '24%', 32: '32%', 35: '35%' };
     function refresh() {
       const dial = $('saveDial');
       const max = limit();
@@ -922,15 +1166,19 @@
       dial.style.setProperty('--p', (parseFloat(dial.value) / max * 100) + '%');
 
       const contribution = parseFloat(dial.value) || 0;
-      const rate = parseFloat($('taxRate').value) / 100;
+      const rateSel = $('taxRate').value;
+      const rate = parseFloat(rateSel) / 100;
       const periods = parseInt($('payFreq').value, 10);
       const years = parseInt($('years').value, 10);
       const growth = parseFloat($('growthRate').value) / 100;
 
+      $('bracketNote').innerText = '(≈' + BRACKETS[rateSel] + ' federal bracket)';
+
       // ----- SAVE -----
       setMoney($('saveValue'), contribution);
       $('saveMax').innerText = money(max);
-      setMoney($('saveTax'), Math.round(contribution * rate));
+      const taxSaved = Math.round(contribution * rate);
+      setMoney($('saveTax'), taxSaved);
       $('saveTaxDetail').innerText = 'at a ' + Math.round(rate * 100) + '% tax rate';
       setMoney($('savePaycheck'), contribution / periods, true);
       $('savePaycheckDetail').innerText = periods + ' paychecks per year';
@@ -941,7 +1189,6 @@
       const discount = Math.round(hsaSpending * rate);
       setMoney($('spendAmount'), hsaSpending);
       setMoney($('spendDiscount'), discount);
-      setMoney($('spendNet'), hsaSpending - discount);
       updateTiles(rate);
 
       // ----- INVEST -----
@@ -957,32 +1204,38 @@
       }
 
       setMoney($('investLeftover'), leftover);
+      $('investAmt').innerText = money(leftover);
 
       if (leftover > 0) {
-        const totalOnce = leftover * Math.pow(1 + growth, years);
-        setMoney($('investEarn'), Math.round(totalOnce - leftover));
-        $('investEarnDetail').innerText = 'growth over ' + years + ' years at ' + Math.round(growth * 100) + '%';
+        const totalOnce = vOnce(leftover, growth, years);
+        const totalYearly = vEvery(leftover, growth, years);
         setMoney($('investTotal'), Math.round(totalOnce));
-        $('investTotalDetail').innerText = 'in ' + years + ' years';
-
-        const totalYearly = growth === 0
-          ? leftover * years
-          : leftover * ((Math.pow(1 + growth, years) - 1) / growth);
-        $('investRepeat').innerHTML = 'The chart shows the bigger story — repeat this every year and your HSA could hold <b>' +
-          money(Math.round(totalYearly)) + '</b> in ' + years + ' years.';
+        $('investTotalDetail').innerText = 'in ' + years + ' years at ' + Math.round(growth * 100) + '%';
+        setMoney($('investRepeatV'), Math.round(totalYearly));
+        $('investRepeatDetail').innerText = 'my HSA in ' + years + ' years';
       } else {
-        setMoney($('investEarn'), 0);
-        $('investEarnDetail').innerText = 'nothing invested yet';
         setMoney($('investTotal'), 0);
         $('investTotalDetail').innerText = 'in ' + years + ' years';
-        $('investRepeat').innerHTML = 'Contribute more than you spend to see what investing could earn you.';
+        setMoney($('investRepeatV'), 0);
+        $('investRepeatDetail').innerText = 'contribute more than you spend to start';
       }
 
       morphChart(leftover, years, growth);
+
+      // ----- Sticky summary -----
+      setMoney($('tbIn'), contribution);
+      setMoney($('tbSpend'), hsaSpending);
+      setMoney($('tbInvest'), leftover);
+      setMoney($('tbTax'), taxSaved);
+      const spendPct = contribution > 0 ? (hsaSpending / contribution) * 100 : 0;
+      const investPct = contribution > 0 ? (leftover / contribution) * 100 : 0;
+      $('fbSpend').style.width = spendPct + '%';
+      $('fbInvest').style.width = investPct + '%';
     }
 
     refresh();
-    window.addEventListener('resize', () => renderChart(chartPts));
+    updateNav();
+    window.addEventListener('resize', () => renderChart());
   </script>
 </body>
 </html>
