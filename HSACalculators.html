@@ -241,6 +241,7 @@
       font-variant-numeric: tabular-nums;
       gap: 1rem;
     }
+    .range-ends b { color: var(--ink); }
     .linklike {
       font-size: 0.85rem;
       color: var(--teal-dark);
@@ -254,39 +255,59 @@
     }
     .linklike:hover { text-decoration: underline; }
 
-    /* Payoff banner */
-    .payoff {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      background: linear-gradient(150deg, var(--teal-dark), var(--teal));
-      color: #fff;
-      border-radius: 14px;
-      padding: 1.25rem 1.5rem;
+    /* ---------- Stat grid ---------- */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
-    .payoff .v {
-      font-size: 1.9rem;
+    .stats.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 680px) {
+      .stats, .stats.cols-2 { grid-template-columns: 1fr; }
+    }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.15rem 1.2rem;
+    }
+    .stat.featured {
+      background: linear-gradient(150deg, var(--teal-dark), var(--teal));
+      border: none;
+      color: #fff;
+    }
+    .stat .k {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat.featured .k { color: rgba(255,255,255,0.85); }
+    .stat .v {
+      font-size: 1.8rem;
       font-weight: 750;
       letter-spacing: -0.02em;
+      color: var(--purple);
       font-variant-numeric: tabular-nums;
-      white-space: nowrap;
     }
-    .payoff .d {
-      font-size: 0.92rem;
-      line-height: 1.45;
-      color: rgba(255,255,255,0.9);
+    .stat.featured .v { color: #fff; }
+    .stat .d {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      line-height: 1.4;
     }
+    .stat.featured .d { color: rgba(255,255,255,0.85); }
 
-    /* Secondary stat line */
-    .stat-line {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 2rem;
-      margin-top: 1.1rem;
+    /* One-line takeaway under stats */
+    .takeaway {
+      margin-top: 1rem;
       font-size: 0.9rem;
       color: var(--muted);
+      line-height: 1.5;
     }
-    .stat-line b { color: var(--purple); font-variant-numeric: tabular-nums; }
+    .takeaway b { color: var(--purple); font-variant-numeric: tabular-nums; }
 
     /* ---------- Connector ---------- */
     .connector {
@@ -363,18 +384,18 @@
     <section class="card">
       <div class="step-tag">Save</div>
       <h2>How much could you save?</h2>
-      <p class="hint">Every dollar you put in skips federal taxes. Set your contribution and see what stays in your pocket.</p>
+      <p class="hint">Contributions come out of your paycheck before taxes.</p>
 
       <div class="two-col">
         <div class="field">
-          <span class="field-label">Who does your health plan cover?</span>
+          <span class="field-label">My health plan covers</span>
           <div class="segment">
             <button class="on" onclick="setCoverage('self', this)">Just me</button>
             <button onclick="setCoverage('family', this)">My family</button>
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Are you 55 or older this year?</span>
+          <span class="field-label">I am 55 or older</span>
           <div class="segment">
             <button class="on" onclick="setCatchup(false, this)">No</button>
             <button onclick="setCatchup(true, this)">Yes</button>
@@ -384,38 +405,41 @@
 
       <div class="dial">
         <div class="dial-top">
-          <span class="dial-label">Your contribution this year</span>
+          <span class="dial-label">My contribution this year</span>
           <span class="dial-value" id="saveValue">$4,400</span>
         </div>
         <input type="range" id="saveDial" min="0" max="4400" step="50" value="4400" oninput="saveDialMoved()" />
         <div class="range-ends">
           <span>$0</span>
-          <span style="text-align:right">My 2026 max<br/><b id="saveMax">$4,400</b></span>
+          <span style="text-align:right">My limit: <b id="saveMax">$4,400</b></span>
         </div>
-        <button class="linklike" onclick="saveToMax()">Set to my max</button>
+        <button class="linklike" onclick="saveToMax()">Set to my limit</button>
       </div>
 
-      <div class="payoff">
-        <div class="v" id="saveTax">$968</div>
-        <div class="d" id="saveTaxDetail">less in taxes this year, just for contributing</div>
-      </div>
-
-      <div class="stat-line">
-        <div>That is <b id="savePaycheck">$169.23</b> from each paycheck</div>
-        <div>Worth <b id="saveTake">$132</b> more than the same amount in a regular account</div>
+      <div class="stats cols-2">
+        <div class="stat featured">
+          <div class="k">Tax savings this year</div>
+          <div class="v" id="saveTax">$968</div>
+          <div class="d" id="saveTaxDetail">at a 22% tax rate</div>
+        </div>
+        <div class="stat">
+          <div class="k">Cost per paycheck</div>
+          <div class="v" id="savePaycheck">$169.23</div>
+          <div class="d" id="savePaycheckDetail">26 paychecks per year</div>
+        </div>
       </div>
     </section>
 
     <div class="connector">
       <div class="line"></div>
-      <div>You are putting in <strong id="connectorSave">$4,400</strong> this year. Now, how much of it will you spend on care?</div>
+      <div>You are contributing <strong id="connectorSave">$4,400</strong></div>
     </div>
 
     <!-- SPEND -->
     <section class="card">
       <div class="step-tag">Spend</div>
       <h2>How much will you spend on care?</h2>
-      <p class="hint">Paying for care with pre-tax dollars means every bill effectively costs you less. Pick the year that sounds like yours.</p>
+      <p class="hint">Pick the year that sounds like yours, or enter your own number.</p>
 
       <div class="field">
         <div class="chips" id="spendChips">
@@ -439,40 +463,61 @@
       </div>
 
       <div class="field" id="customSpendField" style="display:none">
-        <label class="field-label" for="customSpend">Your expected costs</label>
+        <label class="field-label" for="customSpend">My expected costs</label>
         <input type="number" id="customSpend" min="0" placeholder="e.g. 2000" oninput="refresh()" />
       </div>
 
-      <div class="payoff">
-        <div class="v" id="spendDiscount">$330</div>
-        <div class="d" id="spendDiscountDetail">off your care this year — paying through your HSA is like a 22% discount</div>
-      </div>
-
-      <div class="stat-line">
-        <div><b id="spendAmount">$1,500</b> of care costs you only <b id="spendNet">$1,170</b> in real money</div>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">My care costs</div>
+          <div class="v" id="spendAmount">$1,500</div>
+          <div class="d">paid from my HSA</div>
+        </div>
+        <div class="stat featured">
+          <div class="k">Tax savings on care</div>
+          <div class="v" id="spendDiscount">$330</div>
+          <div class="d" id="spendDiscountDetail">because I paid pre-tax</div>
+        </div>
+        <div class="stat">
+          <div class="k">True cost to me</div>
+          <div class="v" id="spendNet">$1,170</div>
+          <div class="d">after tax savings</div>
+        </div>
       </div>
     </section>
 
     <div class="connector">
       <div class="line"></div>
-      <div id="connectorInvest">That leaves <strong>$2,900</strong> unspent. Here is what it could do.</div>
+      <div id="connectorInvest">You have <strong>$2,900</strong> left unspent</div>
     </div>
 
     <!-- INVEST -->
     <section class="card">
       <div class="step-tag">Invest</div>
       <h2>How much could you earn?</h2>
-      <p class="hint">Whatever you do not spend stays yours, and you can invest it. The growth is never taxed when used for care.</p>
+      <p class="hint">Unspent money stays yours and can be invested. Growth is never taxed when used for care.</p>
 
-      <div class="payoff">
-        <div class="v" id="investEarn">$0</div>
-        <div class="d" id="investEarnDetail">earned in growth, on top of what you put in</div>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Left to invest</div>
+          <div class="v" id="investLeftover">$2,900</div>
+          <div class="d">unspent this year</div>
+        </div>
+        <div class="stat featured">
+          <div class="k">Earnings</div>
+          <div class="v" id="investEarn">$4,795</div>
+          <div class="d" id="investEarnDetail">growth over 20 years at 5%</div>
+        </div>
+        <div class="stat">
+          <div class="k">Total value</div>
+          <div class="v" id="investTotal">$7,695</div>
+          <div class="d" id="investTotalDetail">in 20 years</div>
+        </div>
       </div>
 
-      <div class="stat-line">
-        <div>Keep it up and your HSA could hold <b id="investTotal">$0</b> in <b id="investYearsLabel">20 years</b></div>
-        <div>You put in <b id="investPrincipal">$0</b> — the rest is earnings</div>
-      </div>
+      <p class="takeaway" id="investRepeat">
+        Do this every year and your HSA could hold <b>$95,890</b> in 20 years.
+      </p>
 
       <div class="assumptions">
         <div class="assumption">
@@ -516,9 +561,8 @@
     <p class="footnote">
       Estimates for planning purposes only — not tax, investment, or legal advice.
       2026 IRS contribution limits: $4,400 for self-only coverage, $8,750 for family
-      coverage, plus a $1,000 catch-up if you are 55 or older. Investment figures
-      assume you contribute and leave the unspent amount invested every year for the
-      period shown. Investment returns are not guaranteed. State tax treatment varies.
+      coverage, plus a $1,000 catch-up if you are 55 or older. Investment returns
+      are not guaranteed. State tax treatment varies.
     </p>
   </main>
 
@@ -530,7 +574,7 @@
     let coverage = 'self';
     let catchup = false;
     let presetSpend = 1500;   // null when "I know my number" is selected
-    let saveAtMax = true;     // keep the dial pinned to max until the user moves it
+    let saveAtMax = true;     // keep the dial pinned to the limit until the user moves it
 
     const $ = id => document.getElementById(id);
 
@@ -603,9 +647,9 @@
       $('saveValue').innerText = money(contribution);
       $('saveMax').innerText = money(max);
       $('saveTax').innerText = money(Math.round(contribution * rate));
-      $('saveTaxDetail').innerText = 'less in taxes this year, just for contributing';
+      $('saveTaxDetail').innerText = 'at a ' + Math.round(rate * 100) + '% tax rate';
       $('savePaycheck').innerText = money(contribution / periods, true);
-      $('saveTake').innerText = money(Math.round(contribution * rate));
+      $('savePaycheckDetail').innerText = periods + ' paychecks per year';
       $('connectorSave').innerText = money(contribution);
 
       // ----- SPEND -----
@@ -614,37 +658,40 @@
       const discount = Math.round(hsaSpending * rate);
       $('spendAmount').innerText = money(hsaSpending);
       $('spendDiscount').innerText = money(discount);
-      $('spendDiscountDetail').innerText =
-        'off your care this year — paying through your HSA is like a ' +
-        Math.round(rate * 100) + '% discount';
       $('spendNet').innerText = money(hsaSpending - discount);
 
       // ----- INVEST -----
       const leftover = Math.max(contribution - spending, 0);
       const connector = $('connectorInvest');
       if (leftover > 0) {
-        connector.innerHTML = 'That leaves <strong>' + money(leftover) + '</strong> unspent. Here is what it could do.';
+        connector.innerHTML = 'You have <strong>' + money(leftover) + '</strong> left unspent';
       } else if (spending > contribution) {
-        connector.innerHTML = 'Your expected care (' + money(spending) + ') is more than your contribution — consider contributing more so every bill gets the discount.';
+        connector.innerHTML = 'Your care costs more than you are contributing — contribute more so every bill gets the tax savings';
       } else {
-        connector.innerHTML = 'Nothing left over this year — contribute above your spending to start investing.';
+        connector.innerHTML = 'Nothing left over — contribute more than you spend to start investing';
       }
 
+      $('investLeftover').innerText = money(leftover);
+
       if (leftover > 0) {
-        // Contribute the leftover every year for N years
-        const total = leftover * ((Math.pow(1 + growth, years) - 1) / growth);
-        const principal = leftover * years;
-        $('investEarn').innerText = money(Math.round(total - principal));
-        $('investEarnDetail').innerText = 'earned in growth, on top of what you put in';
-        $('investTotal').innerText = money(Math.round(total));
-        $('investPrincipal').innerText = money(principal);
+        // This year's leftover, invested once and left to grow
+        const totalOnce = leftover * Math.pow(1 + growth, years);
+        $('investEarn').innerText = money(Math.round(totalOnce - leftover));
+        $('investEarnDetail').innerText = 'growth over ' + years + ' years at ' + Math.round(growth * 100) + '%';
+        $('investTotal').innerText = money(Math.round(totalOnce));
+        $('investTotalDetail').innerText = 'in ' + years + ' years';
+
+        // The same leftover contributed every year
+        const totalYearly = leftover * ((Math.pow(1 + growth, years) - 1) / growth);
+        $('investRepeat').innerHTML = 'Do this every year and your HSA could hold <b>' +
+          money(Math.round(totalYearly)) + '</b> in ' + years + ' years.';
       } else {
         $('investEarn').innerText = '$0';
-        $('investEarnDetail').innerText = 'contribute more than you spend, and this number starts working for you';
+        $('investEarnDetail').innerText = 'nothing invested yet';
         $('investTotal').innerText = '$0';
-        $('investPrincipal').innerText = '$0';
+        $('investTotalDetail').innerText = 'in ' + years + ' years';
+        $('investRepeat').innerHTML = 'Contribute more than you spend to see what investing could earn you.';
       }
-      $('investYearsLabel').innerText = years + ' years';
     }
 
     refresh();
