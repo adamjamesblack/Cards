@@ -114,21 +114,13 @@
     .reveal.in { opacity: 1; transform: none; }
 
     /* ================= Hero ================= */
-    .hero { padding: 6.5rem 0 5rem; }
-    .hero .kicker {
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--teal-dark);
-      margin-bottom: 1.4rem;
-    }
+    .hero { padding: 4rem 0 2.5rem; }
     .hero h1 {
-      font-size: clamp(2.6rem, 8vw, 5rem);
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
       font-weight: 800;
       letter-spacing: -0.035em;
       line-height: 1.02;
-      max-width: 14ch;
+      max-width: 18ch;
     }
     .hero h1 .grad {
       background: linear-gradient(100deg, var(--teal-dark), var(--teal) 60%, #57d8d6);
@@ -137,22 +129,22 @@
       color: transparent;
     }
     .hero p {
-      margin-top: 1.6rem;
-      font-size: 1.15rem;
+      margin-top: 0.9rem;
+      font-size: 1.05rem;
       color: var(--muted);
       max-width: 44ch;
       line-height: 1.6;
     }
 
     /* ================= Sections ================= */
-    section.block { padding: 4.5rem 0 5rem; }
+    section.block { padding: 2.6rem 0 3rem; }
     .sect-head {
       display: flex;
       align-items: baseline;
       gap: 1.1rem;
       border-top: 1px solid var(--hairline);
-      padding-top: 1.6rem;
-      margin-bottom: 2.6rem;
+      padding-top: 1.2rem;
+      margin-bottom: 1.5rem;
     }
     .sect-head .n {
       font-size: 0.9rem;
@@ -181,8 +173,8 @@
 
     /* ================= Mad-lib sentence controls ================= */
     .madlib {
-      font-size: clamp(1.25rem, 3vw, 1.7rem);
-      line-height: 2.1;
+      font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+      line-height: 1.95;
       font-weight: 500;
       color: var(--ink);
       max-width: 40ch;
@@ -227,7 +219,7 @@
     .msel:focus { outline: none; }
 
     /* ================= Big amount + slider ================= */
-    .amount-block { margin: 3.2rem 0 2.6rem; }
+    .amount-block { margin: 1.7rem 0 1.4rem; }
     .amount-block .lbl {
       font-size: 0.85rem;
       font-weight: 700;
@@ -236,7 +228,7 @@
       color: var(--muted);
     }
     .amount {
-      font-size: clamp(3.2rem, 11vw, 6rem);
+      font-size: clamp(2.4rem, 7vw, 4rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.05;
@@ -249,7 +241,7 @@
     input[type="range"] {
       --p: 100%;
       width: 100%;
-      margin: 1.6rem 0 0.7rem;
+      margin: 1rem 0 0.55rem;
       appearance: none;
       -webkit-appearance: none;
       height: 3px;
@@ -292,7 +284,7 @@
       border: none;
       font-family: inherit;
       padding: 0;
-      margin-top: 1rem;
+      margin-top: 0.6rem;
     }
     .linklike:hover { text-decoration: underline; }
 
@@ -300,8 +292,8 @@
     .statrow {
       display: flex;
       flex-wrap: wrap;
-      gap: 2.5rem 4rem;
-      margin-top: 2.8rem;
+      gap: 1.6rem 3rem;
+      margin-top: 1.7rem;
     }
     .stat { min-width: 150px; }
     .stat .k {
@@ -313,7 +305,7 @@
       margin-bottom: 0.5rem;
     }
     .stat .v {
-      font-size: clamp(2rem, 5vw, 2.7rem);
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--ink);
@@ -327,8 +319,8 @@
       margin-top: 0.35rem;
     }
     .soft-note {
-      margin-top: 2.2rem;
-      font-size: 1.02rem;
+      margin-top: 1.3rem;
+      font-size: 0.95rem;
       color: var(--muted);
       line-height: 1.65;
       max-width: 50ch;
@@ -339,9 +331,9 @@
     .spend-grid {
       display: grid;
       grid-template-columns: 5fr 4fr;
-      gap: 2.5rem 3.5rem;
+      gap: 1.8rem 2.6rem;
       align-items: start;
-      margin-top: 2.2rem;
+      margin-top: 1.2rem;
     }
     @media (max-width: 760px) { .spend-grid { grid-template-columns: 1fr; } }
 
@@ -352,7 +344,7 @@
       border: none;
       cursor: pointer;
       text-align: left;
-      padding: 0.7rem 0;
+      padding: 0.5rem 0;
       border-bottom: 1px solid var(--hairline);
       display: flex;
       align-items: baseline;
@@ -497,7 +489,7 @@
 
     /* ================= Marquee catalog (full bleed) ================= */
     .marquee-head {
-      margin: 3.2rem 0 0.4rem;
+      margin: 1.6rem 0 0.2rem;
       font-size: 1.05rem;
       font-weight: 700;
     }
@@ -517,9 +509,9 @@
     }
     .m-row {
       display: flex;
-      gap: 2.6rem;
+      gap: 2.2rem;
       width: max-content;
-      padding: 1.4rem 0 1rem;
+      padding: 0.9rem 0 0.7rem;
       animation: scrollL 60s linear infinite;
     }
     .m-row.rev { animation: scrollR 70s linear infinite; }
@@ -529,7 +521,7 @@
 
     .tile {
       position: relative;
-      width: 122px;
+      width: 112px;
       text-align: center;
       flex-shrink: 0;
       cursor: pointer;
@@ -549,7 +541,7 @@
       transition: opacity 0.3s ease;
     }
     .tile .emoji {
-      font-size: 2.7rem;
+      font-size: 2.35rem;
       line-height: 1;
       display: block;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -629,8 +621,8 @@
         radial-gradient(500px 380px at 5% 100%, rgba(0, 200, 5, 0.05), transparent 60%),
         #0b0b10;
       color: #f2f2f5;
-      margin-top: 4rem;
-      padding: 5rem 0 5.5rem;
+      margin-top: 2rem;
+      padding: 2.8rem 0 3.2rem;
     }
     .dark-band .sect-head { border-top: none; padding-top: 0; }
     .dark-band .sect-head .n { color: var(--green); }
@@ -641,10 +633,15 @@
 
     .chart-wrap {
       position: relative;
-      margin: 3rem 0 0;
+      margin: 1.5rem 0 0;
       padding-bottom: 1.9rem;
     }
-    .chart-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .chart-wrap svg {
+      width: 100%;
+      height: clamp(160px, 28vh, 240px);
+      display: block;
+      overflow: visible;
+    }
     .chart-end {
       position: absolute;
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
@@ -731,7 +728,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem 2rem;
-      margin-top: 1.6rem;
+      margin-top: 0.9rem;
       font-size: 0.85rem;
       color: #9a96a8;
     }
@@ -746,7 +743,7 @@
     }
     .legend .sw.dash { border-top: 2.5px dashed #8b8799; }
 
-    .dark-band .statrow { margin-top: 3rem; }
+    .dark-band .statrow { margin-top: 1.7rem; }
     .dark-band .stat .k { color: #8b8799; }
     .dark-band .stat .v { color: #fff; }
     .dark-band .stat.hot .v {
@@ -762,7 +759,7 @@
       line-height: 1.7;
       max-width: 620px;
       margin: 0 auto;
-      padding: 3.5rem 1.5rem 4rem;
+      padding: 2.2rem 1.5rem 2.6rem;
       text-align: center;
     }
 
@@ -797,7 +794,6 @@
   </nav>
 
   <header class="hero container">
-    <div class="kicker">Save &middot; Spend &middot; Invest</div>
     <h1>Make your HSA <span class="grad">work harder</span></h1>
     <p>Your HSA does three jobs. Scroll through to see what each one is worth to you this year.</p>
   </header>
@@ -947,7 +943,7 @@
   </div>
 
   <div class="container reveal">
-    <div style="padding: 2.5rem 0 0; color: var(--muted); font-size: 0.95rem;" id="connectorInvest">
+    <div style="padding: 1.4rem 0 0; color: var(--muted); font-size: 0.95rem;" id="connectorInvest">
       You have <strong style="color: var(--purple);">$2,922</strong> left unspent — here is what it could do.
     </div>
   </div>
