@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HSA Planner</title>
+  <title>HSA Planner — Save, Spend, Invest</title>
   <style>
     :root {
       --purple: #512c62;
@@ -42,10 +42,25 @@
       margin-top: 0.6rem;
       font-size: 1.05rem;
       color: rgba(255, 255, 255, 0.78);
-      max-width: 520px;
+      max-width: 540px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.5;
+    }
+    .hero .pillars {
+      display: inline-flex;
+      gap: 0.5rem;
+      margin-top: 1.4rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .hero .pillars span {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
     }
 
     .wrap {
@@ -65,9 +80,9 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--teal-dark);
       margin-bottom: 0.5rem;
@@ -135,7 +150,7 @@
       box-shadow: 0 2px 8px rgba(81, 44, 98, 0.18);
     }
 
-    /* Need preset chips */
+    /* Preset chips */
     .chips {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -188,32 +203,13 @@
       box-shadow: 0 0 0 3px rgba(0, 177, 175, 0.15);
     }
 
-    /* ---------- Connector ---------- */
-    .connector {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.4rem 0 1.1rem;
-      color: var(--muted);
-      font-size: 0.92rem;
-      text-align: center;
-    }
-    .connector .line {
-      width: 2px;
-      height: 26px;
-      background: linear-gradient(var(--teal), rgba(0,177,175,0.15));
-      border-radius: 2px;
-      margin-bottom: 0.55rem;
-    }
-    .connector strong { color: var(--purple); font-variant-numeric: tabular-nums; }
-
-    /* ---------- Step 2: could save ---------- */
+    /* Slider panel */
     .dial {
       background: linear-gradient(160deg, #faf8fc, #f1ecf6);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 1.6rem 1.5rem 1.4rem;
-      margin-bottom: 1.6rem;
+      padding: 1.5rem 1.5rem 1.3rem;
+      margin-bottom: 1.5rem;
     }
     .dial-top {
       display: flex;
@@ -224,7 +220,7 @@
     }
     .dial-label { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
     .dial-value {
-      font-size: clamp(2rem, 6vw, 2.7rem);
+      font-size: clamp(1.9rem, 5.5vw, 2.5rem);
       font-weight: 750;
       letter-spacing: -0.03em;
       color: var(--purple);
@@ -232,7 +228,7 @@
     }
     input[type="range"] {
       width: 100%;
-      margin: 1.1rem 0 0.5rem;
+      margin: 1rem 0 0.5rem;
       accent-color: var(--teal);
       cursor: pointer;
       height: 6px;
@@ -245,12 +241,6 @@
       font-variant-numeric: tabular-nums;
       gap: 1rem;
     }
-    .range-ends b { color: var(--ink); }
-    .dial-actions {
-      display: flex;
-      gap: 1.2rem;
-      margin-top: 0.9rem;
-    }
     .linklike {
       font-size: 0.85rem;
       color: var(--teal-dark);
@@ -260,67 +250,70 @@
       border: none;
       font-family: inherit;
       padding: 0;
+      margin-top: 0.8rem;
     }
     .linklike:hover { text-decoration: underline; }
-    .dial-note {
-      margin-top: 0.8rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.5;
-      min-height: 1.3em;
-    }
-    .dial-note b { color: var(--teal-dark); }
 
-    /* Payoff stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    @media (max-width: 680px) {
-      .stats { grid-template-columns: 1fr; }
-    }
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 1.2rem 1.1rem;
-    }
-    .stat.featured {
+    /* Payoff banner */
+    .payoff {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
       background: linear-gradient(150deg, var(--teal-dark), var(--teal));
-      border: none;
       color: #fff;
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
     }
-    .stat .k {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 0.35rem;
-    }
-    .stat.featured .k { color: rgba(255,255,255,0.85); }
-    .stat .v {
-      font-size: 1.7rem;
+    .payoff .v {
+      font-size: 1.9rem;
       font-weight: 750;
       letter-spacing: -0.02em;
-      color: var(--purple);
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
-    .stat.featured .v { color: #fff; }
-    .stat .d {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
+    .payoff .d {
+      font-size: 0.92rem;
       line-height: 1.45;
-      min-height: 2.2em;
+      color: rgba(255,255,255,0.9);
     }
-    .stat.featured .d { color: rgba(255,255,255,0.85); }
+
+    /* Secondary stat line */
+    .stat-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      margin-top: 1.1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .stat-line b { color: var(--purple); font-variant-numeric: tabular-nums; }
+
+    /* ---------- Connector ---------- */
+    .connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.3rem 0 1rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+    .connector .line {
+      width: 2px;
+      height: 24px;
+      background: linear-gradient(var(--teal), rgba(0,177,175,0.15));
+      border-radius: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .connector strong { color: var(--purple); font-variant-numeric: tabular-nums; }
 
     /* Assumption controls */
     .assumptions {
       display: flex;
       flex-wrap: wrap;
       gap: 0.7rem 1.6rem;
-      margin-top: 1.5rem;
-      padding-top: 1.3rem;
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
       border-top: 1px solid var(--line);
     }
     .assumption {
@@ -359,43 +352,18 @@
 <body>
 
   <header class="hero">
-    <h1>How much should go in your HSA?</h1>
-    <p>Two questions answer it: how much you will need for care this year, and how much you could save by putting in more.</p>
+    <h1>Make your HSA work harder</h1>
+    <p>Your HSA does three jobs. See what each one is worth to you this year.</p>
+    <div class="pillars"><span>Save</span><span>Spend</span><span>Invest</span></div>
   </header>
 
   <main class="wrap">
 
-    <!-- Step 1: what you'll need -->
+    <!-- SAVE -->
     <section class="card">
-      <div class="step-tag">Step 1</div>
-      <h2>What will you need this year?</h2>
-      <p class="hint">Pick the year that sounds most like yours, or enter your own number — your deductible is a good starting point.</p>
-
-      <div class="field">
-        <div class="chips" id="needChips">
-          <button class="chip" onclick="setNeed(500, this)">
-            <strong>Mostly healthy</strong>
-            <span>Checkups and the occasional visit — about $500</span>
-          </button>
-          <button class="chip on" onclick="setNeed(1500, this)">
-            <strong>A few visits and prescriptions</strong>
-            <span>Typical year for most people — about $1,500</span>
-          </button>
-          <button class="chip" onclick="setNeed(3000, this)">
-            <strong>Managing a condition</strong>
-            <span>Regular care and medications — about $3,000</span>
-          </button>
-          <button class="chip" onclick="setNeed(null, this)">
-            <strong>I know my number</strong>
-            <span>Enter your deductible or expected costs</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="field" id="customNeedField" style="display:none">
-        <label class="field-label" for="customNeed">Your expected costs</label>
-        <input type="number" id="customNeed" min="0" placeholder="e.g. 2000" oninput="refresh()" />
-      </div>
+      <div class="step-tag">Save</div>
+      <h2>How much could you save?</h2>
+      <p class="hint">Every dollar you put in skips federal taxes. Set your contribution and see what stays in your pocket.</p>
 
       <div class="two-col">
         <div class="field">
@@ -413,52 +381,97 @@
           </div>
         </div>
       </div>
+
+      <div class="dial">
+        <div class="dial-top">
+          <span class="dial-label">Your contribution this year</span>
+          <span class="dial-value" id="saveValue">$4,400</span>
+        </div>
+        <input type="range" id="saveDial" min="0" max="4400" step="50" value="4400" oninput="saveDialMoved()" />
+        <div class="range-ends">
+          <span>$0</span>
+          <span style="text-align:right">My 2026 max<br/><b id="saveMax">$4,400</b></span>
+        </div>
+        <button class="linklike" onclick="saveToMax()">Set to my max</button>
+      </div>
+
+      <div class="payoff">
+        <div class="v" id="saveTax">$968</div>
+        <div class="d" id="saveTaxDetail">less in taxes this year, just for contributing</div>
+      </div>
+
+      <div class="stat-line">
+        <div>That is <b id="savePaycheck">$169.23</b> from each paycheck</div>
+        <div>Worth <b id="saveTake">$132</b> more than the same amount in a regular account</div>
+      </div>
     </section>
 
     <div class="connector">
       <div class="line"></div>
-      <div>To cover <strong id="connectorNeed">$1,500</strong> of care, set aside <strong id="connectorPaycheck">$57.69</strong> per paycheck</div>
+      <div>You are putting in <strong id="connectorSave">$4,400</strong> this year. Now, how much of it will you spend on care?</div>
     </div>
 
-    <!-- Step 2: what you could save -->
+    <!-- SPEND -->
     <section class="card">
-      <div class="step-tag">Step 2</div>
-      <h2>What could you save?</h2>
-      <p class="hint">Every dollar you contribute skips taxes. Slide past what you need and watch what the extra does for you.</p>
+      <div class="step-tag">Spend</div>
+      <h2>How much will you spend on care?</h2>
+      <p class="hint">Paying for care with pre-tax dollars means every bill effectively costs you less. Pick the year that sounds like yours.</p>
 
-      <div class="dial">
-        <div class="dial-top">
-          <span class="dial-label">Your yearly contribution</span>
-          <span class="dial-value" id="dialValue">$1,500</span>
+      <div class="field">
+        <div class="chips" id="spendChips">
+          <button class="chip" onclick="setSpend(500, this)">
+            <strong>Mostly healthy</strong>
+            <span>Checkups and the occasional visit — about $500</span>
+          </button>
+          <button class="chip on" onclick="setSpend(1500, this)">
+            <strong>A few visits and prescriptions</strong>
+            <span>Typical year for most people — about $1,500</span>
+          </button>
+          <button class="chip" onclick="setSpend(3000, this)">
+            <strong>Managing a condition</strong>
+            <span>Regular care and medications — about $3,000</span>
+          </button>
+          <button class="chip" onclick="setSpend(null, this)">
+            <strong>I know my number</strong>
+            <span>Enter your deductible or expected costs</span>
+          </button>
         </div>
-        <input type="range" id="dial" min="1500" max="4400" step="50" value="1500" oninput="refresh()" />
-        <div class="range-ends">
-          <span>What I need<br/><b id="rangeNeed">$1,500</b></span>
-          <span style="text-align:right">My 2026 max<br/><b id="rangeMax">$4,400</b></span>
-        </div>
-        <div class="dial-actions">
-          <button class="linklike" onclick="dialTo('need')">Just what I need</button>
-          <button class="linklike" onclick="dialTo('max')">Go to my max</button>
-        </div>
-        <div class="dial-note" id="dialNote"></div>
       </div>
 
-      <div class="stats">
-        <div class="stat featured">
-          <div class="k">You pay less in taxes</div>
-          <div class="v" id="taxResult">$330</div>
-          <div class="d" id="taxDetail">kept this year instead of paid in taxes</div>
-        </div>
-        <div class="stat">
-          <div class="k">From each paycheck</div>
-          <div class="v" id="paycheckResult">$57.69</div>
-          <div class="d" id="paycheckDetail">over 26 paychecks</div>
-        </div>
-        <div class="stat">
-          <div class="k">The extra, grown</div>
-          <div class="v" id="growthResult">$0</div>
-          <div class="d" id="growthDetail">Slide past your need to see what the extra could become.</div>
-        </div>
+      <div class="field" id="customSpendField" style="display:none">
+        <label class="field-label" for="customSpend">Your expected costs</label>
+        <input type="number" id="customSpend" min="0" placeholder="e.g. 2000" oninput="refresh()" />
+      </div>
+
+      <div class="payoff">
+        <div class="v" id="spendDiscount">$330</div>
+        <div class="d" id="spendDiscountDetail">off your care this year — paying through your HSA is like a 22% discount</div>
+      </div>
+
+      <div class="stat-line">
+        <div><b id="spendAmount">$1,500</b> of care costs you only <b id="spendNet">$1,170</b> in real money</div>
+      </div>
+    </section>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div id="connectorInvest">That leaves <strong>$2,900</strong> unspent. Here is what it could do.</div>
+    </div>
+
+    <!-- INVEST -->
+    <section class="card">
+      <div class="step-tag">Invest</div>
+      <h2>How much could you earn?</h2>
+      <p class="hint">Whatever you do not spend stays yours, and you can invest it. The growth is never taxed when used for care.</p>
+
+      <div class="payoff">
+        <div class="v" id="investEarn">$0</div>
+        <div class="d" id="investEarnDetail">earned in growth, on top of what you put in</div>
+      </div>
+
+      <div class="stat-line">
+        <div>Keep it up and your HSA could hold <b id="investTotal">$0</b> in <b id="investYearsLabel">20 years</b></div>
+        <div>You put in <b id="investPrincipal">$0</b> — the rest is earnings</div>
       </div>
 
       <div class="assumptions">
@@ -482,7 +495,7 @@
           </select>
         </div>
         <div class="assumption">
-          <span>Grown for</span>
+          <span>Invested for</span>
           <select id="years" onchange="refresh()">
             <option value="10">10 years</option>
             <option value="20" selected>20 years</option>
@@ -503,9 +516,9 @@
     <p class="footnote">
       Estimates for planning purposes only — not tax, investment, or legal advice.
       2026 IRS contribution limits: $4,400 for self-only coverage, $8,750 for family
-      coverage, plus a $1,000 catch-up if you are 55 or older. "The extra, grown"
-      assumes you contribute the amount above your need every year for the period
-      shown. Investment returns are not guaranteed.
+      coverage, plus a $1,000 catch-up if you are 55 or older. Investment figures
+      assume you contribute and leave the unspent amount invested every year for the
+      period shown. Investment returns are not guaranteed. State tax treatment varies.
     </p>
   </main>
 
@@ -516,8 +529,8 @@
 
     let coverage = 'self';
     let catchup = false;
-    let presetNeed = 1500;      // null when "I know my number" is selected
-    let dialAtMax = false;      // remember intent when the limit changes
+    let presetSpend = 1500;   // null when "I know my number" is selected
+    let saveAtMax = true;     // keep the dial pinned to max until the user moves it
 
     const $ = id => document.getElementById(id);
 
@@ -537,26 +550,6 @@
       return LIMITS[coverage] + (catchup ? CATCH_UP : 0);
     }
 
-    function need() {
-      const raw = presetNeed === null
-        ? Math.max(parseFloat($('customNeed').value) || 0, 0)
-        : presetNeed;
-      return Math.min(raw, limit());
-    }
-
-    function setNeed(value, btn) {
-      presetNeed = value;
-      segChips(btn);
-      $('customNeedField').style.display = value === null ? '' : 'none';
-      if (value === null) $('customNeed').focus();
-      snapDialToNeed();
-    }
-
-    function segChips(btn) {
-      document.querySelectorAll('#needChips .chip').forEach(c => c.classList.remove('on'));
-      btn.classList.add('on');
-    }
-
     function setCoverage(value, btn) {
       coverage = value;
       segSelect(btn);
@@ -569,75 +562,89 @@
       refresh();
     }
 
-    function dialTo(where) {
-      dialAtMax = where === 'max';
-      $('dial').value = where === 'max' ? limit() : need();
+    function saveDialMoved() {
+      saveAtMax = parseFloat($('saveDial').value) >= limit();
       refresh();
     }
 
-    function snapDialToNeed() {
-      dialAtMax = false;
-      $('dial').value = need();
+    function saveToMax() {
+      saveAtMax = true;
       refresh();
+    }
+
+    function setSpend(value, btn) {
+      presetSpend = value;
+      document.querySelectorAll('#spendChips .chip').forEach(c => c.classList.remove('on'));
+      btn.classList.add('on');
+      $('customSpendField').style.display = value === null ? '' : 'none';
+      if (value === null) $('customSpend').focus();
+      refresh();
+    }
+
+    function spend() {
+      return presetSpend === null
+        ? Math.max(parseFloat($('customSpend').value) || 0, 0)
+        : presetSpend;
     }
 
     function refresh() {
-      const dial = $('dial');
-      const min = need();
+      const dial = $('saveDial');
       const max = limit();
-
-      // Re-bound the dial; keep the user's position where possible.
-      const prev = parseFloat(dial.value) || min;
-      dialAtMax = dialAtMax || prev >= parseFloat(dial.max);
-      dial.min = min;
       dial.max = max;
-      dial.value = dialAtMax ? max : Math.min(Math.max(prev, min), max);
-      if (parseFloat(dial.value) < parseFloat(dial.max)) dialAtMax = false;
+      if (saveAtMax || parseFloat(dial.value) > max) dial.value = max;
 
-      const amount = parseFloat(dial.value);
-      const extra = amount - min;
+      const contribution = parseFloat(dial.value) || 0;
       const rate = parseFloat($('taxRate').value) / 100;
       const periods = parseInt($('payFreq').value, 10);
       const years = parseInt($('years').value, 10);
       const growth = parseFloat($('growthRate').value) / 100;
 
-      // Step 1 connector — the "need" plan
-      $('connectorNeed').innerText = money(min);
-      $('connectorPaycheck').innerText = money(min / periods, true);
+      // ----- SAVE -----
+      $('saveValue').innerText = money(contribution);
+      $('saveMax').innerText = money(max);
+      $('saveTax').innerText = money(Math.round(contribution * rate));
+      $('saveTaxDetail').innerText = 'less in taxes this year, just for contributing';
+      $('savePaycheck').innerText = money(contribution / periods, true);
+      $('saveTake').innerText = money(Math.round(contribution * rate));
+      $('connectorSave').innerText = money(contribution);
 
-      // Dial
-      $('dialValue').innerText = money(amount);
-      $('rangeNeed').innerText = money(min);
-      $('rangeMax').innerText = money(max);
-      if (extra <= 0) {
-        $('dialNote').innerText = 'This covers your expected care. Anything above it is savings that stays yours.';
-      } else if (amount >= max) {
-        $('dialNote').innerHTML = 'You are at your limit — <b>' + money(Math.round(extra * rate)) +
-          '</b> more in tax savings than covering costs alone.';
+      // ----- SPEND -----
+      const spending = spend();
+      const hsaSpending = Math.min(spending, contribution);
+      const discount = Math.round(hsaSpending * rate);
+      $('spendAmount').innerText = money(hsaSpending);
+      $('spendDiscount').innerText = money(discount);
+      $('spendDiscountDetail').innerText =
+        'off your care this year — paying through your HSA is like a ' +
+        Math.round(rate * 100) + '% discount';
+      $('spendNet').innerText = money(hsaSpending - discount);
+
+      // ----- INVEST -----
+      const leftover = Math.max(contribution - spending, 0);
+      const connector = $('connectorInvest');
+      if (leftover > 0) {
+        connector.innerHTML = 'That leaves <strong>' + money(leftover) + '</strong> unspent. Here is what it could do.';
+      } else if (spending > contribution) {
+        connector.innerHTML = 'Your expected care (' + money(spending) + ') is more than your contribution — consider contributing more so every bill gets the discount.';
       } else {
-        $('dialNote').innerHTML = 'The extra ' + money(extra) + ' saves you <b>' +
-          money(Math.round(extra * rate)) + '</b> more in taxes than covering costs alone.';
+        connector.innerHTML = 'Nothing left over this year — contribute above your spending to start investing.';
       }
 
-      // Tax savings
-      $('taxResult').innerText = money(Math.round(amount * rate));
-      $('taxDetail').innerText = 'kept this year instead of paid in taxes, at a ' + Math.round(rate * 100) + '% rate';
-
-      // Per paycheck
-      $('paycheckResult').innerText = money(amount / periods, true);
-      $('paycheckDetail').innerText = 'over ' + periods + ' paychecks';
-
-      // The extra, grown — contribute the surplus every year for N years
-      if (extra <= 0) {
-        $('growthResult').innerText = '$0';
-        $('growthDetail').innerText = 'Slide past your need to see what the extra could become.';
+      if (leftover > 0) {
+        // Contribute the leftover every year for N years
+        const total = leftover * ((Math.pow(1 + growth, years) - 1) / growth);
+        const principal = leftover * years;
+        $('investEarn').innerText = money(Math.round(total - principal));
+        $('investEarnDetail').innerText = 'earned in growth, on top of what you put in';
+        $('investTotal').innerText = money(Math.round(total));
+        $('investPrincipal').innerText = money(principal);
       } else {
-        const future = extra * ((Math.pow(1 + growth, years) - 1) / growth);
-        const putIn = extra * years;
-        $('growthResult').innerText = money(Math.round(future));
-        $('growthDetail').innerText = 'if you keep saving the extra ' + money(extra) +
-          ' yearly for ' + years + ' years — you put in ' + money(putIn);
+        $('investEarn').innerText = '$0';
+        $('investEarnDetail').innerText = 'contribute more than you spend, and this number starts working for you';
+        $('investTotal').innerText = '$0';
+        $('investPrincipal').innerText = '$0';
       }
+      $('investYearsLabel').innerText = years + ' years';
     }
 
     refresh();
