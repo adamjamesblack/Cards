@@ -1,0 +1,66 @@
+/* ============================================================
+   HealthEquity — Color tokens
+   Source: HealthEquity Brand Style Guide (March 2026)
+   Rule from the guide: use approved colors only at full value.
+   Do NOT use tints, shades, or transparencies of brand colors.
+   Let one color carry emphasis per layout. Purple anchors everything.
+   ============================================================ */
+
+:root {
+  /* ---- Primary palette (use at full value only) ---- */
+  --hqy-purple:        #4F2883;  /* HealthEquity Purple — the anchor (from PPTX theme) */
+  --hqy-dark-purple:   #300E6E;  /* Dark Purple */
+  --hqy-light-purple:  #C04CFF;  /* Light Purple — accent / highlight */
+  --hqy-teal:          #008093;  /* Teal */
+  --hqy-cyan:          #33E3FF;  /* Cyan — bright accent */
+
+  /* ---- Neutrals — only three grayscale values: white, light gray, black ---- */
+  --hqy-white:         #FFFFFF;
+  --hqy-black:         #000000;
+  --hqy-gray:          #F2F3F4;  /* light gray — surfaces, dividers, hairlines */
+
+  /* ---- Approved gradients (do not modify angle or stops) ---- */
+  /* Hero — purple → blue → cyan, used on title / full-bleed moments */
+  --hqy-gradient-hero: linear-gradient(105deg, #4F2984 0%, #4051B5 52%, #33A7DC 100%);  /* @kind color */
+  /* Gradient 1 — purple → blue */
+  --hqy-gradient-1:    linear-gradient(120deg, #4F2984 0%, #3F4FC0 55%, #2E83E8 100%);  /* @kind color */
+  /* Gradient 2 — purple → deep ink */
+  --hqy-gradient-2:    linear-gradient(140deg, #6B2D9E 0%, #2A1147 60%, #140A22 100%);  /* @kind color */
+  /* Gradient 3 — purple → dark purple */
+  --hqy-gradient-3:    linear-gradient(160deg, #7B2FB5 0%, #4F2984 50%, #310E6E 100%);  /* @kind color */
+  /* Gradient 4 — light purple → lavender blue */
+  --hqy-gradient-4:    linear-gradient(120deg, #C04CFF 0%, #A57BF2 55%, #8FA6EE 100%);  /* @kind color */
+  /* Wayfinder fill — directional chevron */
+  --hqy-gradient-wayfinder: linear-gradient(90deg, #310E6E 0%, #6E3FD4 55%, #33C7FF 100%);  /* @kind color */
+
+  /* ============================================================
+     Semantic aliases — reference these in components
+     ============================================================ */
+  --color-brand:           var(--hqy-purple);
+  --color-brand-deep:      var(--hqy-dark-purple);
+  --color-accent:          var(--hqy-light-purple);
+  --color-accent-cyan:     var(--hqy-cyan);
+  --color-accent-teal:     var(--hqy-teal);
+
+  --surface-page:          var(--hqy-white);
+  --surface-muted:         var(--hqy-gray);
+  --surface-brand:         var(--hqy-purple);
+  --surface-inverse:       var(--hqy-black);
+
+  --text-primary:          var(--hqy-black);
+  --text-body:             var(--hqy-black);
+  --text-secondary:        var(--hqy-black);  /* hierarchy comes from size, not gray */
+  --text-on-brand:         var(--hqy-white);
+  --text-on-dark:          var(--hqy-white);
+
+  --border-subtle:         var(--hqy-gray);
+  --border-strong:         var(--hqy-gray);
+
+  /* Action — CTAs are black pills in the brand */
+  --action-bg:             var(--hqy-black);
+  --action-fg:             var(--hqy-white);
+  --action-brand-bg:       var(--hqy-purple);
+  --action-brand-fg:       var(--hqy-white);
+
+  --focus-ring:            var(--hqy-light-purple);
+}

@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/healthequity-design-system-4d73591f-6a5f-46cd-805e-43b30352302d/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/healthequity-design-system-4d73591f-6a5f-46cd-805e-43b30352302d/tokens/colors.css">
+<script src="_ds/healthequity-design-system-4d73591f-6a5f-46cd-805e-43b30352302d/_ds_bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#e9eaee;}
+  input,button,textarea{font-family:inherit;}
+  .msym{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased;}
+  .fld2{background:#fff;border:1.5px solid #F2F3F4;border-radius:12px;padding:12px 15px;font-size:14.5px;color:#000;width:100%;outline:none;transition:border-color .15s,box-shadow .15s;}
+  .fld2:focus{border-color:#4F2883;box-shadow:0 0 0 4px rgba(192,76,255,.18);}
+  .fld2::placeholder{color:#b9b9c2;}
+  .fgrp{border:1.5px solid #e6e6ee;border-radius:16px;background:#fff;overflow:hidden;transition:border-color .15s;}
+  .fgrp:focus-within{border-color:#4F2883;}
+  .fgrp > .frow + .frow{border-top:1px solid #F2F3F4;}
+  .frow{display:flex;flex-direction:column;gap:4px;padding:13px 18px;}
+  .flbl{font-size:11px;font-weight:600;letter-spacing:.01em;color:#000;opacity:.5;}
+  .finp{background:transparent;border:none;outline:none;width:100%;font-size:17px;font-weight:500;letter-spacing:-0.02em;color:#000;padding:0;font-family:inherit;}
+  .finp::placeholder{color:#c0c0cb;font-weight:400;}
+  .fnum{font-size:24px;font-weight:600;letter-spacing:-0.03em;}
+  .fnum2{font-size:18px;font-weight:600;letter-spacing:-0.02em;}
+  input[type=number].finp::-webkit-inner-spin-button,input[type=number].finp::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+  input[type=number].finp{-moz-appearance:textfield;appearance:textfield;}
+  .calbtn:not([disabled]):hover{box-shadow:inset 0 0 0 1.5px #4F2883;}
+  .gen-scroll::-webkit-scrollbar{width:10px;height:10px;}
+  .gen-scroll::-webkit-scrollbar-thumb{background:#cdcdd6;border-radius:8px;border:3px solid #e9eaee;}
+  .expbtn{transition:transform .12s ease, filter .15s ease;}
+  .expbtn:hover{filter:brightness(1.18);}
+  .expbtn:active{transform:scale(.98);}
+  .serif{font-family:'Libre Baskerville',Georgia,serif;font-style:italic;}
+  @keyframes hqspin{to{transform:rotate(360deg);}}
+  @keyframes hqpulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+</style>
+</helmet>
+
+<!-- ==================== SETUP (form-first) ==================== -->
+<sc-if value="{{ isSetup }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Setup" style="position:relative;min-height:100vh;width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:48px 32px;background:#2a1147;">
+  {{ setupBgImg }}
+  <div style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 460px;gap:72px;align-items:center;max-width:1100px;width:100%;">
+    <div style="color:#fff;">
+      <img src="assets/healthequity-white.svg" alt="HealthEquity" style="height:24px;width:auto;display:block;">
+      <h1 style="margin:34px 0 0;font-size:46px;line-height:1.02;letter-spacing:-0.04em;font-weight:500;">Let’s build your open enrollment experience.</h1>
+      <p style="margin:18px 0 0;font-size:16.5px;line-height:1.55;max-width:430px;">Tell us about your plan once — we’ll turn it into a full kit, customized to your company.</p>
+      <div style="display:flex;flex-direction:column;gap:15px;margin-top:34px;">
+        <div style="display:flex;align-items:center;gap:13px;"><span class="msym" style="font-size:22px;color:#33E3FF;">print</span><span style="font-size:15px;">Print-ready flyer and postcards</span></div>
+        <div style="display:flex;align-items:center;gap:13px;"><span class="msym" style="font-size:22px;color:#33E3FF;">tv</span><span style="font-size:15px;">Digital screen for offices and lobbies</span></div>
+        <div style="display:flex;align-items:center;gap:13px;"><span class="msym" style="font-size:22px;color:#33E3FF;">mail</span><span style="font-size:15px;">Announcement email and benefits guide copy</span></div>
+        <div style="display:flex;align-items:center;gap:13px;"><span class="msym" style="font-size:22px;color:#33E3FF;">language</span><span style="font-size:15px;">A live member landing page — published with one click</span></div>
+      </div>
+    </div>
+    <div style="background:#fff;border-radius:16px;padding:34px 32px 30px;box-shadow:0 30px 80px rgba(5,2,15,.45);">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="font-size:19px;font-weight:600;letter-spacing:-0.02em;">{{ stepTitle }}</div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="{{ stepDot1 }}"></span>
+          <span style="{{ stepDot2 }}"></span>
+        </div>
+      </div>
+      <div style="font-size:12px;margin-top:4px;color:#000;opacity:.5;">{{ stepCaption }}</div>
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div class="fgrp" style="margin-top:22px;">
+            <label class="frow">
+              <span class="flbl">Company name</span>
+              <input type="text" value="{{ companyName }}" onInput="{{ onCompanyName }}" placeholder="Northwind Traders" class="finp">
+            </label>
+            <label class="frow" style="flex-direction:row;align-items:center;gap:14px;cursor:pointer;">
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;">
+                <span class="flbl">{{ logoTitle }}</span>
+                <span style="font-size:13px;line-height:1.4;color:#000;opacity:.55;">{{ logoStatus }}</span>
+              </div>
+              <sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}">
+                <div style="width:46px;height:46px;border-radius:12px;background:#fff;border:1px solid #F2F3F4;display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;">{{ logoImgDrop }}</div>
+              </sc-if>
+              <sc-if value="{{ noLogo }}" hint-placeholder-val="{{ true }}">
+                <div style="width:46px;height:46px;border-radius:12px;background:#F2F3F4;display:flex;align-items:center;justify-content:center;flex:0 0 auto;"><span class="msym" style="font-size:22px;color:#4F2883;">add_photo_alternate</span></div>
+              </sc-if>
+              <input type="file" accept="image/*" onChange="{{ onLogoUpload }}" style="display:none;">
+            </label>
+          </div>
+          <button onClick="{{ onNext }}" class="expbtn" style="width:100%;margin-top:24px;display:flex;align-items:center;justify-content:center;gap:9px;background:#000;color:#fff;border:none;border-radius:999px;padding:15px 24px;font-size:15.5px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;">
+            Continue to plan details <span class="msym" style="font-size:19px;">arrow_forward</span>
+          </button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div class="fgrp" style="margin-top:22px;">
+            <label class="frow">
+              <span class="flbl">HSA-eligible plan name</span>
+              <input type="text" value="{{ planName }}" onInput="{{ onPlanName }}" placeholder="Anthem HDHP Bronze" class="finp">
+            </label>
+            <div class="frow" onClick="{{ onToggleCal }}" style="cursor:pointer;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+                  <span class="flbl">Enrollment window</span>
+                  <sc-if value="{{ hasOeRange }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:17px;font-weight:500;letter-spacing:-0.02em;">{{ oeRangeDisplay }}</span>
+                  </sc-if>
+                  <sc-if value="{{ noOeRange }}" hint-placeholder-val="{{ true }}">
+                    <span style="font-size:17px;font-weight:400;letter-spacing:-0.02em;color:#c0c0cb;">Add dates</span>
+                  </sc-if>
+                </div>
+                <span class="msym" style="font-size:20px;color:#4F2883;flex:0 0 auto;">{{ calChevron }}</span>
+              </div>
+            </div>
+            <sc-if value="{{ calOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:6px 14px 14px;border-top:1px solid #F2F3F4;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 4px 8px;">
+                  <button onClick="{{ onCalPrev }}" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:none;border-radius:999px;background:transparent;cursor:pointer;transition:background .12s;" style-hover="background:#F2F3F4;"><span class="msym" style="font-size:20px;">chevron_left</span></button>
+                  <div style="font-size:14px;font-weight:600;letter-spacing:-0.01em;">{{ calMonthLabel }}</div>
+                  <button onClick="{{ onCalNext }}" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:none;border-radius:999px;background:transparent;cursor:pointer;transition:background .12s;" style-hover="background:#F2F3F4;"><span class="msym" style="font-size:20px;">chevron_right</span></button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);">
+                  <sc-for list="{{ calDow }}" as="d" hint-placeholder-count="7">
+                    <div style="text-align:center;font-size:10.5px;font-weight:600;color:#000;opacity:.4;padding:2px 0 8px;">{{ d }}</div>
+                  </sc-for>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px;">
+                  <sc-for list="{{ calDays }}" as="day" hint-placeholder-count="31">
+                    <button onClick="{{ day.pick }}" disabled="{{ day.blank }}" class="calbtn" style="{{ day.style }}">{{ day.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+                  <button onClick="{{ onCalClear }}" style="border:none;background:transparent;font-size:12.5px;font-weight:600;letter-spacing:-0.01em;color:#000;opacity:.55;text-decoration:underline;cursor:pointer;padding:6px 4px;">Clear dates</button>
+                  <button onClick="{{ onCalDone }}" style="border:none;background:#000;color:#fff;border-radius:999px;padding:8px 20px;font-size:12.5px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;">Done</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <div class="fgrp" style="margin-top:14px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <label class="frow">
+                <span class="flbl">You contribute — individual</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:19px;font-weight:600;letter-spacing:-0.02em;color:#000;opacity:.35;">$</span>
+                  <input type="number" min="0" step="50" value="{{ contribInd }}" onInput="{{ onContribInd }}" placeholder="0" class="finp fnum">
+                </div>
+              </label>
+              <label class="frow" style="border-left:1px solid #F2F3F4;">
+                <span class="flbl">Family</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:19px;font-weight:600;letter-spacing:-0.02em;color:#000;opacity:.35;">$</span>
+                  <input type="number" min="0" step="50" value="{{ contribFam }}" onInput="{{ onContribFam }}" placeholder="0" class="finp fnum">
+                </div>
+              </label>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <div style="font-size:12.5px;font-weight:600;letter-spacing:-0.01em;">Plan comparison <span style="font-weight:400;opacity:.5;">— optional</span></div>
+            <div style="font-size:11.5px;margin-top:3px;line-height:1.4;color:#000;opacity:.55;">Adds real numbers to the side-by-side comparison on your member landing page.</div>
+          </div>
+          <div class="fgrp" style="margin-top:10px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <label class="frow">
+                <span class="flbl">HSA premium / month</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:15px;font-weight:600;letter-spacing:-0.02em;color:#000;opacity:.35;">$</span>
+                  <input type="number" min="0" step="5" value="{{ hsaPremium }}" onInput="{{ onHsaPremium }}" placeholder="0" class="finp fnum2">
+                </div>
+              </label>
+              <label class="frow" style="border-left:1px solid #F2F3F4;">
+                <span class="flbl">Traditional premium / month</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:15px;font-weight:600;letter-spacing:-0.02em;color:#000;opacity:.35;">$</span>
+                  <input type="number" min="0" step="5" value="{{ tradPremium }}" onInput="{{ onTradPremium }}" placeholder="0" class="finp fnum2">
+                </div>
+              </label>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #F2F3F4;">
+              <label class="frow">
+                <span class="flbl">HSA deductible / year</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:15px;font-weight:600;letter-spacing:-0.02em;color:#000;opacity:.35;">$</span>
+                  <input type="number" min="0" step="100" value="{{ hsaDeduct }}" onInput="{{ onHsaDeduct }}" placeholder="0" class="finp fnum2">
+                </div>
+              </label>
+              <label class="frow" style="border-left:1px solid #F2F3F4;">
+                <span class="flbl">Traditional deductible / year</span>
+                <div style="display:flex;align-items:baseline;gap:3px;">
+                  <span style="font-size:15px;font-weight:600;letter-spacing:-0.02em;color:#000;opacity:.35;">$</span>
+                  <input type="number" min="0" step="100" value="{{ tradDeduct }}" onInput="{{ onTradDeduct }}" placeholder="0" class="finp fnum2">
+                </div>
+              </label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:24px;">
+            <button onClick="{{ onBack }}" style="display:flex;align-items:center;justify-content:center;gap:7px;background:#fff;color:#000;border:1.5px solid #e3e3ea;border-radius:999px;padding:15px 20px;font-size:14px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;transition:border-color .15s,color .15s;" style-hover="border-color:#4F2883;color:#4F2883;">
+              <span class="msym" style="font-size:18px;">arrow_back</span> Back
+            </button>
+            <button onClick="{{ onBuild }}" class="expbtn" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;background:#000;color:#fff;border:none;border-radius:999px;padding:15px 24px;font-size:15.5px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;">
+              {{ buildLabel }} <span class="msym" style="font-size:19px;">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </sc-if>
+      <div style="text-align:center;font-size:11.5px;margin-top:12px;color:#000;opacity:.5;">Everything stays editable — you can come back anytime.</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ==================== KIT WORKSPACE ==================== -->
+<sc-if value="{{ isKit }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Kit" style="display:flex;flex-direction:column;height:100vh;width:100%;overflow:hidden;">
+
+  <!-- top bar -->
+  <header style="flex:0 0 auto;display:flex;align-items:center;gap:16px;padding:0 24px;height:62px;background:#fff;border-bottom:1px solid #e3e3ea;">
+    <img src="assets/healthequity-purple.svg" alt="HealthEquity" style="height:19px;width:auto;display:block;">
+    <div style="width:1px;height:26px;background:#F2F3F4;"></div>
+    <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+      <sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}">{{ logoImgSmall }}</sc-if>
+      <div style="min-width:0;">
+        <div style="font-size:14px;font-weight:600;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ coDisplay }}</div>
+        <div style="font-size:11.5px;color:#000;opacity:.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ summaryLine }}</div>
+      </div>
+    </div>
+    <button onClick="{{ onEdit }}" style="display:flex;align-items:center;gap:6px;border:1.5px solid #e3e3ea;background:#fff;border-radius:999px;padding:8px 15px;font-size:12.5px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;transition:border-color .15s;" style-hover="border-color:#4F2883;color:#4F2883;">
+      <span class="msym" style="font-size:16px;">edit</span> Edit details
+    </button>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
+      <sc-if value="{{ isLiveBadge }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#4F2883;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#33E3FF;animation:hqpulse 2s ease-in-out infinite;"></span> Page is live
+        </div>
+      </sc-if>
+      <sc-if value="{{ showAction }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ onAction }}" class="expbtn" style="display:flex;align-items:center;gap:8px;background:#000;color:#fff;border:none;border-radius:999px;padding:11px 21px;font-size:13.5px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;white-space:nowrap;">
+          <span class="msym" style="font-size:18px;">{{ actionIcon }}</span>{{ actionLabel }}
+        </button>
+      </sc-if>
+    </div>
+  </header>
+
+  <div style="flex:1;display:flex;min-height:0;">
+
+    <!-- material rail -->
+    <aside class="gen-scroll" style="flex:0 0 232px;background:#fff;border-right:1px solid #e3e3ea;overflow-y:auto;padding:18px 14px;">
+      <div style="margin-bottom:20px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.02em;color:#000;opacity:.45;padding:0 12px 8px;">Language</div>
+        <div style="position:relative;display:flex;align-items:center;">
+          <span class="msym" style="position:absolute;left:13px;font-size:16px;color:#4F2883;pointer-events:none;">translate</span>
+          <select value="{{ lang }}" onChange="{{ onLangChange }}" style="width:100%;appearance:none;-webkit-appearance:none;border:1.5px solid #e3e3ea;background:#fff;border-radius:999px;padding:8px 32px 8px 37px;font-size:12.5px;font-weight:600;letter-spacing:-0.01em;color:#000;cursor:pointer;font-family:inherit;outline:none;">
+            <sc-for list="{{ langOpts }}" as="lo" hint-placeholder-count="4">
+              <option value="{{ lo.code }}">{{ lo.label }}</option>
+            </sc-for>
+          </select>
+          <span class="msym" style="position:absolute;right:11px;font-size:16px;color:#000;opacity:.5;pointer-events:none;">expand_more</span>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.02em;color:#000;opacity:.45;padding:0 12px 8px;">Print</div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div style="{{ navFlyerWrap }}"><button onClick="{{ onNavFlyer }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;"><span class="msym" style="font-size:19px;">description</span><span style="flex:1;text-align:left;">HSA flyer</span></button></div>
+          <div style="{{ navChooseWrap }}"><button onClick="{{ onNavChoose }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;"><span class="msym" style="font-size:19px;">local_post_office</span><span style="flex:1;text-align:left;">Choose HSA postcard</span></button></div>
+          <div style="{{ navHelloWrap }}"><button onClick="{{ onNavHello }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;"><span class="msym" style="font-size:19px;">waving_hand</span><span style="flex:1;text-align:left;">Hello HSA postcard</span></button></div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.02em;color:#000;opacity:.45;padding:0 12px 8px;">Digital</div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div style="{{ navScreenWrap }}"><button onClick="{{ onNavScreen }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;"><span class="msym" style="font-size:19px;">tv</span><span style="flex:1;text-align:left;">Digital screen</span></button></div>
+          <div style="{{ navEmailWrap }}"><button onClick="{{ onNavEmail }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;"><span class="msym" style="font-size:19px;">mail</span><span style="flex:1;text-align:left;">Announcement email</span></button></div>
+          <div style="{{ navBlurbWrap }}"><button onClick="{{ onNavBlurb }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;"><span class="msym" style="font-size:19px;">menu_book</span><span style="flex:1;text-align:left;">Benefits guide copy</span></button></div>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.02em;color:#000;opacity:.45;padding:0 12px 8px;">Web</div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div style="{{ navLandingWrap }}"><button onClick="{{ onNavLanding }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:10px;font-size:13.5px;letter-spacing:-0.01em;cursor:pointer;background:transparent;color:inherit;font-weight:inherit;">
+            <span class="msym" style="font-size:19px;">language</span>
+            <span style="flex:1;text-align:left;">Member landing page</span>
+            <sc-if value="{{ pageLiveDot }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;border-radius:50%;background:#33E3FF;"></span></sc-if>
+          </button></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- preview pane -->
+    <main class="gen-scroll" style="flex:1;overflow:auto;padding:36px 40px 60px;display:flex;justify-content:center;align-items:flex-start;background:#e9eaee;">
+
+      <!-- VISUAL materials (scaled) -->
+      <sc-if value="{{ isVisual }}" hint-placeholder-val="{{ true }}">
+        <div id="previewScaleWrap" style="transform-origin:top left;">
+
+          <!-- ===== FLYER ===== -->
+          <sc-if value="{{ isFlyer }}" hint-placeholder-val="{{ true }}">
+            <div id="flyer" style="width:816px;height:1056px;background:#fff;position:relative;overflow:hidden;font-family:'Inter',sans-serif;color:#000;box-shadow:0 10px 40px rgba(20,10,40,.12);">
+              <div style="position:absolute;top:0;left:0;width:300px;height:104px;background:#4F2883;display:flex;align-items:center;padding-left:70px;">
+                <img src="assets/healthequity-white.svg" alt="HealthEquity" style="height:30px;width:auto;display:block;">
+              </div>
+              <div style="position:absolute;top:30px;right:54px;height:54px;display:flex;align-items:center;justify-content:flex-end;max-width:230px;">
+                {{ logoImgTop }}
+                <sc-if value="{{ showCompanyText }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:#000;text-align:right;line-height:1.12;">{{ companyName }}</div>
+                </sc-if>
+              </div>
+              <div style="position:absolute;left:70px;top:130px;width:394px;display:flex;flex-direction:column;">
+                <h1 style="{{ flyerTitleStyle }}">{{ tFlyerTitle }}</h1>
+                <p style="margin:18px 0 0;font-size:13.5px;line-height:1.52;color:#000;">{{ tFlyerIntroA }}<sup style="font-size:8px;top:-5px;position:relative;">1</sup> {{ tFlyerIntroB }}</p>
+                <div style="display:flex;flex-direction:column;gap:11px;margin-top:20px;">
+                  <div style="display:flex;align-items:center;gap:11px;">
+                    <span class="msym" style="font-size:21px;color:#4F2883;flex:0 0 auto;">check_circle</span>
+                    <span style="font-size:13.5px;line-height:1.3;color:#000;">{{ tFlyerCheck1 }}</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:11px;">
+                    <span class="msym" style="font-size:21px;color:#4F2883;flex:0 0 auto;">check_circle</span>
+                    <span style="font-size:13.5px;line-height:1.3;color:#000;">{{ tFlyerCheck2 }}<sup style="font-size:8px;top:-5px;position:relative;">2</sup></span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:11px;">
+                    <span class="msym" style="font-size:21px;color:#4F2883;flex:0 0 auto;">check_circle</span>
+                    <span style="font-size:13.5px;line-height:1.3;color:#000;">{{ tFlyerCheck3 }}</span>
+                  </div>
+                </div>
+                <div style="text-align:center;margin-top:26px;">
+                  <div style="font-size:25px;line-height:1.18;letter-spacing:-0.02em;color:#000;">{{ tLessTax1 }}<br>{{ tLessTax2 }}</div>
+                  <div style="font-size:12.5px;margin-top:12px;color:#000;">{{ tSave30 }}<sup style="font-size:8px;top:-4px;position:relative;">3</sup></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:13px;margin-top:22px;">
+                  <div style="display:flex;align-items:center;gap:16px;">
+                    <div style="width:62px;font-size:13.5px;color:#000;flex:0 0 auto;">HSA</div>
+                    <div style="flex:1;height:34px;border-radius:999px;background:linear-gradient(90deg,#C04CFF 0%,#7E2FCB 100%);display:flex;align-items:center;justify-content:center;">
+                      <span style="color:#fff;font-weight:700;font-size:13.5px;">{{ tTaxFree }}</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:16px;">
+                    <div style="width:62px;font-size:13.5px;color:#000;flex:0 0 auto;">{{ tNoHsa }}</div>
+                    <div style="flex:1;height:34px;border-radius:999px;background:#F2F3F4;display:flex;align-items:center;position:relative;">
+                      <div style="width:60%;height:100%;border-radius:999px;background:linear-gradient(90deg,#C04CFF 0%,#7E2FCB 100%);"></div>
+                      <span style="position:absolute;left:79%;transform:translateX(-50%);font-size:13.5px;color:#000;">{{ tTaxed }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:#F2F3F4;border-radius:16px;padding:18px 20px;text-align:center;margin-top:24px;">
+                  <div style="font-size:18px;letter-spacing:-0.01em;color:#000;margin-bottom:13px;">{{ tLimitsTitle }}</div>
+                  <div style="display:flex;align-items:center;justify-content:center;">
+                    <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;">
+                      <span class="msym" style="font-size:30px;color:#C04CFF;font-variation-settings:'FILL' 1;">person</span>
+                      <div style="text-align:left;"><div style="font-size:23px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#000;">$4,500</div><div style="font-size:12px;margin-top:3px;color:#000;">{{ tIndPlan }}</div></div>
+                    </div>
+                    <div style="width:1px;height:42px;background:#d7d5dd;"></div>
+                    <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;">
+                      <span class="msym" style="font-size:30px;color:#C04CFF;font-variation-settings:'FILL' 1;">family_restroom</span>
+                      <div style="text-align:left;"><div style="font-size:23px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#000;">$9,000</div><div style="font-size:12px;margin-top:3px;color:#000;">{{ tFamPlan }}</div></div>
+                    </div>
+                  </div>
+                  <div style="font-size:12px;margin-top:13px;color:#000;">{{ tCatchUp }}</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:20px;margin-top:26px;">
+                  {{ learnQrImg }}
+                  <div>
+                    <div style="font-size:21px;font-weight:700;line-height:1.12;letter-spacing:-0.02em;color:#000;">{{ tSeeSave1 }}<br>{{ tSeeSave2 }}</div>
+                    <div style="font-size:14.5px;margin-top:9px;color:#000;">{{ companyUrl }}</div>
+                  </div>
+                </div>
+              </div>
+              <div style="position:absolute;left:498px;top:108px;width:278px;height:826px;background:#F2F3F4;border-radius:18px;padding:30px 28px;display:flex;flex-direction:column;gap:20px;">
+                <div>
+                  <div style="font-size:17px;font-weight:700;line-height:1.22;letter-spacing:-0.01em;color:#000;">{{ tScanApp }}</div>
+                  <div style="display:flex;gap:15px;margin-top:16px;align-items:flex-start;">
+                    <div style="width:88px;height:150px;border:3px solid #111;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;position:relative;">
+                      <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:26px;height:4px;border-radius:3px;background:#ddd;"></div>
+                      <div style="width:54px;height:54px;border-radius:13px;background:#4F2883;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.02;">
+                        <span style="color:#fff;font-size:10px;font-weight:400;">Health</span>
+                        <span style="color:#fff;font-size:10px;font-weight:700;">Equity</span>
+                      </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                      {{ appQrImg }}
+                      <p style="margin:0;font-size:12px;line-height:1.4;color:#000;">{{ tAppNote }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:17px;font-weight:700;line-height:1.22;letter-spacing:-0.01em;color:#000;">{{ tSpendTitle }}</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;margin-top:13px;font-size:13px;color:#000;">
+                    <div>•&nbsp; {{ tMedical }}</div>
+                    <div>•&nbsp; {{ tVision }}</div>
+                    <div>•&nbsp; {{ tDental }}</div>
+                    <div>•&nbsp; {{ tRx }}</div>
+                  </div>
+                  <div style="font-size:12.5px;margin-top:13px;color:#000;"><strong style="font-weight:700;">{{ tDiscover }}</strong> HealthEquity.com/QME</div>
+                </div>
+                <sc-if value="{{ showPlan }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+                      <span class="msym" style="font-size:18px;color:#4F2883;font-variation-settings:'FILL' 1;">health_and_safety</span>
+                      <span style="font-size:12px;font-weight:700;letter-spacing:.01em;color:#4F2883;">{{ tEligiblePlan }}</span>
+                    </div>
+                    <div style="font-size:18px;font-weight:700;letter-spacing:-0.02em;line-height:1.18;color:#000;">{{ planName }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ showOE }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+                      <span class="msym" style="font-size:18px;color:#4F2883;font-variation-settings:'FILL' 1;">event_available</span>
+                      <span style="font-size:12px;font-weight:700;letter-spacing:.01em;color:#4F2883;">{{ tOpenEnrollment }}</span>
+                    </div>
+                    <div style="font-size:20px;font-weight:700;letter-spacing:-0.025em;line-height:1.12;color:#000;">{{ oeDisplay }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ showContrib }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px;">
+                      <span class="msym" style="font-size:18px;color:#4F2883;font-variation-settings:'FILL' 1;">volunteer_activism</span>
+                      <span style="font-size:12px;font-weight:700;letter-spacing:.01em;color:#4F2883;">{{ tEmployerContrib }}</span>
+                    </div>
+                    <div style="display:flex;gap:16px;">
+                      <sc-if value="{{ showContribInd }}" hint-placeholder-val="{{ false }}">
+                        <div style="flex:1;">
+                          <div style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#000;">{{ contribIndDisplay }}</div>
+                          <div style="font-size:11.5px;margin-top:3px;color:#000;">{{ tIndPlan }}</div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ showContribFam }}" hint-placeholder-val="{{ false }}">
+                        <div style="flex:1;">
+                          <div style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#000;">{{ contribFamDisplay }}</div>
+                          <div style="font-size:11.5px;margin-top:3px;color:#000;">{{ tFamPlan }}</div>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:absolute;left:70px;right:40px;bottom:22px;">
+                <div style="width:34px;height:3px;background:#4F2883;margin-bottom:11px;"></div>
+                <p style="margin:0 0 6px;font-size:7.6px;line-height:1.45;color:#000;">{{ tFlyerFootnotes }}</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#000;">
+                  <span>{{ tFlyerCopyright }}</span>
+                  <span>HSASTDFLYCST27</span>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ===== CHOOSE HSA POSTCARD ===== -->
+          <sc-if value="{{ isChoose }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:28px;">
+              <div id="choose-front" style="width:816px;height:528px;position:relative;overflow:hidden;font-family:'Inter',sans-serif;color:#fff;box-shadow:0 10px 40px rgba(20,10,40,.12);">
+                {{ gradImgA }}
+                <div style="position:absolute;top:40px;left:48px;z-index:2;">{{ pcLogoChip }}</div>
+                <div style="position:absolute;left:48px;top:168px;z-index:2;width:660px;">
+                  <h1 style="{{ chooseHeadStyle }}">{{ tChooseHead }}</h1>
+                  <p style="margin:22px 0 0;font-size:32px;line-height:1.1;letter-spacing:-0.02em;color:#fff;">{{ tTagPre }}<span class="serif">{{ tTagSerif }}</span>{{ tTagPost }}</p>
+                </div>
+                <div style="position:absolute;left:48px;bottom:38px;z-index:2;">
+                  <img src="assets/healthequity-white.svg" alt="HealthEquity" style="height:22px;width:auto;display:block;margin-bottom:12px;">
+                  <sc-if value="{{ showOE }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:14px;font-weight:500;letter-spacing:-0.01em;color:#fff;opacity:.95;margin-bottom:4px;">{{ tEnrollment }}&nbsp; |&nbsp; {{ oeDisplay }}</div>
+                  </sc-if>
+                  <div style="font-size:18px;letter-spacing:-0.01em;color:#fff;">{{ effectiveUrl }}</div>
+                </div>
+              </div>
+              <div id="choose-back" style="width:816px;height:528px;position:relative;overflow:hidden;background:#fff;font-family:'Inter',sans-serif;color:#000;box-shadow:0 10px 40px rgba(20,10,40,.12);">
+                {{ postcardBack }}
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ===== HELLO HSA POSTCARD ===== -->
+          <sc-if value="{{ isHello }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:28px;">
+              <div id="hello-front" style="width:816px;height:528px;position:relative;overflow:hidden;font-family:'Inter',sans-serif;color:#fff;box-shadow:0 10px 40px rgba(20,10,40,.12);">
+                {{ gradImgB }}
+                <div style="position:absolute;top:40px;left:48px;z-index:2;">{{ pcLogoChip2 }}</div>
+                <div style="position:absolute;left:48px;top:120px;z-index:2;width:700px;">
+                  <h1 style="{{ helloHeadStyle }}">{{ tHello1 }}<br>{{ tHello2 }}</h1>
+                  <p style="margin:22px 0 0;font-size:24px;line-height:1.28;letter-spacing:-0.015em;color:#fff;max-width:560px;">{{ tHelloPre }}<span class="serif">{{ tHelloSerif1 }}</span>{{ tHelloMid }}<span class="serif">{{ tHelloSerif2 }}</span>{{ tHelloPost }}</p>
+                </div>
+                <div style="position:absolute;left:48px;bottom:38px;z-index:2;">
+                  <img src="assets/healthequity-white.svg" alt="HealthEquity" style="height:22px;width:auto;display:block;margin-bottom:12px;">
+                  <sc-if value="{{ showOE }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:14px;font-weight:500;letter-spacing:-0.01em;color:#fff;opacity:.95;margin-bottom:4px;">{{ tEnrollment }}&nbsp; |&nbsp; {{ oeDisplay }}</div>
+                  </sc-if>
+                  <div style="font-size:18px;letter-spacing:-0.01em;color:#fff;">{{ effectiveUrl }}</div>
+                </div>
+              </div>
+              <div id="hello-back" style="width:816px;height:528px;position:relative;overflow:hidden;background:#fff;font-family:'Inter',sans-serif;color:#000;box-shadow:0 10px 40px rgba(20,10,40,.12);">
+                {{ postcardBack2 }}
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ===== DIGITAL SCREEN ===== -->
+          <sc-if value="{{ isScreen }}" hint-placeholder-val="{{ false }}">
+            <div id="screen" style="width:1920px;height:1080px;position:relative;overflow:hidden;font-family:'Inter',sans-serif;color:#fff;box-shadow:0 10px 40px rgba(20,10,40,.12);">
+              {{ gradImgScreen }}
+              <div style="position:absolute;top:84px;left:96px;z-index:2;">{{ pcLogoChipS }}</div>
+              <img src="assets/healthequity-white.svg" alt="HealthEquity" style="position:absolute;top:96px;right:96px;height:46px;width:auto;z-index:2;">
+              <div style="position:absolute;left:96px;top:284px;z-index:2;width:1200px;">
+                <h1 style="{{ screenHeadStyle }}">{{ tChooseHead }}</h1>
+                <p style="margin:30px 0 0;font-size:50px;line-height:1.08;letter-spacing:-0.02em;color:#fff;">{{ tTagPre }}<span class="serif">{{ tTagSerif }}</span>{{ tTagPost }}</p>
+                <div style="display:flex;flex-direction:column;gap:24px;margin-top:52px;">
+                  <div style="display:flex;align-items:center;gap:20px;"><span class="msym" style="font-size:46px;color:#33E3FF;font-variation-settings:'FILL' 1;flex:0 0 auto;">check_circle</span><span style="font-size:36px;line-height:1.1;color:#fff;">{{ tCheckContrib }}</span></div>
+                  <div style="display:flex;align-items:center;gap:20px;"><span class="msym" style="font-size:46px;color:#33E3FF;font-variation-settings:'FILL' 1;flex:0 0 auto;">check_circle</span><span style="font-size:36px;line-height:1.1;color:#fff;">{{ tCheckInvest }}</span></div>
+                  <div style="display:flex;align-items:center;gap:20px;"><span class="msym" style="font-size:46px;color:#33E3FF;font-variation-settings:'FILL' 1;flex:0 0 auto;">check_circle</span><span style="font-size:36px;line-height:1.1;color:#fff;">{{ tCheckSpend }}</span></div>
+                </div>
+              </div>
+              <div style="position:absolute;right:96px;top:336px;z-index:2;width:360px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+                <div style="font-size:34px;font-weight:700;letter-spacing:-0.015em;line-height:1.12;color:#fff;margin-bottom:24px;">{{ tSeeSave1 }}<br>{{ tSeeSave2 }}</div>
+                <div style="background:#fff;border-radius:24px;padding:26px;">{{ screenQrImg }}</div>
+                <div style="font-size:28px;letter-spacing:-0.01em;color:#fff;margin-top:22px;word-break:break-word;">{{ effectiveUrl }}</div>
+              </div>
+              <div style="position:absolute;left:96px;right:96px;bottom:120px;z-index:2;display:flex;gap:72px;align-items:flex-end;">
+                <sc-if value="{{ showPlan }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="font-size:23px;font-weight:600;letter-spacing:.02em;color:#33E3FF;margin-bottom:8px;">{{ tEligiblePlan }}</div>
+                    <div style="font-size:40px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff;">{{ planName }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ showOE }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="font-size:23px;font-weight:600;letter-spacing:.02em;color:#33E3FF;margin-bottom:8px;">{{ tOpenEnrollment }}</div>
+                    <div style="font-size:40px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff;">{{ oeDisplay }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ showContrib }}" hint-placeholder-val="{{ false }}">
+                  <div>
+                    <div style="font-size:23px;font-weight:600;letter-spacing:.02em;color:#33E3FF;margin-bottom:8px;">{{ tEmployerContrib }}</div>
+                    <div style="display:flex;gap:48px;">
+                      <sc-if value="{{ showContribInd }}" hint-placeholder-val="{{ false }}">
+                        <div>
+                          <div style="font-size:40px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;">{{ contribIndDisplay }}</div>
+                          <div style="font-size:22px;color:#fff;opacity:.85;margin-top:5px;">{{ tIndPlan }}</div>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ showContribFam }}" hint-placeholder-val="{{ false }}">
+                        <div>
+                          <div style="font-size:40px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:#fff;">{{ contribFamDisplay }}</div>
+                          <div style="font-size:22px;color:#fff;opacity:.85;margin-top:5px;">{{ tFamPlan }}</div>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="position:absolute;left:96px;right:96px;bottom:56px;z-index:2;font-size:17px;color:#fff;opacity:.8;">Better save, spend, and invest for health.&nbsp;&nbsp;|&nbsp;&nbsp;{{ tScreenLegal }}</div>
+            </div>
+          </sc-if>
+
+        </div>
+      </sc-if>
+
+      <!-- TEXT materials -->
+      <sc-if value="{{ isText }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:700px;">
+          <div style="background:#fff;border-radius:16px;box-shadow:0 1px 2px rgba(20,10,40,.05),0 10px 30px rgba(20,10,40,.07);padding:40px 44px 46px;">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:22px;">
+              <span class="msym" style="font-size:20px;color:#4F2883;font-variation-settings:'FILL' 1;">{{ textIcon }}</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.02em;color:#4F2883;">{{ textKicker }}</span>
+            </div>
+            <sc-if value="{{ isEmail }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#F2F3F4;border-radius:11px;padding:13px 16px;margin-bottom:20px;">
+                <div style="font-size:11px;font-weight:600;color:#000;opacity:.5;margin-bottom:4px;">Subject line</div>
+                <div style="font-size:16px;font-weight:600;letter-spacing:-0.01em;color:#000;">{{ emailSubject }}</div>
+              </div>
+            </sc-if>
+            <h2 style="margin:0 0 16px;font-size:24px;font-weight:600;letter-spacing:-0.02em;line-height:1.15;color:#000;">{{ textHeading }}</h2>
+            <div style="white-space:pre-wrap;font-size:15px;line-height:1.62;color:#000;">{{ textBody }}</div>
+          </div>
+          <div style="text-align:center;font-size:11.5px;color:#000;opacity:.5;margin-top:16px;">Click “Copy text” above to paste this into your benefits guide or email tool.</div>
+        </div>
+      </sc-if>
+
+      <!-- LANDING PAGE material -->
+      <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ false }}">
+        <div style="width:100%;max-width:1040px;display:flex;flex-direction:column;gap:22px;">
+
+          <!-- go-live panel -->
+          <sc-if value="{{ liveIdle }}" hint-placeholder-val="{{ true }}">
+            <div style="background:#fff;border-radius:16px;padding:26px 30px;box-shadow:0 1px 2px rgba(20,10,40,.05),0 10px 30px rgba(20,10,40,.07);display:flex;align-items:center;gap:20px;">
+              <div style="width:52px;height:52px;border-radius:14px;background:#4F2883;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                <span class="msym" style="font-size:26px;color:#fff;">rocket_launch</span>
+              </div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:17px;font-weight:600;letter-spacing:-0.02em;">{{ publishTitle }}</div>
+                <div style="font-size:13px;margin-top:4px;line-height:1.45;color:#000;opacity:.65;">Employees get calculators, plan comparison, and enrollment resources — personalized to your plan. No login needed.</div>
+              </div>
+              <div style="flex:0 0 auto;text-align:right;">
+                <div style="font-size:12px;color:#000;opacity:.55;margin-bottom:8px;">{{ vanityUrl }}</div>
+                <button onClick="{{ onPublish }}" class="expbtn" style="display:inline-flex;align-items:center;gap:9px;background:#000;color:#fff;border:none;border-radius:999px;padding:13px 26px;font-size:14.5px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;">
+                  <span class="msym" style="font-size:18px;">bolt</span> Make it live
+                </button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ livePublishing }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#fff;border-radius:16px;padding:26px 30px;box-shadow:0 1px 2px rgba(20,10,40,.05),0 10px 30px rgba(20,10,40,.07);display:flex;align-items:center;gap:18px;">
+              <div style="width:34px;height:34px;border:3px solid #F2F3F4;border-top-color:#4F2883;border-radius:50%;animation:hqspin .8s linear infinite;flex:0 0 auto;"></div>
+              <div>
+                <div style="font-size:16px;font-weight:600;letter-spacing:-0.02em;">{{ publishStep }}</div>
+                <div style="font-size:12.5px;margin-top:3px;color:#000;opacity:.6;">{{ vanityUrl }}</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ liveDone }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#4F2883;border-radius:16px;padding:26px 30px;color:#fff;display:flex;align-items:center;gap:20px;box-shadow:0 14px 40px rgba(30,10,60,.3);">
+              <div style="display:flex;align-items:center;gap:9px;flex:0 0 auto;">
+                <span style="width:9px;height:9px;border-radius:50%;background:#33E3FF;animation:hqpulse 2s ease-in-out infinite;"></span>
+                <span style="font-size:14px;font-weight:600;letter-spacing:-0.01em;">Live</span>
+              </div>
+              <div style="flex:1;min-width:0;display:flex;align-items:center;gap:11px;background:#300E6E;border-radius:999px;padding:11px 18px;">
+                <span class="msym" style="font-size:16px;color:#33E3FF;">lock</span>
+                <span style="font-size:14.5px;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ vanityUrl }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;flex:0 0 auto;">
+                <button onClick="{{ onCopyLink }}" style="display:inline-flex;align-items:center;gap:7px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.45);border-radius:999px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s;" style-hover="border-color:#fff;">
+                  <span class="msym" style="font-size:16px;">{{ copyIcon }}</span>{{ copyLabel }}
+                </button>
+                <a href="{{ liveUrl }}" target="_blank" class="expbtn" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#000;border-radius:999px;padding:11px 20px;font-size:13.5px;font-weight:600;text-decoration:none;">
+                  Open page <span class="msym" style="font-size:16px;">open_in_new</span>
+                </a>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- browser preview -->
+          <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(20,10,40,.05),0 14px 40px rgba(20,10,40,.1);">
+            <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;background:#F2F3F4;">
+              <div style="display:flex;gap:6px;">
+                <span style="width:11px;height:11px;border-radius:50%;background:#d8d8df;"></span>
+                <span style="width:11px;height:11px;border-radius:50%;background:#d8d8df;"></span>
+                <span style="width:11px;height:11px;border-radius:50%;background:#d8d8df;"></span>
+              </div>
+              <div style="flex:1;display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:7px 15px;max-width:440px;margin:0 auto;">
+                <span class="msym" style="font-size:14px;color:#4F2883;">lock</span>
+                <span style="font-size:12.5px;letter-spacing:-0.01em;">{{ vanityUrl }}</span>
+              </div>
+              <div style="width:60px;"></div>
+            </div>
+            <div style="position:relative;width:100%;height:640px;overflow:hidden;">
+              <iframe src="{{ iframeSrc }}" title="Member landing page preview" style="width:1280px;height:1163px;border:none;transform:scale(0.55);transform-origin:top left;position:absolute;top:0;left:0;"></iframe>
+            </div>
+          </div>
+          <div style="text-align:center;font-size:11.5px;color:#000;opacity:.5;">Scroll inside the preview to explore. The live page updates automatically when you edit your details.</div>
+        </div>
+      </sc-if>
+
+    </main>
+  </div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  static L10N = {
+    en: {
+      coFallback: 'Your employer', benefitsTeam: 'Your benefits team',
+      flyerTitle: 'Health Savings Account',
+      flyerIntroA: 'An HSA lets you save money for future healthcare costs while also saving on taxes. How? HSAs are the only benefit with a triple-tax advantage:',
+      flyerIntroB: 'Tax-free contributions. Tax-free account growth. And tax-free spending on HSA-qualified expenses. It\u2019s your healthcare emergency safety net.',
+      flyerCheck1: 'Rolls over every year\u2014funds never expire',
+      flyerCheck2: 'Available tax-free investing, just like a 401(k)',
+      flyerCheck3: 'Requires an eligible high-deductible health plan (HDHP)',
+      lessTax1: 'Less tax.', lessTax2: 'More paycheck.',
+      save30: 'Get $30 tax savings for every $100 you contribute.',
+      noHsa: 'No HSA', taxFree: 'Tax-free', taxed: 'Taxed',
+      limitsTitle: '2027 HSA Contribution Limits', indPlan: 'Individual plan', famPlan: 'Family plan',
+      catchUp: 'Members 55+ can contribute an extra $1,000.',
+      seeSave1: 'See how much', seeSave2: 'you can save.',
+      scanApp: 'Scan to download the HealthEquity mobile app.',
+      appNote: 'You can set up your account directly in the app\u2014no need to register online.',
+      spendTitle: 'Spend tax-free on HSA-qualified expenses.',
+      medical: 'Medical', vision: 'Vision', dental: 'Dental', rx: 'Rx and OTC', discover: 'Discover more:',
+      eligiblePlan: 'Eligible health plan', openEnrollment: 'Open enrollment', employerContrib: 'Your employer contributes',
+      flyerFootnotes: '\u00B9HSAs are federally tax-deductible for qualified medical expenses and usually state-deductible; consult a tax advisor for details.\u00A0 |\u00A0 \u00B2Investments are subject to risk, including the possible loss of the principal invested, and are not FDIC or NCUA insured, or guaranteed by HealthEquity, Inc. Investing through the HealthEquity investment platform is subject to the terms and conditions of the Health Savings Account Custodial Agreement and any applicable investment supplement.\u00A0 |\u00A0 \u00B3Example for illustration only; savings based on a 30% federal and state tax bracket.\u00A0 |\u00A0 HealthEquity does not provide legal, tax or financial advice.',
+      flyerCopyright: 'Copyright \u00A9 2026 HealthEquity, Inc. All rights reserved. OE HSA Standard Flyer 6.04.2026',
+      chooseHead: 'Choose HSA.',
+      tagPre: 'The ', tagSerif: 'smart way', tagPost: ' to pay for healthcare.',
+      enrollment: 'Enrollment',
+      hello1: 'Hello, we\u2019re your', hello2: 'new HSA provider.',
+      helloPre: 'Your employer partnered with us to bring you a ', helloSerif1: 'simpler', helloMid: ', more ', helloSerif2: 'rewarding', helloPost: ' benefits experience.',
+      checkContrib: 'Tax-free contributions', checkInvest: 'Tax-free investing', checkSpend: 'Tax-free spending on HSA-qualified expenses',
+      screenLegal: 'Copyright \u00A9 2026 HealthEquity, Inc. HealthEquity does not provide legal, tax or financial advice.',
+      backTitle: 'HDHP + HSA = Triple-tax savings',
+      backBody: 'Choose a high-deductible health plan with a Health Savings Account. You\u2019ll get lower insurance premiums, plus:',
+      backRoll: 'HSA funds roll over every year\u2014and never expire.',
+      learnMore: 'Learn more.',
+      backFoot: '*HSAs are federally tax-deductible for qualified medical expenses and usually state-deductible; consult a tax advisor for details. | \u2227Investments are subject to risk, including the possible loss of the principal invested, and are not FDIC or NCUA insured, or guaranteed by HealthEquity, Inc. Investing through the HealthEquity investment platform is subject to the terms and conditions of the Health Savings Account Custodial Agreement and any applicable investment supplement. | HealthEquity does not provide legal, tax or financial advice. Copyright \u00A9 2026 HealthEquity, Inc. All rights reserved.',
+      cpBoth: '{i} toward individual coverage and {f} toward family coverage', cpInd: '{i} toward individual coverage', cpFam: '{f} toward family coverage',
+      contribLine: '{co} contributes {cp} to help you get started.',
+      enrollDuring: 'Enroll during open enrollment, {oe}. ',
+      blurbHeading: 'Health Savings Account (HSA)',
+      blurbP1: 'Choose a high-deductible health plan (HDHP) with a Health Savings Account and you\u2019ll pay lower insurance premiums\u2014plus you\u2019ll unlock a triple-tax advantage: tax-free contributions, tax-free investing, and tax-free spending on HSA-qualified expenses like medical, dental, vision, and prescriptions.',
+      blurbP2: 'Your HSA is yours to keep. The money rolls over every year and never expires, and you can invest it for the future\u2014just like a 401(k).',
+      blurbLimits: 'For 2027, you can contribute up to $4,500 for individual coverage or $9,000 for family coverage. If you\u2019re 55 or older, you can add an extra $1,000.',
+      blurbCta: 'Learn more and estimate your savings at {url}.',
+      emailHeading: 'Open enrollment announcement',
+      emailSubjectOE: 'Open enrollment is here\u2014save on healthcare with an HSA',
+      emailSubjectStd: 'Save on healthcare with a Health Savings Account',
+      emailHi: 'Hi there,',
+      emailP1: 'This open enrollment, you can choose a high-deductible health plan with a Health Savings Account (HSA)\u2014the smart way to pay for healthcare. It\u2019s the only benefit with a triple-tax advantage:',
+      emailBullets: '\u2022 Tax-free contributions\n\u2022 Tax-free investing\n\u2022 Tax-free spending on HSA-qualified expenses (medical, dental, vision, Rx and OTC)',
+      emailRoll: 'Your HSA funds roll over every year and never expire, and you can invest them for the future\u2014just like a 401(k).',
+      emailLimits: 'For 2027, you can contribute up to $4,500 (individual) or $9,000 (family); members 55+ can add an extra $1,000.',
+      emailCta: 'See how much you can save at {url}.',
+    },
+    es: {
+      coFallback: 'Su empleador', benefitsTeam: 'Su equipo de beneficios',
+      flyerTitle: 'Cuenta de ahorros de salud',
+      flyerIntroA: 'Una HSA le permite ahorrar para futuros gastos m\u00E9dicos y, a la vez, ahorrar en impuestos. \u00BFC\u00F3mo? Las HSA son el \u00FAnico beneficio con una triple ventaja fiscal:',
+      flyerIntroB: 'Aportaciones libres de impuestos. Crecimiento libre de impuestos. Y gastos calificados de la HSA libres de impuestos. Es su red de seguridad para emergencias m\u00E9dicas.',
+      flyerCheck1: 'Se transfiere cada a\u00F1o: los fondos nunca caducan',
+      flyerCheck2: 'Inversi\u00F3n libre de impuestos, igual que un 401(k)',
+      flyerCheck3: 'Requiere un plan de salud con deducible alto (HDHP) elegible',
+      lessTax1: 'Menos impuestos.', lessTax2: 'M\u00E1s sueldo.',
+      save30: 'Ahorre $30 en impuestos por cada $100 que aporte.',
+      noHsa: 'Sin HSA', taxFree: 'Libre de impuestos', taxed: 'Con impuestos',
+      limitsTitle: 'L\u00EDmites de aportaci\u00F3n a la HSA 2027', indPlan: 'Plan individual', famPlan: 'Plan familiar',
+      catchUp: 'Los miembros de 55+ pueden aportar $1,000 adicionales.',
+      seeSave1: 'Descubra cu\u00E1nto', seeSave2: 'puede ahorrar.',
+      scanApp: 'Escanee para descargar la app m\u00F3vil de HealthEquity.',
+      appNote: 'Puede configurar su cuenta directamente en la app, sin necesidad de registrarse en l\u00EDnea.',
+      spendTitle: 'Gaste libre de impuestos en gastos calificados de la HSA.',
+      medical: 'M\u00E9dicos', vision: 'Visi\u00F3n', dental: 'Dentales', rx: 'Recetas y OTC', discover: 'Descubra m\u00E1s:',
+      eligiblePlan: 'Plan de salud elegible', openEnrollment: 'Inscripci\u00F3n abierta', employerContrib: 'Su empleador aporta',
+      flyerFootnotes: '\u00B9Las HSA son deducibles de impuestos federales para gastos m\u00E9dicos calificados y normalmente deducibles a nivel estatal; consulte a un asesor fiscal.\u00A0 |\u00A0 \u00B2Las inversiones est\u00E1n sujetas a riesgo, incluida la posible p\u00E9rdida del capital invertido, y no est\u00E1n aseguradas por la FDIC ni la NCUA, ni garantizadas por HealthEquity, Inc. Invertir a trav\u00E9s de la plataforma de inversi\u00F3n de HealthEquity est\u00E1 sujeto a los t\u00E9rminos del Acuerdo de Custodia de la HSA y de cualquier suplemento de inversi\u00F3n aplicable.\u00A0 |\u00A0 \u00B3Ejemplo solo ilustrativo; ahorro basado en una tasa impositiva federal y estatal del 30%.\u00A0 |\u00A0 HealthEquity no ofrece asesoramiento legal, fiscal ni financiero.',
+      flyerCopyright: 'Copyright \u00A9 2026 HealthEquity, Inc. Todos los derechos reservados. OE HSA Standard Flyer 6.04.2026',
+      chooseHead: 'Elija HSA.',
+      tagPre: 'La ', tagSerif: 'manera inteligente', tagPost: ' de pagar la atenci\u00F3n m\u00E9dica.',
+      enrollment: 'Inscripci\u00F3n',
+      hello1: 'Hola, somos su', hello2: 'nuevo proveedor de HSA.',
+      helloPre: 'Su empleador se asoci\u00F3 con nosotros para ofrecerle una experiencia de beneficios m\u00E1s ', helloSerif1: 'sencilla', helloMid: ' y m\u00E1s ', helloSerif2: 'gratificante', helloPost: '.',
+      checkContrib: 'Aportaciones libres de impuestos', checkInvest: 'Inversi\u00F3n libre de impuestos', checkSpend: 'Gastos calificados libres de impuestos',
+      screenLegal: 'Copyright \u00A9 2026 HealthEquity, Inc. HealthEquity no ofrece asesoramiento legal, fiscal ni financiero.',
+      backTitle: 'HDHP + HSA = Triple ahorro fiscal',
+      backBody: 'Elija un plan de deducible alto con una Cuenta de Ahorros de Salud. Pagar\u00E1 primas m\u00E1s bajas y, adem\u00E1s:',
+      backRoll: 'Los fondos de la HSA se transfieren cada a\u00F1o y nunca caducan.',
+      learnMore: 'M\u00E1s informaci\u00F3n.',
+      backFoot: '*Las HSA son deducibles de impuestos federales para gastos m\u00E9dicos calificados y normalmente deducibles a nivel estatal; consulte a un asesor fiscal. | \u2227Las inversiones est\u00E1n sujetas a riesgo, incluida la posible p\u00E9rdida del capital invertido, y no est\u00E1n aseguradas por la FDIC ni la NCUA, ni garantizadas por HealthEquity, Inc. Invertir a trav\u00E9s de la plataforma de HealthEquity est\u00E1 sujeto a los t\u00E9rminos del Acuerdo de Custodia de la HSA y de cualquier suplemento aplicable. | HealthEquity no ofrece asesoramiento legal, fiscal ni financiero. Copyright \u00A9 2026 HealthEquity, Inc. Todos los derechos reservados.',
+      cpBoth: '{i} para cobertura individual y {f} para cobertura familiar', cpInd: '{i} para cobertura individual', cpFam: '{f} para cobertura familiar',
+      contribLine: '{co} aporta {cp} para ayudarle a empezar.',
+      enrollDuring: 'Inscr\u00EDbase durante la inscripci\u00F3n abierta, {oe}. ',
+      blurbHeading: 'Cuenta de Ahorros de Salud (HSA)',
+      blurbP1: 'Elija un plan de salud con deducible alto (HDHP) y una Cuenta de Ahorros de Salud: pagar\u00E1 primas m\u00E1s bajas y desbloquear\u00E1 una triple ventaja fiscal: aportaciones libres de impuestos, inversi\u00F3n libre de impuestos y gastos calificados libres de impuestos, como m\u00E9dicos, dentales, visi\u00F3n y recetas.',
+      blurbP2: 'Su HSA es suya para siempre. El dinero se transfiere cada a\u00F1o y nunca caduca, y puede invertirlo para el futuro, igual que un 401(k).',
+      blurbLimits: 'Para 2027, puede aportar hasta $4,500 para cobertura individual o $9,000 para cobertura familiar. Si tiene 55 a\u00F1os o m\u00E1s, puede a\u00F1adir $1,000 adicionales.',
+      blurbCta: 'Obtenga m\u00E1s informaci\u00F3n y calcule su ahorro en {url}.',
+      emailHeading: 'Anuncio de inscripci\u00F3n abierta',
+      emailSubjectOE: 'La inscripci\u00F3n abierta ya est\u00E1 aqu\u00ED: ahorre en salud con una HSA',
+      emailSubjectStd: 'Ahorre en salud con una Cuenta de Ahorros de Salud',
+      emailHi: 'Hola:',
+      emailP1: 'En esta inscripci\u00F3n abierta, puede elegir un plan de deducible alto con una Cuenta de Ahorros de Salud (HSA): la manera inteligente de pagar la atenci\u00F3n m\u00E9dica. Es el \u00FAnico beneficio con una triple ventaja fiscal:',
+      emailBullets: '\u2022 Aportaciones libres de impuestos\n\u2022 Inversi\u00F3n libre de impuestos\n\u2022 Gastos calificados de la HSA libres de impuestos (m\u00E9dicos, dentales, visi\u00F3n, recetas y OTC)',
+      emailRoll: 'Los fondos de su HSA se transfieren cada a\u00F1o y nunca caducan, y puede invertirlos para el futuro, igual que un 401(k).',
+      emailLimits: 'Para 2027, puede aportar hasta $4,500 (individual) o $9,000 (familiar); los miembros de 55+ pueden a\u00F1adir $1,000 adicionales.',
+      emailCta: 'Descubra cu\u00E1nto puede ahorrar en {url}.',
+    },
+    fr: {
+      coFallback: 'Votre employeur', benefitsTeam: 'Votre \u00E9quipe des avantages sociaux',
+      flyerTitle: 'Compte d\u2019\u00E9pargne sant\u00E9',
+      flyerIntroA: 'Un HSA vous permet d\u2019\u00E9pargner pour vos futurs frais de sant\u00E9 tout en r\u00E9duisant vos imp\u00F4ts. Comment ? Le HSA est le seul avantage offrant un triple avantage fiscal :',
+      flyerIntroB: 'Cotisations non impos\u00E9es. Croissance non impos\u00E9e. Et d\u00E9penses admissibles non impos\u00E9es. C\u2019est votre filet de s\u00E9curit\u00E9 sant\u00E9.',
+      flyerCheck1: 'Se reporte chaque ann\u00E9e \u2014 les fonds n\u2019expirent jamais',
+      flyerCheck2: 'Investissement non impos\u00E9, comme un 401(k)',
+      flyerCheck3: 'N\u00E9cessite un r\u00E9gime de sant\u00E9 \u00E0 franchise \u00E9lev\u00E9e (HDHP) admissible',
+      lessTax1: 'Moins d\u2019imp\u00F4ts.', lessTax2: 'Plus de salaire.',
+      save30: '\u00C9conomisez $30 d\u2019imp\u00F4ts pour chaque $100 cotis\u00E9s.',
+      noHsa: 'Sans HSA', taxFree: 'Non impos\u00E9', taxed: 'Impos\u00E9',
+      limitsTitle: 'Plafonds de cotisation HSA 2027', indPlan: 'R\u00E9gime individuel', famPlan: 'R\u00E9gime familial',
+      catchUp: 'Les membres de 55 ans et plus peuvent ajouter $1,000.',
+      seeSave1: 'D\u00E9couvrez combien', seeSave2: 'vous pouvez \u00E9conomiser.',
+      scanApp: 'Scannez pour t\u00E9l\u00E9charger l\u2019appli mobile HealthEquity.',
+      appNote: 'Cr\u00E9ez votre compte directement dans l\u2019appli \u2014 sans inscription en ligne.',
+      spendTitle: 'D\u00E9pensez sans imp\u00F4t pour les frais admissibles HSA.',
+      medical: 'M\u00E9dical', vision: 'Vue', dental: 'Dentaire', rx: 'Ordonnances et OTC', discover: 'En savoir plus :',
+      eligiblePlan: 'R\u00E9gime de sant\u00E9 admissible', openEnrollment: 'P\u00E9riode d\u2019adh\u00E9sion', employerContrib: 'Votre employeur cotise',
+      flyerFootnotes: '\u00B9Les HSA sont d\u00E9ductibles des imp\u00F4ts f\u00E9d\u00E9raux pour les frais m\u00E9dicaux admissibles et g\u00E9n\u00E9ralement d\u00E9ductibles au niveau de l\u2019\u00C9tat ; consultez un conseiller fiscal.\u00A0 |\u00A0 \u00B2Les placements comportent des risques, y compris la perte possible du capital investi, et ne sont ni assur\u00E9s par la FDIC ou la NCUA, ni garantis par HealthEquity, Inc. Investir via la plateforme HealthEquity est soumis aux conditions de l\u2019accord de garde du compte HSA et de tout suppl\u00E9ment d\u2019investissement applicable.\u00A0 |\u00A0 \u00B3Exemple \u00E0 titre illustratif ; \u00E9conomies bas\u00E9es sur une tranche d\u2019imposition f\u00E9d\u00E9rale et d\u2019\u00C9tat de 30 %.\u00A0 |\u00A0 HealthEquity ne fournit pas de conseils juridiques, fiscaux ou financiers.',
+      flyerCopyright: 'Copyright \u00A9 2026 HealthEquity, Inc. Tous droits r\u00E9serv\u00E9s. OE HSA Standard Flyer 6.04.2026',
+      chooseHead: 'Choisissez le HSA.',
+      tagPre: 'La ', tagSerif: 'fa\u00E7on intelligente', tagPost: ' de payer vos soins de sant\u00E9.',
+      enrollment: 'Adh\u00E9sion',
+      hello1: 'Bonjour, nous sommes votre', hello2: 'nouveau fournisseur HSA.',
+      helloPre: 'Votre employeur s\u2019est associ\u00E9 \u00E0 nous pour vous offrir une exp\u00E9rience d\u2019avantages plus ', helloSerif1: 'simple', helloMid: ' et plus ', helloSerif2: 'enrichissante', helloPost: '.',
+      checkContrib: 'Cotisations non impos\u00E9es', checkInvest: 'Investissement non impos\u00E9', checkSpend: 'D\u00E9penses admissibles non impos\u00E9es',
+      screenLegal: 'Copyright \u00A9 2026 HealthEquity, Inc. HealthEquity ne fournit pas de conseils juridiques, fiscaux ou financiers.',
+      backTitle: 'HDHP + HSA = Triple avantage fiscal',
+      backBody: 'Choisissez un r\u00E9gime \u00E0 franchise \u00E9lev\u00E9e avec un compte d\u2019\u00E9pargne sant\u00E9. Vous paierez des primes plus basses, et en plus :',
+      backRoll: 'Les fonds du HSA se reportent chaque ann\u00E9e \u2014 et n\u2019expirent jamais.',
+      learnMore: 'En savoir plus.',
+      backFoot: '*Les HSA sont d\u00E9ductibles des imp\u00F4ts f\u00E9d\u00E9raux pour les frais m\u00E9dicaux admissibles et g\u00E9n\u00E9ralement d\u00E9ductibles au niveau de l\u2019\u00C9tat ; consultez un conseiller fiscal. | \u2227Les placements comportent des risques, y compris la perte possible du capital investi, et ne sont ni assur\u00E9s par la FDIC ou la NCUA, ni garantis par HealthEquity, Inc. Investir via la plateforme HealthEquity est soumis aux conditions de l\u2019accord de garde du compte HSA et de tout suppl\u00E9ment applicable. | HealthEquity ne fournit pas de conseils juridiques, fiscaux ou financiers. Copyright \u00A9 2026 HealthEquity, Inc. Tous droits r\u00E9serv\u00E9s.',
+      cpBoth: '{i} pour la couverture individuelle et {f} pour la couverture familiale', cpInd: '{i} pour la couverture individuelle', cpFam: '{f} pour la couverture familiale',
+      contribLine: '{co} cotise {cp} pour vous aider \u00E0 d\u00E9marrer.',
+      enrollDuring: 'Adh\u00E9rez pendant la p\u00E9riode d\u2019adh\u00E9sion, {oe}. ',
+      blurbHeading: 'Compte d\u2019\u00E9pargne sant\u00E9 (HSA)',
+      blurbP1: 'Choisissez un r\u00E9gime \u00E0 franchise \u00E9lev\u00E9e (HDHP) avec un compte d\u2019\u00E9pargne sant\u00E9 : vous paierez des primes plus basses et profiterez d\u2019un triple avantage fiscal \u2014 cotisations non impos\u00E9es, investissement non impos\u00E9 et d\u00E9penses admissibles non impos\u00E9es (m\u00E9dical, dentaire, vue, ordonnances).',
+      blurbP2: 'Votre HSA vous appartient. L\u2019argent se reporte chaque ann\u00E9e et n\u2019expire jamais, et vous pouvez l\u2019investir pour l\u2019avenir \u2014 comme un 401(k).',
+      blurbLimits: 'Pour 2027, vous pouvez cotiser jusqu\u2019\u00E0 $4,500 (couverture individuelle) ou $9,000 (couverture familiale). \u00C0 partir de 55 ans, vous pouvez ajouter $1,000.',
+      blurbCta: 'En savoir plus et estimez vos \u00E9conomies sur {url}.',
+      emailHeading: 'Annonce de la p\u00E9riode d\u2019adh\u00E9sion',
+      emailSubjectOE: 'La p\u00E9riode d\u2019adh\u00E9sion est ouverte \u2014 \u00E9conomisez avec un HSA',
+      emailSubjectStd: '\u00C9conomisez sur vos soins de sant\u00E9 avec un HSA',
+      emailHi: 'Bonjour,',
+      emailP1: 'Pour cette p\u00E9riode d\u2019adh\u00E9sion, vous pouvez choisir un r\u00E9gime \u00E0 franchise \u00E9lev\u00E9e avec un compte d\u2019\u00E9pargne sant\u00E9 (HSA) \u2014 la fa\u00E7on intelligente de payer vos soins. C\u2019est le seul avantage offrant un triple avantage fiscal :',
+      emailBullets: '\u2022 Cotisations non impos\u00E9es\n\u2022 Investissement non impos\u00E9\n\u2022 D\u00E9penses admissibles HSA non impos\u00E9es (m\u00E9dical, dentaire, vue, ordonnances et OTC)',
+      emailRoll: 'Vos fonds HSA se reportent chaque ann\u00E9e et n\u2019expirent jamais, et vous pouvez les investir pour l\u2019avenir \u2014 comme un 401(k).',
+      emailLimits: 'Pour 2027, vous pouvez cotiser jusqu\u2019\u00E0 $4,500 (individuel) ou $9,000 (familial) ; les membres de 55 ans et plus peuvent ajouter $1,000.',
+      emailCta: 'D\u00E9couvrez combien vous pouvez \u00E9conomiser sur {url}.',
+    },
+    zh: {
+      coFallback: '\u60A8\u7684\u96C7\u4E3B', benefitsTeam: '\u60A8\u7684\u798F\u5229\u56E2\u961F',
+      flyerTitle: '\u5065\u5EB7\u50A8\u84C4\u8D26\u6237 (HSA)',
+      flyerIntroA: 'HSA \u8BA9\u60A8\u4E3A\u672A\u6765\u7684\u533B\u7597\u8D39\u7528\u50A8\u84C4\uFF0C\u540C\u65F6\u8282\u7701\u7A0E\u6B3E\u3002\u4E3A\u4EC0\u4E48\uFF1FHSA \u662F\u552F\u4E00\u5177\u6709\u4E09\u91CD\u7A0E\u6536\u4F18\u60E0\u7684\u798F\u5229\uFF1A',
+      flyerIntroB: '\u514D\u7A0E\u5B58\u5165\u3002\u514D\u7A0E\u589E\u503C\u3002\u514D\u7A0E\u652F\u4ED8 HSA \u5408\u683C\u652F\u51FA\u3002\u5B83\u662F\u60A8\u7684\u533B\u7597\u5E94\u6025\u4FDD\u969C\u3002',
+      flyerCheck1: '\u9010\u5E74\u7ED3\u8F6C\u2014\u2014\u8D44\u91D1\u6C38\u4E0D\u8FC7\u671F',
+      flyerCheck2: '\u53EF\u514D\u7A0E\u6295\u8D44\uFF0C\u5982\u540C 401(k)',
+      flyerCheck3: '\u9700\u8981\u7B26\u5408\u6761\u4EF6\u7684\u9AD8\u514D\u8D54\u989D\u5065\u5EB7\u8BA1\u5212 (HDHP)',
+      lessTax1: '\u7F34\u7A0E\u66F4\u5C11\u3002', lessTax2: '\u5230\u624B\u66F4\u591A\u3002',
+      save30: '\u6BCF\u5B58\u5165 $100\uFF0C\u5373\u53EF\u8282\u7701 $30 \u7A0E\u6B3E\u3002',
+      noHsa: '\u65E0 HSA', taxFree: '\u514D\u7A0E', taxed: '\u5F81\u7A0E',
+      limitsTitle: '2027 \u5E74 HSA \u5B58\u5165\u4E0A\u9650', indPlan: '\u4E2A\u4EBA\u8BA1\u5212', famPlan: '\u5BB6\u5EAD\u8BA1\u5212',
+      catchUp: '55 \u5C81\u53CA\u4EE5\u4E0A\u4F1A\u5458\u53EF\u989D\u5916\u5B58\u5165 $1,000\u3002',
+      seeSave1: '\u770B\u770B\u60A8\u80FD', seeSave2: '\u7701\u591A\u5C11\u3002',
+      scanApp: '\u626B\u7801\u4E0B\u8F7D HealthEquity \u624B\u673A\u5E94\u7528\u3002',
+      appNote: '\u60A8\u53EF\u4EE5\u76F4\u63A5\u5728\u5E94\u7528\u4E2D\u5F00\u8BBE\u8D26\u6237\uFF0C\u65E0\u9700\u5728\u7EBF\u6CE8\u518C\u3002',
+      spendTitle: '\u514D\u7A0E\u652F\u4ED8 HSA \u5408\u683C\u652F\u51FA\u3002',
+      medical: '\u533B\u7597', vision: '\u89C6\u529B', dental: '\u7259\u79D1', rx: '\u5904\u65B9\u836F\u548C\u975E\u5904\u65B9\u836F', discover: '\u4E86\u89E3\u66F4\u591A\uFF1A',
+      eligiblePlan: '\u7B26\u5408\u6761\u4EF6\u7684\u5065\u5EB7\u8BA1\u5212', openEnrollment: '\u5F00\u653E\u6CE8\u518C', employerContrib: '\u96C7\u4E3B\u4E3A\u60A8\u5B58\u5165',
+      flyerFootnotes: '\u00B9HSA \u7684\u5408\u683C\u533B\u7597\u652F\u51FA\u53EF\u5728\u8054\u90A6\u5C42\u9762\u514D\u7A0E\uFF0C\u901A\u5E38\u5DDE\u5C42\u9762\u4E5F\u53EF\u51CF\u514D\uFF1B\u8BE6\u60C5\u8BF7\u54A8\u8BE2\u7A0E\u52A1\u987E\u95EE\u3002\u00A0 |\u00A0 \u00B2\u6295\u8D44\u6709\u98CE\u9669\uFF0C\u53EF\u80FD\u635F\u5931\u6295\u8D44\u672C\u91D1\uFF1B\u4E0D\u53D7 FDIC \u6216 NCUA \u4FDD\u9669\uFF0C\u4E5F\u4E0D\u7531 HealthEquity, Inc. \u62C5\u4FDD\u3002\u901A\u8FC7 HealthEquity \u6295\u8D44\u5E73\u53F0\u6295\u8D44\u987B\u9075\u5B88 HSA \u6258\u7BA1\u534F\u8BAE\u53CA\u9002\u7528\u6295\u8D44\u8865\u5145\u6761\u6B3E\u3002\u00A0 |\u00A0 \u00B3\u4EC5\u4E3A\u793A\u4F8B\uFF1B\u8282\u7701\u91D1\u989D\u6309 30% \u7684\u8054\u90A6\u548C\u5DDE\u7A0E\u7387\u8BA1\u7B97\u3002\u00A0 |\u00A0 HealthEquity \u4E0D\u63D0\u4F9B\u6CD5\u5F8B\u3001\u7A0E\u52A1\u6216\u8D22\u52A1\u5EFA\u8BAE\u3002',
+      flyerCopyright: 'Copyright \u00A9 2026 HealthEquity, Inc. \u4FDD\u7559\u6240\u6709\u6743\u5229\u3002OE HSA Standard Flyer 6.04.2026',
+      chooseHead: '\u9009\u62E9 HSA\u3002',
+      tagPre: '\u652F\u4ED8\u533B\u7597\u8D39\u7528\u7684', tagSerif: '\u806A\u660E\u65B9\u5F0F', tagPost: '\u3002',
+      enrollment: '\u6CE8\u518C',
+      hello1: '\u60A8\u597D\uFF0C\u6211\u4EEC\u662F\u60A8\u7684', hello2: '\u65B0 HSA \u670D\u52A1\u5546\u3002',
+      helloPre: '\u60A8\u7684\u96C7\u4E3B\u4E0E\u6211\u4EEC\u5408\u4F5C\uFF0C\u4E3A\u60A8\u5E26\u6765\u66F4', helloSerif1: '\u7B80\u5355', helloMid: '\u3001\u66F4', helloSerif2: '\u6709\u4EF7\u503C', helloPost: '\u7684\u798F\u5229\u4F53\u9A8C\u3002',
+      checkContrib: '\u514D\u7A0E\u5B58\u5165', checkInvest: '\u514D\u7A0E\u6295\u8D44', checkSpend: '\u514D\u7A0E\u652F\u4ED8 HSA \u5408\u683C\u652F\u51FA',
+      screenLegal: 'Copyright \u00A9 2026 HealthEquity, Inc. HealthEquity \u4E0D\u63D0\u4F9B\u6CD5\u5F8B\u3001\u7A0E\u52A1\u6216\u8D22\u52A1\u5EFA\u8BAE\u3002',
+      backTitle: 'HDHP + HSA = \u4E09\u91CD\u7A0E\u6536\u4F18\u60E0',
+      backBody: '\u9009\u62E9\u642D\u914D\u5065\u5EB7\u50A8\u84C4\u8D26\u6237\u7684\u9AD8\u514D\u8D54\u989D\u5065\u5EB7\u8BA1\u5212\uFF0C\u4FDD\u8D39\u66F4\u4F4E\uFF0C\u8FD8\u53EF\u4EAB\u53D7\uFF1A',
+      backRoll: 'HSA \u8D44\u91D1\u9010\u5E74\u7ED3\u8F6C\uFF0C\u6C38\u4E0D\u8FC7\u671F\u3002',
+      learnMore: '\u4E86\u89E3\u66F4\u591A\u3002',
+      backFoot: '*HSA \u7684\u5408\u683C\u533B\u7597\u652F\u51FA\u53EF\u5728\u8054\u90A6\u5C42\u9762\u514D\u7A0E\uFF0C\u901A\u5E38\u5DDE\u5C42\u9762\u4E5F\u53EF\u51CF\u514D\uFF1B\u8BE6\u60C5\u8BF7\u54A8\u8BE2\u7A0E\u52A1\u987E\u95EE\u3002 | \u2227\u6295\u8D44\u6709\u98CE\u9669\uFF0C\u53EF\u80FD\u635F\u5931\u6295\u8D44\u672C\u91D1\uFF1B\u4E0D\u53D7 FDIC \u6216 NCUA \u4FDD\u9669\uFF0C\u4E5F\u4E0D\u7531 HealthEquity, Inc. \u62C5\u4FDD\u3002\u901A\u8FC7 HealthEquity \u6295\u8D44\u5E73\u53F0\u6295\u8D44\u987B\u9075\u5B88 HSA \u6258\u7BA1\u534F\u8BAE\u53CA\u9002\u7528\u6295\u8D44\u8865\u5145\u6761\u6B3E\u3002 | HealthEquity \u4E0D\u63D0\u4F9B\u6CD5\u5F8B\u3001\u7A0E\u52A1\u6216\u8D22\u52A1\u5EFA\u8BAE\u3002Copyright \u00A9 2026 HealthEquity, Inc. \u4FDD\u7559\u6240\u6709\u6743\u5229\u3002',
+      cpBoth: '\u4E2A\u4EBA\u4FDD\u969C {i}\u3001\u5BB6\u5EAD\u4FDD\u969C {f}', cpInd: '\u4E2A\u4EBA\u4FDD\u969C {i}', cpFam: '\u5BB6\u5EAD\u4FDD\u969C {f}',
+      contribLine: '{co} \u5C06\u4E3A\u60A8\u5B58\u5165 {cp}\uFF0C\u52A9\u60A8\u8D77\u6B65\u3002',
+      enrollDuring: '\u8BF7\u5728\u5F00\u653E\u6CE8\u518C\u671F\u95F4\uFF08{oe}\uFF09\u5B8C\u6210\u6CE8\u518C\u3002',
+      blurbHeading: '\u5065\u5EB7\u50A8\u84C4\u8D26\u6237\uFF08HSA\uFF09',
+      blurbP1: '\u9009\u62E9\u642D\u914D\u5065\u5EB7\u50A8\u84C4\u8D26\u6237\u7684\u9AD8\u514D\u8D54\u989D\u5065\u5EB7\u8BA1\u5212 (HDHP)\uFF0C\u4FDD\u8D39\u66F4\u4F4E\uFF0C\u8FD8\u53EF\u4EAB\u53D7\u4E09\u91CD\u7A0E\u6536\u4F18\u60E0\uFF1A\u514D\u7A0E\u5B58\u5165\u3001\u514D\u7A0E\u6295\u8D44\uFF0C\u4EE5\u53CA\u514D\u7A0E\u652F\u4ED8\u533B\u7597\u3001\u7259\u79D1\u3001\u89C6\u529B\u548C\u5904\u65B9\u836F\u7B49\u5408\u683C\u652F\u51FA\u3002',
+      blurbP2: 'HSA \u5C5E\u4E8E\u60A8\u4E2A\u4EBA\u3002\u8D44\u91D1\u9010\u5E74\u7ED3\u8F6C\u3001\u6C38\u4E0D\u8FC7\u671F\uFF0C\u8FD8\u53EF\u4EE5\u50CF 401(k) \u4E00\u6837\u6295\u8D44\u672A\u6765\u3002',
+      blurbLimits: '2027 \u5E74\uFF0C\u4E2A\u4EBA\u4FDD\u969C\u6700\u591A\u53EF\u5B58\u5165 $4,500\uFF0C\u5BB6\u5EAD\u4FDD\u969C\u6700\u591A $9,000\u300255 \u5C81\u53CA\u4EE5\u4E0A\u8FD8\u53EF\u989D\u5916\u5B58\u5165 $1,000\u3002',
+      blurbCta: '\u8BBF\u95EE {url}\uFF0C\u4E86\u89E3\u66F4\u591A\u5E76\u4F30\u7B97\u60A8\u7684\u8282\u7701\u3002',
+      emailHeading: '\u5F00\u653E\u6CE8\u518C\u901A\u77E5',
+      emailSubjectOE: '\u5F00\u653E\u6CE8\u518C\u5F00\u59CB\u4E86\u2014\u2014\u7528 HSA \u8282\u7701\u533B\u7597\u5F00\u652F',
+      emailSubjectStd: '\u7528\u5065\u5EB7\u50A8\u84C4\u8D26\u6237 (HSA) \u8282\u7701\u533B\u7597\u5F00\u652F',
+      emailHi: '\u60A8\u597D\uFF1A',
+      emailP1: '\u5728\u672C\u6B21\u5F00\u653E\u6CE8\u518C\u671F\u95F4\uFF0C\u60A8\u53EF\u4EE5\u9009\u62E9\u642D\u914D\u5065\u5EB7\u50A8\u84C4\u8D26\u6237 (HSA) \u7684\u9AD8\u514D\u8D54\u989D\u5065\u5EB7\u8BA1\u5212\u2014\u2014\u652F\u4ED8\u533B\u7597\u8D39\u7528\u7684\u806A\u660E\u65B9\u5F0F\u3002\u5B83\u662F\u552F\u4E00\u5177\u6709\u4E09\u91CD\u7A0E\u6536\u4F18\u60E0\u7684\u798F\u5229\uFF1A',
+      emailBullets: '\u2022 \u514D\u7A0E\u5B58\u5165\n\u2022 \u514D\u7A0E\u6295\u8D44\n\u2022 \u514D\u7A0E\u652F\u4ED8 HSA \u5408\u683C\u652F\u51FA\uFF08\u533B\u7597\u3001\u7259\u79D1\u3001\u89C6\u529B\u3001\u5904\u65B9\u836F\u548C\u975E\u5904\u65B9\u836F\uFF09',
+      emailRoll: '\u60A8\u7684 HSA \u8D44\u91D1\u9010\u5E74\u7ED3\u8F6C\u3001\u6C38\u4E0D\u8FC7\u671F\uFF0C\u8FD8\u53EF\u4EE5\u50CF 401(k) \u4E00\u6837\u6295\u8D44\u672A\u6765\u3002',
+      emailLimits: '2027 \u5E74\uFF0C\u60A8\u6700\u591A\u53EF\u5B58\u5165 $4,500\uFF08\u4E2A\u4EBA\uFF09\u6216 $9,000\uFF08\u5BB6\u5EAD\uFF09\uFF1B55 \u5C81\u53CA\u4EE5\u4E0A\u4F1A\u5458\u53EF\u989D\u5916\u5B58\u5165 $1,000\u3002',
+      emailCta: '\u8BBF\u95EE {url}\uFF0C\u770B\u770B\u60A8\u80FD\u7701\u591A\u5C11\u3002',
+    },
+  };
+
+  constructor(props) {
+    super(props);
+    // Always start fresh at the setup form (presentation mode) — no restored inputs.
+    const _n = new Date();
+    this.state = {
+      mode: 'setup',
+      setupStep: 1,
+      calOpen: false,
+      calY: _n.getFullYear(),
+      calM: _n.getMonth(),
+      companyName: '',
+      planName: '',
+      logoData: null,
+      logoManual: false,
+      logoStatus: 'Auto-detected from the company name, or upload your own.',
+      oeStart: '',
+      oeEnd: '',
+      contribInd: '',
+      contribFam: '',
+      hsaPremium: '',
+      tradPremium: '',
+      hsaDeduct: '',
+      tradDeduct: '',
+      pageLive: false,
+      publishing: false,
+      publishStep: '',
+      linkCopied: false,
+      appQr: '',
+      learnQr: '',
+      gradient: '',
+      lang: 'en',
+      activeMat: 'flyer',
+      iframeV: 1,
+      exporting: false,
+      copied: false,
+    };
+  }
+
+  persist() {
+    const s = this.state;
+    try {
+      window.localStorage.setItem('oeKitState', JSON.stringify({
+        mode: s.mode, companyName: s.companyName, planName: s.planName, logoData: s.logoData,
+        logoManual: s.logoManual, logoStatus: s.logoStatus, oeStart: s.oeStart, oeEnd: s.oeEnd,
+        contribInd: s.contribInd, contribFam: s.contribFam, pageLive: s.pageLive,
+        activeMat: s.activeMat, iframeV: s.iframeV, lang: s.lang,
+      }));
+    } catch (e) {}
+  }
+
+  slug(name) { return (name || '').toLowerCase().replace(/[^a-z0-9]/g, '') || 'yourcompany'; }
+  guessDomain() { const s = (this.state.companyName || '').toLowerCase().replace(/[^a-z0-9]/g, ''); return s ? s + '.com' : ''; }
+  money(v) { const n = Math.round(parseFloat(v)); if (!isFinite(n) || n <= 0) return ''; return '$' + n.toLocaleString('en-US'); }
+  co() { return this.state.companyName.trim() || this.t('coFallback'); }
+
+  setLang = (c) => this.setState({ lang: c, copied: false }, this.persist);
+  t(k) { const L = Component.L10N; const d = L[this.state.lang] || L.en; const v = d[k] !== undefined ? d[k] : L.en[k]; return v === undefined ? '' : v; }
+  fmt(k, vars) { let str = this.t(k); for (const key in vars) str = str.split('{' + key + '}').join(vars[key]); return str; }
+
+  fmtDate(str) {
+    if (!str) return null;
+    const [y, m, d] = str.split('-').map(Number);
+    if (!y || !m || !d) return null;
+    const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m - 1];
+    return { mo, d, y, mi: m };
+  }
+  oeDisplay() {
+    const a = this.fmtDate(this.state.oeStart);
+    const b = this.fmtDate(this.state.oeEnd);
+    const lang = this.state.lang || 'en';
+    if (lang === 'zh') {
+      const f = (x) => `${x.y}\u5E74${x.mi}\u6708${x.d}\u65E5`;
+      if (a && b) {
+        if (a.y === b.y && a.mi === b.mi) return `${a.y}\u5E74${a.mi}\u6708${a.d}\u65E5\u2013${b.d}\u65E5`;
+        if (a.y === b.y) return `${a.y}\u5E74${a.mi}\u6708${a.d}\u65E5 \u2013 ${b.mi}\u6708${b.d}\u65E5`;
+        return `${f(a)} \u2013 ${f(b)}`;
+      }
+      const one = a || b;
+      return one ? f(one) : '';
+    }
+    const MOS = {
+      es: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
+      fr: ['janv','f\u00E9vr','mars','avr','mai','juin','juil','ao\u00FBt','sept','oct','nov','d\u00E9c'],
+    };
+    if (MOS[lang]) {
+      const mo = (x) => MOS[lang][x.mi - 1];
+      if (a && b) {
+        if (a.y === b.y && a.mi === b.mi) return `${a.d}\u2013${b.d} ${mo(a)} ${a.y}`;
+        if (a.y === b.y) return `${a.d} ${mo(a)} \u2013 ${b.d} ${mo(b)} ${b.y}`;
+        return `${a.d} ${mo(a)} ${a.y} \u2013 ${b.d} ${mo(b)} ${b.y}`;
+      }
+      const one = a || b;
+      return one ? `${one.d} ${mo(one)} ${one.y}` : '';
+    }
+    if (a && b) {
+      if (a.y === b.y && a.mo === b.mo) return `${a.mo} ${a.d}\u2013${b.d}, ${b.y}`;
+      if (a.y === b.y) return `${a.mo} ${a.d} \u2013 ${b.mo} ${b.d}, ${b.y}`;
+      return `${a.mo} ${a.d}, ${a.y} \u2013 ${b.mo} ${b.d}, ${b.y}`;
+    }
+    const one = a || b;
+    return one ? `${one.mo} ${one.d}, ${one.y}` : '';
+  }
+  effectiveUrl() { const s = (this.state.companyName || '').toLowerCase().replace(/[^a-z0-9]/g, ''); return s ? `HealthEquity.com/${s}` : 'HealthEquity.com/Learn/HSA'; }
+  vanityUrl() { return 'healthequity.com/' + this.slug(this.state.companyName); }
+  liveUrl() { return new URL('Member Landing Page.dc.html?site=' + this.slug(this.state.companyName), window.location.href).href; }
+
+  siteConfig() {
+    const s = this.state;
+    return {
+      companyName: s.companyName.trim(), logoData: s.logoData, planName: s.planName.trim(),
+      oeStart: s.oeStart, oeEnd: s.oeEnd,
+      contribInd: parseFloat(s.contribInd) || 0, contribFam: parseFloat(s.contribFam) || 0,
+      hsaPremium: parseFloat(s.hsaPremium) || 0, tradPremium: parseFloat(s.tradPremium) || 0,
+      hsaDeduct: parseFloat(s.hsaDeduct) || 0, tradDeduct: parseFloat(s.tradDeduct) || 0,
+      slug: this.slug(s.companyName),
+    };
+  }
+  writeSiteConfig() {
+    try { window.localStorage.setItem('oe-site-' + this.slug(this.state.companyName), JSON.stringify(this.siteConfig())); } catch (e) {}
+  }
+
+  // ---------- flow ----------
+  onBuild = () => {
+    this.writeSiteConfig();
+    this.setState({ mode: 'kit', iframeV: this.state.iframeV + 1 }, () => {
+      this.persist();
+      requestAnimationFrame(this.fitScale);
+      [60, 200, 500].forEach((t) => setTimeout(this.fitScale, t));
+    });
+  };
+  onEdit = () => this.setState({ mode: 'setup', setupStep: 1 }, this.persist);
+
+  onPublish = () => {
+    if (this.state.publishing) return;
+    this.writeSiteConfig();
+    this.setState({ publishing: true, publishStep: 'Reserving your address\u2026' });
+    setTimeout(() => this.setState({ publishStep: 'Personalizing your page\u2026' }), 700);
+    setTimeout(() => this.setState({ publishStep: 'Going live\u2026' }), 1400);
+    setTimeout(() => this.setState({ publishing: false, pageLive: true, iframeV: this.state.iframeV + 1 }, this.persist), 2100);
+  };
+  onCopyLink = () => {
+    const url = this.liveUrl();
+    const done = () => { this.setState({ linkCopied: true }); clearTimeout(this._lcT); this._lcT = setTimeout(() => this.setState({ linkCopied: false }), 1800); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => this._fallbackCopy(url, done));
+      else this._fallbackCopy(url, done);
+    } catch (e) { this._fallbackCopy(url, done); }
+  };
+
+  // ---------- fields ----------
+  onCompanyName = (e) => { this.setState({ companyName: e.target.value }, () => { this.scheduleLogoFetch(); this.persist(); }); };
+  onPlanName = (e) => this.setState({ planName: e.target.value }, this.persist);
+  onOeStart = (e) => this.setState({ oeStart: e.target.value }, this.persist);
+  onOeEnd = (e) => this.setState({ oeEnd: e.target.value }, this.persist);
+  onContribInd = (e) => this.setState({ contribInd: e.target.value }, this.persist);
+  onContribFam = (e) => this.setState({ contribFam: e.target.value }, this.persist);
+  onHsaPremium = (e) => this.setState({ hsaPremium: e.target.value }, this.persist);
+  onTradPremium = (e) => this.setState({ tradPremium: e.target.value }, this.persist);
+  onHsaDeduct = (e) => this.setState({ hsaDeduct: e.target.value }, this.persist);
+  onTradDeduct = (e) => this.setState({ tradDeduct: e.target.value }, this.persist);
+  onNext = () => this.setState({ setupStep: 2 });
+  onBack = () => this.setState({ setupStep: 1, calOpen: false });
+
+  // ---------- range calendar ----------
+  onToggleCal = () => {
+    let { calY, calM } = this.state;
+    if (!this.state.calOpen && this.state.oeStart) {
+      const [y, m] = this.state.oeStart.split('-').map(Number);
+      if (y && m) { calY = y; calM = m - 1; }
+    }
+    this.setState({ calOpen: !this.state.calOpen, calY, calM });
+  };
+  onCalPrev = () => { let { calY, calM } = this.state; calM--; if (calM < 0) { calM = 11; calY--; } this.setState({ calY, calM }); };
+  onCalNext = () => { let { calY, calM } = this.state; calM++; if (calM > 11) { calM = 0; calY++; } this.setState({ calY, calM }); };
+  onCalClear = () => this.setState({ oeStart: '', oeEnd: '' }, this.persist);
+  onCalDone = () => this.setState({ calOpen: false });
+  pickDay(ds) {
+    const { oeStart, oeEnd } = this.state;
+    if (!oeStart || oeEnd || ds < oeStart) this.setState({ oeStart: ds, oeEnd: '' }, this.persist);
+    else this.setState({ oeEnd: ds }, this.persist);
+  }
+  calMonthLabel() {
+    return ['January','February','March','April','May','June','July','August','September','October','November','December'][this.state.calM] + ' ' + this.state.calY;
+  }
+  buildCalDays() {
+    const { calY: y, calM: m, oeStart: s, oeEnd: e } = this.state;
+    const firstDow = new Date(y, m, 1).getDay();
+    const count = new Date(y, m + 1, 0).getDate();
+    const pad = (n) => String(n).padStart(2, '0');
+    const base = 'width:100%;height:38px;border:none;cursor:pointer;font-size:13.5px;letter-spacing:-0.01em;padding:0;font-family:inherit;transition:background .12s;';
+    const cells = [];
+    for (let i = 0; i < firstDow; i++) cells.push({ label: '', blank: true, style: base + 'visibility:hidden;', pick: null });
+    for (let d = 1; d <= count; d++) {
+      const ds = `${y}-${pad(m + 1)}-${pad(d)}`;
+      const isEdge = ds === s || ds === e;
+      const inRange = s && e && ds > s && ds < e;
+      let st = base;
+      if (isEdge) st += 'background:#4F2883;color:#fff;border-radius:999px;font-weight:600;';
+      else if (inRange) st += 'background:#F2F3F4;color:#000;border-radius:0;font-weight:500;';
+      else st += 'background:transparent;color:#000;border-radius:999px;font-weight:500;';
+      cells.push({ label: String(d), blank: false, style: st, pick: () => this.pickDay(ds) });
+    }
+    return cells;
+  }
+  onLogoUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const fr = new FileReader();
+    fr.onload = () => this.setState({ logoData: fr.result, logoManual: true, logoStatus: `Using ${file.name}` }, this.persist);
+    fr.readAsDataURL(file);
+  };
+
+  scheduleLogoFetch = () => {
+    if (this.state.logoManual) return;
+    clearTimeout(this._logoTimer);
+    const domain = this.guessDomain();
+    if (!domain) { this.setState({ logoData: null, logoStatus: 'Auto-detected from the company name, or upload your own.' }); return; }
+    this.setState({ logoStatus: `Looking up ${domain}\u2026` });
+    this._logoTimer = setTimeout(() => this.fetchLogo(domain), 550);
+  };
+  async fetchLogo(domain) {
+    const token = ++this._logoToken;
+    try {
+      const res = await fetch(`https://logo.clearbit.com/${encodeURIComponent(domain)}?size=256&format=png`);
+      if (!res.ok) throw new Error('not found');
+      const blob = await res.blob();
+      if (!blob.type.startsWith('image')) throw new Error('not image');
+      const url = await new Promise((resolve, reject) => { const fr = new FileReader(); fr.onload = () => resolve(fr.result); fr.onerror = reject; fr.readAsDataURL(blob); });
+      if (token !== this._logoToken || this.state.logoManual) return;
+      this.setState({ logoData: url, logoStatus: `Logo found for ${domain}.` }, this.persist);
+    } catch (e) {
+      if (token !== this._logoToken || this.state.logoManual) return;
+      this.setState({ logoData: null, logoStatus: 'No logo found \u2014 name shows as text. Upload one to use a logo.' }, this.persist);
+    }
+  }
+
+  setMat = (m) => { this.setState({ activeMat: m, copied: false }, () => { this.persist(); requestAnimationFrame(this.fitScale); setTimeout(this.fitScale, 60); }); };
+  onNavFlyer = () => this.setMat('flyer');
+  onNavChoose = () => this.setMat('choose');
+  onNavHello = () => this.setMat('hello');
+  onNavScreen = () => this.setMat('screen');
+  onNavEmail = () => this.setMat('email');
+  onNavBlurb = () => this.setMat('blurb');
+  onNavLanding = () => this.setMat('landing');
+  poss(n) { n = (n || '').trim(); return n + (/s$/i.test(n) ? '\u2019' : '\u2019s'); }
+
+  // ---------- copy generators ----------
+  contribPhrase() {
+    const i = this.money(this.state.contribInd), f = this.money(this.state.contribFam);
+    if (i && f) return this.fmt('cpBoth', { i, f });
+    if (i) return this.fmt('cpInd', { i });
+    if (f) return this.fmt('cpFam', { f });
+    return '';
+  }
+  blurbHeading() { return this.t('blurbHeading'); }
+  blurbBody() {
+    const url = this.effectiveUrl();
+    const oe = this.oeDisplay();
+    const cp = this.contribPhrase();
+    const p = [];
+    p.push(this.t('blurbP1'));
+    p.push(this.t('blurbP2'));
+    if (cp) p.push(this.fmt('contribLine', { co: this.co(), cp }));
+    p.push(this.t('blurbLimits'));
+    p.push((oe ? this.fmt('enrollDuring', { oe }) : '') + this.fmt('blurbCta', { url }));
+    return p.join('\n\n');
+  }
+  emailSubject() { return this.oeDisplay() ? this.t('emailSubjectOE') : this.t('emailSubjectStd'); }
+  emailBody() {
+    const url = this.effectiveUrl();
+    const oe = this.oeDisplay();
+    const cp = this.contribPhrase();
+    const lines = [];
+    lines.push(this.t('emailHi'));
+    lines.push(this.t('emailP1'));
+    lines.push(this.t('emailBullets'));
+    lines.push(this.t('emailRoll'));
+    if (cp) lines.push(this.fmt('contribLine', { co: this.co(), cp }));
+    lines.push(this.t('emailLimits'));
+    lines.push((oe ? this.fmt('enrollDuring', { oe }) : '') + this.fmt('emailCta', { url }));
+    lines.push('Better save, spend, and invest for health.');
+    lines.push(this.state.companyName.trim() ? this.state.companyName.trim() : this.t('benefitsTeam'));
+    return lines.join('\n\n');
+  }
+  blurbFull() { return this.blurbHeading() + '\n\n' + this.blurbBody(); }
+  emailFull() { return 'Subject: ' + this.emailSubject() + '\n\n' + this.emailBody(); }
+
+  // ---------- QR ----------
+  makeQR() {
+    if (!window.qrcode) { setTimeout(() => this.makeQR(), 300); return; }
+    try {
+      if (!this.state.appQr) {
+        const qa = window.qrcode(0, 'M'); qa.addData('https://HealthEquity.com/mobile'); qa.make();
+        this.setState({ appQr: qa.createDataURL(8, 2) });
+      }
+      const url = 'https://' + this.effectiveUrl();
+      if (url !== this._lastQrUrl) {
+        this._lastQrUrl = url;
+        const ql = window.qrcode(0, 'M'); ql.addData(url); ql.make();
+        this.setState({ learnQr: ql.createDataURL(8, 2) });
+      }
+    } catch (e) {}
+  }
+
+  // ---------- gradient ----------
+  paintGradient() {
+    if (this.state.gradient) return;
+    const W = 1632, H = 1056;
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#3a1276'; ctx.fillRect(0, 0, W, H);
+    const D = Math.hypot(W, H);
+    const blob = (x, y, r, c, op) => {
+      ctx.globalCompositeOperation = op || 'source-over';
+      const g = ctx.createRadialGradient(x * W, y * H, 0, x * W, y * H, r * D);
+      g.addColorStop(0, c); g.addColorStop(1, c + '00');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    };
+    blob(-0.05, -0.08, 0.5, '#23094f');
+    blob(-0.05, 1.05, 0.55, '#52179c');
+    blob(1.05, -0.05, 0.55, '#2fd0f5', 'lighter');
+    blob(1.1, 1.08, 0.62, '#bf45ff', 'lighter');
+    blob(0.5, 0.5, 0.42, '#3a1180');
+    ctx.globalCompositeOperation = 'source-over';
+    this.setState({ gradient: cv.toDataURL('image/png') });
+  }
+
+  // ---------- scale ----------
+  visualDims() {
+    const m = this.state.activeMat;
+    if (m === 'flyer') return { w: 816, h: 1056 };
+    if (m === 'choose' || m === 'hello') return { w: 816, h: 1084 };
+    if (m === 'screen') return { w: 1920, h: 1080 };
+    return null;
+  }
+  fitScale = () => {
+    if (this.state.mode !== 'kit') return;
+    const dims = this.visualDims();
+    const wrap = document.getElementById('previewScaleWrap');
+    if (!dims || !wrap) return;
+    const pane = wrap.parentElement;
+    if (!pane || !pane.clientWidth) { requestAnimationFrame(this.fitScale); return; }
+    const s = Math.max(0.1, Math.min(1, (pane.clientWidth - 84) / dims.w));
+    wrap.style.transform = `scale(${s})`;
+    wrap.style.width = (dims.w * s) + 'px';
+    wrap.style.height = (dims.h * s) + 'px';
+  };
+
+  componentDidMount() {
+    this._logoToken = 0;
+    this.makeQR();
+    this.paintGradient();
+    if (this.state.mode === 'kit') this.writeSiteConfig();
+    requestAnimationFrame(this.fitScale);
+    [0, 60, 150, 350, 700].forEach((t) => setTimeout(this.fitScale, t));
+    this._onResize = () => this.fitScale();
+    window.addEventListener('resize', this._onResize);
+  }
+  componentDidUpdate() {
+    this.makeQR();
+    this.fitScale();
+    if (this.state.mode === 'kit') this.writeSiteConfig();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  // ---------- actions ----------
+  onAction = () => {
+    const m = this.state.activeMat;
+    if (m === 'flyer') return this.exportPages([{ id: 'flyer' }], { w: 612, h: 792 }, `HSA-Flyer${this.fileTag()}.pdf`);
+    if (m === 'choose') return this.exportPages([{ id: 'choose-front' }, { id: 'choose-back' }], { w: 612, h: 396 }, `Choose-HSA-Postcard${this.fileTag()}.pdf`);
+    if (m === 'hello') return this.exportPages([{ id: 'hello-front' }, { id: 'hello-back' }], { w: 612, h: 396 }, `Hello-HSA-Postcard${this.fileTag()}.pdf`);
+    if (m === 'screen') return this.exportPages([{ id: 'screen' }], { w: 1440, h: 810 }, `HSA-Digital-Screen${this.fileTag()}.pdf`, 1920);
+    if (m === 'blurb') return this.copyOut(this.blurbFull());
+    if (m === 'email') return this.copyOut(this.emailFull());
+  };
+  fileTag() { const s = (this.state.companyName || '').toLowerCase().replace(/[^a-z0-9]/g, ''); return s ? '-' + s : ''; }
+
+  copyOut(text) {
+    const done = () => { this.setState({ copied: true }); clearTimeout(this._copyT); this._copyT = setTimeout(() => this.setState({ copied: false }), 1800); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, () => this._fallbackCopy(text, done)); }
+      else this._fallbackCopy(text, done);
+    } catch (e) { this._fallbackCopy(text, done); }
+  }
+  _fallbackCopy(text, done) {
+    try { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); } catch (e) {}
+  }
+
+  // ---------- PDF export (vector) ----------
+  async exportPages(pages, fmt, filename, designW = 816) {
+    if (this.state.exporting || !window.jspdf) return;
+    this.setState({ exporting: true });
+    try {
+      try { await document.fonts.ready; } catch (e) {}
+      const { jsPDF } = window.jspdf;
+      const orient = fmt.w > fmt.h ? 'landscape' : 'portrait';
+      const pdf = new jsPDF({ unit: 'pt', format: [fmt.w, fmt.h], orientation: orient });
+      const k = fmt.w / designW;
+      for (let i = 0; i < pages.length; i++) {
+        if (i > 0) pdf.addPage([fmt.w, fmt.h], orient);
+        const el = document.getElementById(pages[i].id);
+        if (el) await this.renderPage(pdf, el, k, designW);
+      }
+      pdf.save(filename);
+    } catch (e) { console.error('Export failed', e); }
+    finally { this.setState({ exporting: false }); }
+  }
+
+  async renderPage(pdf, root, k, designW = 816) {
+    const fr = root.getBoundingClientRect();
+    const sc = fr.width / designW;
+    const rel = (el) => { const r = el.getBoundingClientRect(); return { x: (r.left - fr.left) / sc, y: (r.top - fr.top) / sc, w: r.width / sc, h: r.height / sc }; };
+    const col = (s) => { const m = (s || '').match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(',').map(parseFloat); if (p.length >= 4 && p[3] === 0) return null; return [p[0], p[1], p[2]]; };
+    const decode = (t) => t.replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&mdash;/g, '\u2014').replace(/&ndash;/g, '\u2013').replace(/&rsquo;/g, '\u2019').replace(/&lsquo;/g, '\u2018').replace(/&ldquo;/g, '\u201C').replace(/&rdquo;/g, '\u201D').replace(/&copy;/g, '\u00A9').replace(/&bull;/g, '\u2022').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+    const pngMap = new Map();
+    for (const im of Array.from(root.querySelectorAll('img'))) {
+      try {
+        if (!im.getAttribute('src')) continue;
+        if (!im.complete) { try { await Promise.race([im.decode().catch(() => {}), new Promise((r) => setTimeout(r, 1200))]); } catch (e) {} }
+        const r = rel(im);
+        const up = 3;
+        const cw = Math.max(1, Math.round((r.w || im.naturalWidth || 100) * up));
+        const ch = Math.max(1, Math.round((r.h || im.naturalHeight || 100) * up));
+        const cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+        cv.getContext('2d').drawImage(im, 0, 0, cw, ch);
+        pngMap.set(im, cv.toDataURL('image/png'));
+      } catch (e) {}
+    }
+
+    const drawText = (el) => {
+      let h = el.innerHTML.replace(/<sup[^>]*>/gi, '').replace(/<\/sup>/gi, '').replace(/<br\s*\/?>(?:\s*)/gi, '\n').replace(/<[^>]+>/g, '');
+      const txt = decode(h).replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').trim();
+      if (!txt) return;
+      const cs = getComputedStyle(el);
+      const r = rel(el);
+      const fpx = parseFloat(cs.fontSize) || 14;
+      const italic = cs.fontStyle === 'italic';
+      const bold = (parseInt(cs.fontWeight) || 400) >= 600;
+      const fam = /Baskerville|Georgia/i.test(cs.fontFamily) || /(^|[^-])serif/i.test(cs.fontFamily.replace(/sans-serif/gi, '')) ? 'times' : 'helvetica';
+      let st = 'normal';
+      if (bold && italic) st = 'bolditalic'; else if (bold) st = 'bold'; else if (italic) st = 'italic';
+      pdf.setFont(fam, st);
+      pdf.setFontSize(fpx * k);
+      const c = col(cs.color) || [0, 0, 0];
+      pdf.setTextColor(c[0], c[1], c[2]);
+      const lhpx = parseFloat(cs.lineHeight);
+      const lh = (isNaN(lhpx) ? fpx * 1.25 : lhpx) * k;
+      const maxW = Math.max(12, r.w * k);
+      const nowrap = cs.whiteSpace === 'nowrap';
+      let lines = [];
+      for (const seg of txt.split('\n')) lines = lines.concat(nowrap ? [seg] : pdf.splitTextToSize(seg, maxW + 0.5));
+      const align = cs.textAlign;
+      let ty = r.y * k + (lh - fpx * k) / 2;
+      for (const ln of lines) {
+        const opt = { baseline: 'top' };
+        let tx = r.x * k;
+        if (align === 'center') { tx = r.x * k + maxW / 2; opt.align = 'center'; }
+        else if (align === 'right' || align === 'end') { tx = r.x * k + maxW; opt.align = 'right'; }
+        pdf.text(ln, tx, ty, opt);
+        ty += lh;
+      }
+    };
+
+    const hasText = (el) => Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim());
+
+    const walk = (el) => {
+      if (el.nodeType !== 1) return;
+      const cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) === 0) return;
+      const r = rel(el);
+      if (el !== root && r.w > 0 && r.h > 0) {
+        let bg = col(cs.backgroundColor);
+        let grad = !bg && /gradient/.test(cs.backgroundImage);
+        const rad = Math.min(parseFloat(cs.borderTopLeftRadius) || 0, r.w / 2, r.h / 2) * k;
+        if (bg && !grad) {
+          pdf.setFillColor(bg[0], bg[1], bg[2]);
+          if (rad > 0.5) pdf.roundedRect(r.x * k, r.y * k, r.w * k, r.h * k, rad, rad, 'F');
+          else pdf.rect(r.x * k, r.y * k, r.w * k, r.h * k, 'F');
+        } else if (grad) {
+          pdf.setFillColor(126, 47, 203);
+          if (rad > 0.5) pdf.roundedRect(r.x * k, r.y * k, r.w * k, r.h * k, rad, rad, 'F');
+          else pdf.rect(r.x * k, r.y * k, r.w * k, r.h * k, 'F');
+        }
+        const bw = parseFloat(cs.borderTopWidth) || 0;
+        const bc = col(cs.borderTopColor);
+        if (bw > 0 && bc && cs.borderTopStyle !== 'none') {
+          pdf.setDrawColor(bc[0], bc[1], bc[2]); pdf.setLineWidth(bw * k);
+          if (rad > 0.5) pdf.roundedRect(r.x * k, r.y * k, r.w * k, r.h * k, rad, rad, 'S');
+          else pdf.rect(r.x * k, r.y * k, r.w * k, r.h * k, 'S');
+        }
+      }
+      if (el.tagName === 'IMG') {
+        const png = pngMap.get(el);
+        if (png && r.w > 0) { try { pdf.addImage(png, 'PNG', r.x * k, r.y * k, r.w * k, r.h * k); } catch (e) {} }
+        return;
+      }
+      if (/Material Symbols/.test(cs.fontFamily)) {
+        const t = el.textContent.trim();
+        if (t) {
+          const px = parseFloat(cs.fontSize) || 20;
+          const up = 4;
+          const cv = document.createElement('canvas'); cv.width = Math.round(px * up); cv.height = Math.round(px * up);
+          const cx = cv.getContext('2d'); cx.scale(up, up);
+          cx.font = `${px}px 'Material Symbols Rounded'`;
+          const cc = col(cs.color) || [79, 40, 131];
+          cx.fillStyle = `rgb(${cc[0]},${cc[1]},${cc[2]})`;
+          cx.textBaseline = 'middle'; cx.textAlign = 'center';
+          cx.fillText(t, px / 2, px / 2);
+          try { pdf.addImage(cv.toDataURL('image/png'), 'PNG', r.x * k, (r.y + (r.h - px) / 2) * k, px * k, px * k); } catch (e) {}
+        }
+        return;
+      }
+      if (hasText(el)) { drawText(el); return; }
+      for (const c of el.children) walk(c);
+    };
+
+    walk(root);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const m = s.activeMat;
+    const hasLogo = !!s.logoData;
+    const hasName = !!s.companyName.trim();
+    const contribInd = this.money(s.contribInd);
+    const contribFam = this.money(s.contribFam);
+    const mk = (src, style) => src ? React.createElement('img', { src, alt: '', style }) : null;
+
+    const logoChip = (h = 34, fs = 22, pad = '9px 15px', mw = 170) => {
+      if (hasLogo) return React.createElement('div', { style: { background: '#fff', borderRadius: Math.round(h / 3) + 4, padding: pad, display: 'inline-flex', alignItems: 'center', boxShadow: '0 2px 10px rgba(0,0,0,.12)' } }, React.createElement('img', { src: s.logoData, alt: '', style: { maxHeight: h, maxWidth: mw, objectFit: 'contain', display: 'block' } }));
+      if (hasName) return React.createElement('div', { style: { fontSize: fs, fontWeight: 600, letterSpacing: '-0.02em', color: '#fff' } }, s.companyName.trim());
+      return null;
+    };
+
+    const back = () => {
+      const url = this.effectiveUrl();
+      const item = (txt, supSym) => React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 11 } }, [
+        React.createElement('span', { key: 'i', className: 'msym', style: { fontSize: 22, color: '#C04CFF', fontVariationSettings: "'FILL' 1", flex: '0 0 auto' } }, 'check_circle'),
+        React.createElement('span', { key: 't', style: { fontSize: 13.5, lineHeight: 1.2, color: '#000' } }, txt, supSym ? React.createElement('sup', { style: { fontSize: 8, top: '-4px', position: 'relative' } }, supSym) : null),
+      ]);
+      return React.createElement('div', { style: { position: 'absolute', inset: 0 } }, [
+        React.createElement('div', { key: 'L', style: { position: 'absolute', left: 48, top: 44, width: 420 } }, [
+          React.createElement('div', { key: 'h', style: { fontSize: 20, fontWeight: 500, letterSpacing: '-0.02em', color: '#000' } }, this.t('backTitle')),
+          React.createElement('p', { key: 'b', style: { margin: '12px 0 0', fontSize: 13, lineHeight: 1.45, color: '#000' } }, this.t('backBody')),
+          React.createElement('div', { key: 'l', style: { display: 'flex', flexDirection: 'column', gap: 13, marginTop: 18 } }, [
+            React.createElement('div', { key: 1 }, item(this.t('checkContrib'), '*')),
+            React.createElement('div', { key: 2 }, item(this.t('checkInvest'), '\u2227')),
+            React.createElement('div', { key: 3 }, item(this.t('checkSpend'))),
+          ]),
+        ]),
+        React.createElement('div', { key: 'G', style: { position: 'absolute', left: 48, top: 248, background: '#F2F3F4', borderRadius: 14, padding: '14px 18px', width: 320 } },
+          React.createElement('div', { style: { fontSize: 15, fontWeight: 500, letterSpacing: '-0.015em', lineHeight: 1.22, color: '#000' } }, this.t('backRoll'))),
+        React.createElement('div', { key: 'Q', style: { position: 'absolute', left: 48, top: 336, display: 'flex', alignItems: 'center', gap: 16 } }, [
+          mk(s.learnQr, { width: 64, height: 64, display: 'block', flex: '0 0 auto' }),
+          React.createElement('div', { key: 'lm' }, [
+            React.createElement('div', { key: 1, style: { fontSize: 18, fontWeight: 500, letterSpacing: '-0.01em', color: '#4F2883' } }, this.t('learnMore')),
+            React.createElement('div', { key: 2, style: { fontSize: 14, color: '#000', marginTop: 2 } }, url),
+          ]),
+        ]),
+        React.createElement('p', { key: 'F', style: { position: 'absolute', left: 48, bottom: 26, width: 440, margin: 0, fontSize: 7.6, lineHeight: 1.45, color: '#000' } },
+          this.t('backFoot')),
+      ]);
+    };
+
+    // sidebar active state lives on handler-less wrapper divs (style holes re-resolve there)
+    const navWrap = (k) => 'border-radius:10px;transition:background .15s,color .15s;' + (m === k ? 'background:#F2F3F4;color:#4F2883;font-weight:600;' : 'background:transparent;color:#000;font-weight:500;');
+
+    const isText = m === 'blurb' || m === 'email';
+    const isEmail = m === 'email';
+    const isLanding = m === 'landing';
+    const isVisual = m === 'flyer' || m === 'choose' || m === 'hello' || m === 'screen';
+    const actionLabel = s.exporting ? 'Generating PDF\u2026' : s.copied ? 'Copied!' : isText ? 'Copy text' : 'Download PDF';
+    const actionIcon = s.exporting ? 'hourglass_top' : s.copied ? 'check' : isText ? 'content_copy' : 'download';
+
+    const oe = this.oeDisplay();
+    const summaryBits = [];
+    if (s.planName.trim()) summaryBits.push(s.planName.trim());
+    if (oe) summaryBits.push(oe);
+
+    return {
+      // mode
+      isSetup: s.mode === 'setup',
+      isKit: s.mode === 'kit',
+      setupBgImg: mk(s.gradient, { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }),
+      onBuild: this.onBuild,
+      onEdit: this.onEdit,
+      buildLabel: s.pageLive ? 'Update my kit' : 'Build my kit',
+
+      // header summary
+      coDisplay: this.co(),
+      summaryLine: summaryBits.length ? summaryBits.join(' \u00B7 ') : 'Open enrollment kit',
+      logoImgSmall: mk(s.logoData, { maxHeight: 30, maxWidth: 76, objectFit: 'contain', display: 'block' }),
+      isLiveBadge: s.pageLive && m !== 'landing',
+      showAction: !isLanding,
+
+      // fields
+      companyName: s.companyName,
+      planName: s.planName,
+      oeStart: s.oeStart,
+      oeEnd: s.oeEnd,
+      contribInd: s.contribInd,
+      contribFam: s.contribFam,
+      onCompanyName: this.onCompanyName,
+      onPlanName: this.onPlanName,
+      onOeStart: this.onOeStart,
+      onOeEnd: this.onOeEnd,
+      onContribInd: this.onContribInd,
+      onContribFam: this.onContribFam,
+      onLogoUpload: this.onLogoUpload,
+      isStep1: s.setupStep !== 2,
+      isStep2: s.setupStep === 2,
+      stepTitle: s.setupStep === 2 ? 'Plan details' : 'Company basics',
+      stepCaption: s.setupStep === 2 ? 'Step 2 of 2 \u00B7 Your plan, dates, and numbers' : 'Step 1 of 2 \u00B7 Who this kit is for',
+      stepDot1: 'display:inline-block;width:22px;height:5px;border-radius:999px;background:#4F2883;',
+      stepDot2: 'display:inline-block;width:22px;height:5px;border-radius:999px;background:' + (s.setupStep === 2 ? '#4F2883' : '#e3e3ea') + ';',
+      onNext: this.onNext,
+      onBack: this.onBack,
+      calOpen: s.calOpen,
+      calMonthLabel: this.calMonthLabel(),
+      calDays: this.buildCalDays(),
+      calDow: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+      calChevron: s.calOpen ? 'expand_less' : 'calendar_month',
+      onToggleCal: this.onToggleCal,
+      onCalPrev: this.onCalPrev,
+      onCalNext: this.onCalNext,
+      onCalClear: this.onCalClear,
+      onCalDone: this.onCalDone,
+      oeRangeDisplay: oe,
+      hasOeRange: !!(s.oeStart || s.oeEnd),
+      noOeRange: !(s.oeStart || s.oeEnd),
+      hsaPremium: s.hsaPremium,
+      tradPremium: s.tradPremium,
+      hsaDeduct: s.hsaDeduct,
+      tradDeduct: s.tradDeduct,
+      onHsaPremium: this.onHsaPremium,
+      onTradPremium: this.onTradPremium,
+      onHsaDeduct: this.onHsaDeduct,
+      onTradDeduct: this.onTradDeduct,
+      hasLogo, noLogo: !hasLogo,
+      logoTitle: hasLogo ? 'Logo added' : 'Company logo',
+      logoStatus: s.logoStatus,
+      logoImgDrop: mk(s.logoData, { maxWidth: 40, maxHeight: 40, objectFit: 'contain', display: 'block' }),
+      logoImgTop: mk(s.logoData, { maxHeight: 54, maxWidth: 228, objectFit: 'contain', display: 'block' }),
+      showCompanyText: !hasLogo && hasName,
+
+      // localization
+      lang: s.lang,
+      onLangChange: (e) => this.setLang(e.target.value),
+      langOpts: [
+        { code: 'en', label: 'English' },
+        { code: 'es', label: 'Espa\u00F1ol' },
+        { code: 'fr', label: 'Fran\u00E7ais' },
+        { code: 'zh', label: '\u4E2D\u6587' },
+      ],
+      tFlyerTitle: this.t('flyerTitle'),
+      flyerTitleStyle: 'margin:0;line-height:1.02;letter-spacing:-0.035em;font-weight:500;color:#000;white-space:nowrap;font-size:' + ({ en: 34, es: 28, fr: 32, zh: 34 }[s.lang] || 34) + 'px;',
+      tFlyerIntroA: this.t('flyerIntroA'), tFlyerIntroB: this.t('flyerIntroB'),
+      tFlyerCheck1: this.t('flyerCheck1'), tFlyerCheck2: this.t('flyerCheck2'), tFlyerCheck3: this.t('flyerCheck3'),
+      tLessTax1: this.t('lessTax1'), tLessTax2: this.t('lessTax2'), tSave30: this.t('save30'),
+      tNoHsa: this.t('noHsa'), tTaxFree: this.t('taxFree'), tTaxed: this.t('taxed'),
+      tLimitsTitle: this.t('limitsTitle'), tIndPlan: this.t('indPlan'), tFamPlan: this.t('famPlan'), tCatchUp: this.t('catchUp'),
+      tSeeSave1: this.t('seeSave1'), tSeeSave2: this.t('seeSave2'),
+      tScanApp: this.t('scanApp'), tAppNote: this.t('appNote'), tSpendTitle: this.t('spendTitle'),
+      tMedical: this.t('medical'), tVision: this.t('vision'), tDental: this.t('dental'), tRx: this.t('rx'), tDiscover: this.t('discover'),
+      tEligiblePlan: this.t('eligiblePlan'), tOpenEnrollment: this.t('openEnrollment'), tEmployerContrib: this.t('employerContrib'),
+      tFlyerFootnotes: this.t('flyerFootnotes'), tFlyerCopyright: this.t('flyerCopyright'),
+      tChooseHead: this.t('chooseHead'),
+      chooseHeadStyle: 'margin:0;line-height:.95;letter-spacing:-0.04em;font-weight:600;color:#fff;font-size:' + ({ en: 96, es: 96, fr: 68, zh: 96 }[s.lang] || 96) + 'px;',
+      screenHeadStyle: 'margin:0;line-height:.92;letter-spacing:-0.045em;font-weight:600;color:#fff;white-space:nowrap;font-size:' + ({ en: 170, es: 170, fr: 122, zh: 170 }[s.lang] || 170) + 'px;',
+      helloHeadStyle: 'margin:0;line-height:1.0;letter-spacing:-0.035em;font-weight:600;color:#fff;font-size:' + ({ en: 66, es: 58, fr: 50, zh: 66 }[s.lang] || 66) + 'px;',
+      tTagPre: this.t('tagPre'), tTagSerif: this.t('tagSerif'), tTagPost: this.t('tagPost'),
+      tEnrollment: this.t('enrollment'),
+      tHello1: this.t('hello1'), tHello2: this.t('hello2'),
+      tHelloPre: this.t('helloPre'), tHelloSerif1: this.t('helloSerif1'), tHelloMid: this.t('helloMid'), tHelloSerif2: this.t('helloSerif2'), tHelloPost: this.t('helloPost'),
+      tCheckContrib: this.t('checkContrib'), tCheckInvest: this.t('checkInvest'), tCheckSpend: this.t('checkSpend'),
+      tScreenLegal: this.t('screenLegal'),
+
+      // shared material vals
+      learnQrImg: mk(s.learnQr, { width: 92, height: 92, flex: '0 0 auto', display: 'block' }),
+      appQrImg: mk(s.appQr, { width: 70, height: 70, display: 'block' }),
+      companyUrl: this.effectiveUrl(),
+      effectiveUrl: this.effectiveUrl(),
+      showOE: !!(s.oeStart || s.oeEnd),
+      showPlan: !!s.planName.trim(),
+      oeDisplay: oe,
+      showContrib: !!(contribInd || contribFam),
+      showContribInd: !!contribInd,
+      showContribFam: !!contribFam,
+      contribIndDisplay: contribInd,
+      contribFamDisplay: contribFam,
+
+      // materials
+      onNavFlyer: this.onNavFlyer, navFlyerWrap: navWrap('flyer'),
+      onNavChoose: this.onNavChoose, navChooseWrap: navWrap('choose'),
+      onNavHello: this.onNavHello, navHelloWrap: navWrap('hello'),
+      onNavScreen: this.onNavScreen, navScreenWrap: navWrap('screen'),
+      onNavEmail: this.onNavEmail, navEmailWrap: navWrap('email'),
+      onNavBlurb: this.onNavBlurb, navBlurbWrap: navWrap('blurb'),
+      onNavLanding: this.onNavLanding, navLandingWrap: navWrap('landing'),
+      pageLiveDot: s.pageLive,
+      isVisual, isFlyer: m === 'flyer', isChoose: m === 'choose', isHello: m === 'hello', isScreen: m === 'screen',
+      isText, isEmail, isLanding,
+      gradImgA: mk(s.gradient, { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }),
+      gradImgB: mk(s.gradient, { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }),
+      gradImgScreen: mk(s.gradient, { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }),
+      pcLogoChip: logoChip(),
+      pcLogoChip2: logoChip(),
+      pcLogoChipS: logoChip(56, 40, '16px 28px', 300),
+      screenQrImg: mk(s.learnQr, { width: 200, height: 200, display: 'block' }),
+      postcardBack: back(),
+      postcardBack2: back(),
+
+      // text materials
+      textIcon: isEmail ? 'mail' : 'menu_book',
+      textKicker: isEmail ? 'Open enrollment email \u00B7 ready to send' : 'Benefits guide copy \u00B7 ready to paste',
+      textHeading: isEmail ? this.t('emailHeading') : this.blurbHeading(),
+      textBody: isEmail ? this.emailBody() : this.blurbBody(),
+      emailSubject: this.emailSubject(),
+
+      // landing / go live
+      liveIdle: isLanding && !s.publishing && !s.pageLive,
+      livePublishing: isLanding && s.publishing,
+      liveDone: isLanding && !s.publishing && s.pageLive,
+      publishTitle: 'Publish ' + this.poss(this.co()) + ' member page',
+      publishStep: s.publishStep,
+      vanityUrl: this.vanityUrl(),
+      liveUrl: this.liveUrl(),
+      iframeSrc: 'Member Landing Page.dc.html?site=' + this.slug(s.companyName) + '&v=' + s.iframeV,
+      onPublish: this.onPublish,
+      onCopyLink: this.onCopyLink,
+      copyLabel: s.linkCopied ? 'Copied!' : 'Copy link',
+      copyIcon: s.linkCopied ? 'check' : 'link',
+
+      // action
+      onAction: this.onAction,
+      actionLabel, actionIcon,
+    };
+  }
+}
+</script>
+</body>
+</html>

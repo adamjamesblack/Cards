@@ -1,0 +1,37 @@
+/* ============================================================
+   HealthEquity — Webfonts
+   Brand primary: "Neue Haas Grotesk Text Pro" (licensed, not free).
+   Substituted with Inter — the closest free neo-grotesque.
+   Brand secondary: Libre Baskerville Italic (exact, on Google Fonts).
+   Replace the @import below with self-hosted Neue Haas Grotesk
+   @font-face rules when license files are available.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital@1&display=swap');
+
+/* ------------------------------------------------------------
+   Iconography — Google Material Symbols (Rounded).
+   The brand's icon library. Loaded as the variable icon font so
+   weight / fill / grade / optical-size can be tuned to match the
+   brand's clean, light-stroke feel.
+   ------------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300,0..1,0&display=block');
+
+/* Base class for the icon font. Default: outlined, light weight. */
+.material-symbols-rounded,
+.hqy-icon {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  /* Brand default: optical size 24, light (300) weight, unfilled */
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
