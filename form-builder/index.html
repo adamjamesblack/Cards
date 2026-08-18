@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Form builder — HealthEquity</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="icon" href="assets/healthequity-purple.svg" type="image/svg+xml">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/healthequity-purple.svg" alt="HealthEquity">
+      <span class="appname">Form builder</span>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn" id="btn-preview"><span class="msr">visibility</span><span class="label-lg">Preview</span></button>
+      <button type="button" class="btn btn-dark" id="btn-pdf"><span class="msr">picture_as_pdf</span><span class="label-lg">Fillable PDF</span></button>
+      <button type="button" class="btn btn-primary" id="btn-share"><span class="msr">link</span><span class="label-lg">Share link</span></button>
+    </div>
+  </header>
+
+  <main class="builder">
+    <div class="sidebar">
+      <section class="panel">
+        <h2>Form settings</h2>
+        <div class="settings">
+          <label class="fld">Form title
+            <input type="text" id="set-title" placeholder="e.g. Enrollment change request">
+          </label>
+          <label class="fld">Description
+            <textarea id="set-desc" rows="3" placeholder="Shown under the title."></textarea>
+          </label>
+          <label class="fld">Client name
+            <input type="text" id="set-client" placeholder="Shown top right if no logo is uploaded">
+          </label>
+          <label class="fld">Client logo (top right)</label>
+          <div class="logodrop">
+            <img id="clientlogo-preview" alt="Client logo preview" hidden>
+            <label class="btn btn-sm" style="cursor:pointer"><span class="msr">upload</span> Upload
+              <input type="file" id="clientlogo-file" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>
+            </label>
+            <button type="button" class="btn btn-sm" id="btn-removelogo" hidden>Remove</button>
+          </div>
+          <label class="check"><input type="checkbox" id="set-showlogo" checked> Show client logo on form</label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Add a field</h2>
+        <div class="palette-grid" id="palette"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Manage</h2>
+        <div class="settings">
+          <button type="button" class="btn btn-sm" id="btn-export"><span class="msr">file_save</span> Export form (JSON)</button>
+          <label class="btn btn-sm" style="cursor:pointer"><span class="msr">file_open</span> Import form (JSON)
+            <input type="file" id="import-file" accept=".json,application/json" hidden>
+          </label>
+          <button type="button" class="btn btn-sm" id="btn-new"><span class="msr">restart_alt</span> Start over</button>
+        </div>
+      </section>
+    </div>
+
+    <section class="canvas" id="canvas" aria-label="Form fields"></section>
+  </main>
+
+  <dialog id="dlg-preview" class="preview">
+    <div class="dlg-head">
+      <h3>Preview — what members will see</h3>
+      <button type="button" class="iconbtn" data-close><span class="msr">close</span></button>
+    </div>
+    <div class="dlg-body"><div id="preview-mount"></div></div>
+  </dialog>
+
+  <dialog id="dlg-share">
+    <div class="dlg-head">
+      <h3>Share this form</h3>
+      <button type="button" class="iconbtn" data-close><span class="msr">close</span></button>
+    </div>
+    <div class="dlg-body">
+      <p style="margin:0 0 12px;font-size:13.5px;color:var(--ink-soft)">
+        The whole form is encoded in this link — anyone who opens it sees the live, fillable form.
+        No server stores it, and answers never leave the member's browser.
+      </p>
+      <div class="sharebox">
+        <input type="text" id="share-url" readonly>
+        <button type="button" class="btn btn-primary" id="btn-copyurl"><span class="msr">content_copy</span> Copy</button>
+      </div>
+      <div class="share-meta"><span id="share-len"></span> · <a id="share-open" target="_blank" rel="noopener" style="color:var(--hqy-purple)">Open in a new tab</a></div>
+      <div class="share-warn" id="share-warn" hidden>
+        This link is very long (usually caused by a large client logo). It will still work in a browser,
+        but some email clients truncate long links — consider a smaller logo, or distribute the fillable PDF instead.
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="vendor/lz-string.min.js"></script>
+  <script src="vendor/pdf-lib.min.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/builder.js"></script>
+</body>
+</html>
