@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthEquity brand hub</title>
+<meta name="description" content="The interactive home of the HealthEquity brand — colors, logo downloads, typography, voice, and graphics. Built from the Brand Style Guide (March 2026).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300,0..1,0&display=block" rel="stylesheet">
+<style>
+/* ============================================================
+   HealthEquity brand hub
+   Built from the HealthEquity Brand Style Guide (March 2026)
+   via the in-repo design system tokens (oe-experience/_ds).
+   The page follows the brand's own rules: purple anchors,
+   tight tracking, sentence case, 12pt corners, black pill CTAs.
+   ============================================================ */
+:root{
+  --hqy-purple:#4F2883; --hqy-dark-purple:#300E6E; --hqy-light-purple:#C04CFF;
+  --hqy-teal:#008093; --hqy-cyan:#33E3FF;
+  --hqy-white:#FFFFFF; --hqy-black:#000000; --hqy-gray:#F2F3F4;
+  --g-hero:linear-gradient(105deg,#4F2984 0%,#4051B5 52%,#33A7DC 100%);
+  --g-1:linear-gradient(120deg,#4F2984 0%,#3F4FC0 55%,#2E83E8 100%);
+  --g-2:linear-gradient(140deg,#6B2D9E 0%,#2A1147 60%,#140A22 100%);
+  --g-3:linear-gradient(160deg,#7B2FB5 0%,#4F2984 50%,#310E6E 100%);
+  --g-4:linear-gradient(120deg,#C04CFF 0%,#A57BF2 55%,#8FA6EE 100%);
+  --g-way:linear-gradient(90deg,#310E6E 0%,#6E3FD4 55%,#33C7FF 100%);
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --font-serif:'Libre Baskerville',ui-serif,Georgia,serif;
+  --radius:12px; --radius-pill:999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 40px rgba(49,14,110,.14);
+  --tracking-tight:-0.04em; --tracking-snug:-0.02em;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{font:400 16px/1.5 var(--font-sans);letter-spacing:var(--tracking-snug);color:var(--hqy-black);background:var(--hqy-white)}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;letter-spacing:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.icon{font-family:'Material Symbols Rounded';font-weight:normal;font-style:normal;line-height:1;display:inline-block;vertical-align:-4px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;font-size:20px;letter-spacing:0}
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+::selection{background:var(--hqy-light-purple);color:#fff}
+:focus-visible{outline:2px solid var(--hqy-light-purple);outline-offset:2px}
+
+/* ---- Header ---- */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--hqy-gray)}
+.header-inner{display:flex;align-items:center;gap:28px;height:64px}
+.header-logo svg{height:22px;width:auto;display:block}
+nav.primary{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav.primary::-webkit-scrollbar{display:none}
+nav.primary a{font-size:14px;padding:7px 13px;border-radius:var(--radius-pill);text-decoration:none;white-space:nowrap;transition:background .15s}
+nav.primary a:hover{background:var(--hqy-gray)}
+nav.primary a.active{background:var(--hqy-purple);color:#fff}
+.search-trigger{display:flex;align-items:center;gap:9px;font-size:14px;color:#000;background:var(--hqy-gray);border-radius:var(--radius-pill);padding:8px 16px;transition:filter .15s}
+.search-trigger:hover{filter:brightness(.96)}
+.search-trigger kbd{font:500 11px/1 var(--font-sans);background:#fff;border-radius:5px;padding:4px 6px;box-shadow:var(--shadow-sm)}
+
+/* ---- Hero ---- */
+.hero{background:var(--g-hero);color:#fff;padding:96px 0 88px;position:relative;overflow:hidden}
+.hero .container{position:relative;z-index:2}
+.hero-eyebrow{font-size:14px;font-weight:500;letter-spacing:var(--tracking-snug);opacity:.85;margin-bottom:20px}
+.hero h1{font-size:clamp(38px,6vw,64px);font-weight:400;line-height:1.05;letter-spacing:var(--tracking-tight);max-width:820px}
+.hero .tagline{font:italic 400 clamp(19px,2.4vw,24px)/1.5 var(--font-serif);letter-spacing:0;margin-top:24px;opacity:.94}
+.hero-actions{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+.hero-search{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:var(--radius-pill);padding:13px 24px;font-size:16px;min-width:300px;transition:background .15s}
+.hero-search:hover{background:rgba(255,255,255,.22)}
+.hero-search kbd{font:500 12px/1 var(--font-sans);background:rgba(255,255,255,.2);border-radius:6px;padding:4px 7px;margin-left:auto}
+.hero-way{position:absolute;right:-40px;bottom:-30px;width:420px;opacity:.24;z-index:1;animation:drift 7s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(26px)}}
+@media (prefers-reduced-motion:reduce){.hero-way{animation:none}}
+
+/* ---- Sections ---- */
+section{padding:88px 0}
+section.muted{background:var(--hqy-gray)}
+.eyebrow{font-size:14px;font-weight:500;color:var(--hqy-purple);margin-bottom:14px}
+section.dark .eyebrow{color:var(--hqy-cyan)}
+h2{font-size:clamp(30px,4vw,44px);font-weight:400;letter-spacing:var(--tracking-tight);line-height:1.1;margin-bottom:14px}
+.section-lead{font-size:19px;max-width:680px;margin-bottom:44px}
+h3{font-size:22px;font-weight:400;letter-spacing:var(--tracking-snug);margin:52px 0 20px}
+h3:first-of-type{margin-top:0}
+
+/* ---- Cards & grids ---- */
+.grid{display:grid;gap:20px}
+.grid.c3{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.grid.c4{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden}
+section:not(.muted) .card{border:1px solid var(--hqy-gray)}
+
+/* ---- Color cards ---- */
+.swatch{height:120px;display:flex;align-items:flex-end;padding:14px}
+.swatch .chip-label{font-size:12px;font-weight:500;background:rgba(255,255,255,.9);color:#000;border-radius:var(--radius-pill);padding:4px 11px}
+.color-body{padding:18px}
+.color-name{font-size:18px;margin-bottom:2px}
+.color-role{font-size:13px;margin-bottom:14px}
+.copy-row{display:flex;align-items:center;justify-content:space-between;width:100%;padding:8px 10px;margin:0 -10px;width:calc(100% + 20px);border-radius:8px;font-size:13.5px;text-align:left;transition:background .15s}
+.copy-row:hover{background:var(--hqy-gray)}
+.copy-row .k{font-weight:500;font-size:11.5px;text-transform:none;color:var(--hqy-purple);width:74px;flex:none}
+.copy-row .v{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:0;flex:1;font-size:12px;overflow-wrap:anywhere}
+.copy-row .icon{font-size:16px;opacity:0;transition:opacity .15s}
+.copy-row:hover .icon{opacity:.6}
+
+/* ---- Rule strip ---- */
+.rules{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:44px}
+.rule{background:var(--hqy-purple);color:#fff;border-radius:var(--radius);padding:22px}
+.rule.alt{background:var(--hqy-dark-purple)}
+.rule.ink{background:var(--hqy-black)}
+.rule .icon{font-size:26px;margin-bottom:12px;display:block}
+.rule p{font-size:14.5px;line-height:1.45}
+.rule strong{font-weight:500;display:block;font-size:16.5px;margin-bottom:6px}
+
+/* ---- Gradient cards ---- */
+.grad-preview{height:110px}
+.grad-body{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.grad-name{font-size:16px}
+.grad-usage{font-size:12.5px;margin-top:2px}
+
+/* ---- Buttons ---- */
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:var(--radius-pill);padding:12px 24px;font-size:15px;font-weight:500;letter-spacing:var(--tracking-snug);transition:filter .15s,transform .1s;text-decoration:none}
+.btn:hover{filter:brightness(1.18)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--hqy-black);color:#fff}
+.btn.brand{background:var(--hqy-purple);color:#fff}
+.btn.ghost{background:transparent;border:1.5px solid var(--hqy-black);color:var(--hqy-black)}
+.btn.ghost:hover{filter:none;background:var(--hqy-gray)}
+.btn.on-dark{background:#fff;color:var(--hqy-purple)}
+.btn.sm{padding:8px 16px;font-size:13.5px}
+.link-arrow{font-weight:500;font-size:15px;text-decoration:none;color:var(--hqy-purple)}
+.link-arrow::after{content:' \2192'}
+
+/* ---- Contrast checker ---- */
+.tool{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-md);padding:28px}
+section:not(.muted) .tool{border:1px solid var(--hqy-gray)}
+.tool-title{font-size:19px;margin-bottom:4px}
+.tool-sub{font-size:13.5px;margin-bottom:20px}
+.contrast-controls{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.contrast-controls label{font-size:13px;font-weight:500;display:block;margin-bottom:6px}
+select,input[type=text],textarea{font:inherit;letter-spacing:var(--tracking-snug);border:1.5px solid var(--hqy-gray);border-radius:10px;padding:10px 14px;background:#fff;color:#000}
+select:focus,input[type=text]:focus,textarea:focus{outline:2px solid var(--hqy-light-purple);outline-offset:1px;border-color:transparent}
+.contrast-stage{border-radius:var(--radius);padding:34px 28px;font-size:26px;letter-spacing:var(--tracking-tight);margin-bottom:18px;transition:background .2s,color .2s}
+.contrast-result{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{font-size:12.5px;font-weight:500;border-radius:var(--radius-pill);padding:5px 13px}
+.badge.pass{background:var(--hqy-teal);color:#fff}
+.badge.fail{background:var(--hqy-gray);color:#000;text-decoration:line-through}
+.badge.ratio{background:var(--hqy-black);color:#fff}
+.contrast-note{font-size:13.5px;margin-top:12px}
+
+/* ---- Logo studio ---- */
+.logo-studio{display:grid;grid-template-columns:1fr 340px;gap:24px}
+@media (max-width:900px){.logo-studio{grid-template-columns:1fr}}
+.logo-stage-wrap{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-md);border:1px solid var(--hqy-gray);overflow:hidden;display:flex;flex-direction:column}
+.logo-stage{flex:1;min-height:340px;display:flex;align-items:center;justify-content:center;padding:56px;position:relative;transition:background .25s;background-size:cover;background-position:center}
+.logo-stage svg{width:min(100%,560px);height:auto;position:relative;z-index:2}
+.clearspace{position:absolute;z-index:1;border:1.5px dashed var(--hqy-light-purple);border-radius:4px;pointer-events:none;display:none}
+.logo-stage.show-space .clearspace{display:block}
+.stage-controls{border-top:1px solid var(--hqy-gray);padding:16px 20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;background:#fff}
+.chip-set{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip-set .set-label{font-size:12.5px;font-weight:500;margin-right:4px}
+.chip{font-size:13px;border-radius:var(--radius-pill);padding:6px 14px;background:var(--hqy-gray);transition:filter .15s}
+.chip:hover{filter:brightness(.95)}
+.chip.active{background:var(--hqy-purple);color:#fff}
+.chip.swatch-chip{width:26px;height:26px;padding:0;border:1.5px solid var(--hqy-gray)}
+.logo-side{display:flex;flex-direction:column;gap:20px}
+.logo-hint{background:var(--hqy-gray);border-radius:var(--radius);padding:16px 18px;font-size:14px}
+.logo-hint strong{font-weight:500}
+.dl-panel{background:#fff;border:1px solid var(--hqy-gray);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:22px}
+.dl-panel h4{font-size:16px;font-weight:500;margin-bottom:14px}
+.dl-panel .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.dl-panel select{padding:8px 12px;font-size:14px}
+.donts{margin-top:44px}
+.dd-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.dd{background:#fff;border:1px solid var(--hqy-gray);border-radius:var(--radius);padding:18px}
+.dd .tag{font-size:11.5px;font-weight:500;border-radius:var(--radius-pill);padding:3px 10px;display:inline-block;margin-bottom:10px}
+.dd.no .tag{background:var(--hqy-black);color:#fff}
+.dd.yes .tag{background:var(--hqy-teal);color:#fff}
+.dd p{font-size:14px}
+
+/* ---- Typography ---- */
+.type-tester{margin-bottom:28px}
+.type-tester input{width:100%;font-size:17px}
+.type-row{display:flex;align-items:baseline;gap:24px;padding:22px 10px;margin:0 -10px;border-bottom:1px solid var(--hqy-gray);border-radius:8px;cursor:pointer;transition:background .15s;text-align:left;width:calc(100% + 20px)}
+.type-row:hover{background:var(--hqy-gray)}
+.type-meta{flex:none;width:170px;font-size:12.5px;line-height:1.6;letter-spacing:0;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+.type-meta .nm{font-family:var(--font-sans);font-weight:500;font-size:13.5px;letter-spacing:var(--tracking-snug)}
+.type-sample{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.1;flex:1}
+.track-demo .contrast-stage{background:var(--hqy-gray);color:#000}
+.track-demo input[type=range]{width:100%;accent-color:var(--hqy-purple)}
+.serif-moment{font:italic 400 26px/1.5 var(--font-serif);letter-spacing:0}
+.serif-moment .sans{font:400 26px/1.5 var(--font-sans);letter-spacing:var(--tracking-tight);font-style:normal}
+
+/* ---- Voice ---- */
+.voice-cards .rule{background:#fff;color:#000;border:1px solid var(--hqy-gray)}
+.voice-cards .rule .icon{color:var(--hqy-purple)}
+.dodont-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){.dodont-pair{grid-template-columns:1fr}}
+.case-out{background:var(--hqy-gray);border-radius:10px;padding:14px 16px;font-size:16px;min-height:52px;margin-top:14px}
+.warnings{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.warn{font-size:13.5px;padding-left:2px}
+.warn::before{content:'\2192\00a0\00a0';color:var(--hqy-purple);font-weight:500}
+textarea{width:100%;resize:vertical;min-height:64px}
+
+/* ---- Wayfinder ---- */
+section.dark{background:var(--hqy-black);color:#fff}
+section.dark .tool{background:#111;border:1px solid #222}
+section.dark select{background:#000;color:#fff;border-color:#333}
+.way-stage{display:flex;align-items:center;justify-content:center;padding:48px 24px;background:#000;border-radius:var(--radius);margin-bottom:20px;border:1px solid #222}
+.way-stage svg{width:min(420px,80%);height:auto}
+section.dark .chip{background:#1d1d1f;color:#fff}
+section.dark .chip.active{background:var(--hqy-light-purple);color:#000}
+section.dark .card{background:#111;border:1px solid #222;color:#fff}
+
+/* ---- Photography ---- */
+.photo-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.photo-grid img{border-radius:var(--radius);aspect-ratio:4/3;object-fit:cover;width:100%}
+.photo-cap{font-size:13px;margin-top:8px}
+
+/* ---- Expression modes ---- */
+.mode-switch{display:inline-flex;background:#fff;border:1px solid var(--hqy-gray);border-radius:var(--radius-pill);padding:4px;gap:2px;margin-bottom:28px;flex-wrap:wrap}
+.mode-switch button{border-radius:var(--radius-pill);padding:9px 20px;font-size:14px;transition:background .15s}
+.mode-switch button.active{background:var(--hqy-purple);color:#fff}
+.mode-demo{border-radius:var(--radius);padding:56px 44px;transition:background .3s,color .3s;box-shadow:var(--shadow-lg)}
+.mode-demo h4{font-size:clamp(26px,3.4vw,38px);font-weight:400;letter-spacing:var(--tracking-tight);line-height:1.1;max-width:560px}
+.mode-demo .serif{font:italic 400 1em/1.15 var(--font-serif);letter-spacing:0}
+.mode-demo p{margin-top:14px;font-size:16.5px;max-width:480px}
+.mode-demo .btn{margin-top:26px}
+.mode-desc{font-size:14.5px;max-width:640px;margin-top:20px}
+
+/* ---- Components strip ---- */
+.comp-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.comp-card{background:#fff;border:1px solid var(--hqy-gray);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:24px;display:flex;flex-direction:column;gap:16px}
+.comp-stage{background:var(--hqy-gray);border-radius:10px;padding:28px;display:flex;align-items:center;justify-content:center;min-height:110px}
+.comp-card h4{font-size:16px;font-weight:500}
+.comp-card .note{font-size:13px}
+
+/* ---- Footer ---- */
+footer{background:var(--hqy-black);color:#fff;padding:56px 0 40px;font-size:13px}
+footer .flogo svg{height:20px;width:auto;margin-bottom:22px}
+footer .legal{opacity:.75;line-height:1.7;max-width:720px}
+footer .built{margin-top:18px;opacity:.55}
+
+/* ---- Command palette ---- */
+.palette-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:12vh 20px 20px}
+.palette-overlay.open{display:flex}
+.palette{background:#fff;border-radius:16px;width:min(640px,100%);box-shadow:var(--shadow-lg);overflow:hidden}
+.palette-input{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--hqy-gray)}
+.palette-input input{border:none;outline:none;flex:1;font-size:17px;padding:0}
+.palette-results{max-height:52vh;overflow-y:auto;padding:8px}
+.p-group{font-size:11.5px;font-weight:500;color:var(--hqy-purple);padding:12px 14px 6px}
+.p-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border-radius:10px;font-size:14.5px}
+.p-item .icon{font-size:19px;flex:none;opacity:.7}
+.p-item .sw{width:18px;height:18px;border-radius:6px;flex:none;border:1px solid var(--hqy-gray)}
+.p-item .sub{margin-left:auto;font-size:12px;opacity:.55;flex:none}
+.p-item.sel{background:var(--hqy-purple);color:#fff}
+.p-item.sel .icon,.p-item.sel .sub{opacity:.85}
+.p-empty{padding:28px;text-align:center;font-size:14.5px}
+.palette-foot{border-top:1px solid var(--hqy-gray);padding:10px 18px;font-size:12px;display:flex;gap:16px;opacity:.7}
+.palette-foot kbd{background:var(--hqy-gray);border-radius:4px;padding:2px 6px;font:500 11px/1 var(--font-sans)}
+
+/* ---- Toast ---- */
+#toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(16px);background:var(--hqy-black);color:#fff;border-radius:var(--radius-pill);padding:12px 24px;font-size:14.5px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;display:flex;align-items:center;gap:9px;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast .icon{color:var(--hqy-cyan);font-size:18px}
+
+/* ---- Flash highlight (search jump) ---- */
+@keyframes flash{0%,60%{box-shadow:0 0 0 3px var(--hqy-light-purple)}100%{box-shadow:0 0 0 3px transparent}}
+.flash{animation:flash 1.6s ease-out}
+
+@media (max-width:700px){
+  .container{padding:0 20px}
+  section{padding:64px 0}
+  .type-meta{width:110px}
+  .hero{padding:72px 0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <a class="header-logo" href="#top" aria-label="HealthEquity brand hub home" id="headerLogo"></a>
+    <nav class="primary" aria-label="Sections">
+      <a href="#colors">Color</a>
+      <a href="#logo">Logo</a>
+      <a href="#type">Typography</a>
+      <a href="#voice">Voice</a>
+      <a href="#graphics">Graphics</a>
+      <a href="#photography">Photography</a>
+      <a href="#modes">Modes</a>
+      <a href="#components">Components</a>
+    </nav>
+    <button class="search-trigger" id="searchBtn" aria-label="Search the brand">
+      <span class="icon">search</span> Search <kbd id="kbdHint">Ctrl K</kbd>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= Hero ================= -->
+  <div class="hero">
+    <svg class="hero-way" viewBox="0 0 210 136" aria-hidden="true">
+      <path d="M10,10 H140 L198,68 L140,126 H10 Z" fill="rgba(255,255,255,.9)" stroke="rgba(255,255,255,.9)" stroke-width="18" stroke-linejoin="round"/>
+    </svg>
+    <div class="container">
+      <p class="hero-eyebrow">The HealthEquity brand hub</p>
+      <h1>Everything you need to build the brand, in one place.</h1>
+      <p class="tagline">Better save, spend, and invest for health.</p>
+      <div class="hero-actions">
+        <button class="hero-search" id="heroSearchBtn">
+          <span class="icon">search</span> Try &ldquo;purple&rdquo;, &ldquo;logo png&rdquo; or &ldquo;tints&rdquo; <kbd>&#8984;K</kbd>
+        </button>
+        <a class="btn on-dark" href="#logo">Download the logo</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Color ================= -->
+  <section id="colors">
+    <div class="container">
+      <p class="eyebrow">Color</p>
+      <h2>Purple anchors everything.</h2>
+      <p class="section-lead">Click any value to copy it. Use colors only at their full, approved values — hierarchy comes from letting one color carry the emphasis in each layout.</p>
+
+      <h3>Primary palette</h3>
+      <div class="grid c4" id="primarySwatches"></div>
+
+      <h3>Neutrals — only these three</h3>
+      <div class="grid c4" id="neutralSwatches"></div>
+
+      <div class="rules">
+        <div class="rule"><span class="icon">block</span><p><strong>Full value only</strong>No tints, shades or transparencies of brand colors. If a color feels too strong, use less of it — not a lighter version of it.</p></div>
+        <div class="rule alt"><span class="icon">filter_1</span><p><strong>One color leads</strong>Let a single color carry emphasis per layout. Don't crowd bold colors together.</p></div>
+        <div class="rule ink"><span class="icon">contrast</span><p><strong>No mid-grays</strong>Secondary text is black, not gray. Hierarchy comes from size and spacing, never from washed-out tones.</p></div>
+      </div>
+
+      <h3>Approved gradients</h3>
+      <p class="section-lead" style="margin-bottom:28px">For large surfaces and hero moments, used sparingly. Never modify the angle or stops, never place two gradients adjacent, never behind small text.</p>
+      <div class="grid c3" id="gradientCards"></div>
+
+      <h3>Contrast checker</h3>
+      <div class="tool" id="contrastTool">
+        <p class="tool-title">Will this pairing pass?</p>
+        <p class="tool-sub">Pick a text and background color from the palette to check WCAG contrast before you ship.</p>
+        <div class="contrast-controls">
+          <div><label for="fgSel">Text color</label><select id="fgSel"></select></div>
+          <div><label for="bgSel">Background</label><select id="bgSel"></select></div>
+        </div>
+        <div class="contrast-stage" id="contrastStage">Take control of your health, your way.</div>
+        <div class="contrast-result" id="contrastResult"></div>
+        <p class="contrast-note" id="contrastNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Logo ================= -->
+  <section id="logo" class="muted">
+    <div class="container">
+      <p class="eyebrow">Logo</p>
+      <h2>The logo studio.</h2>
+      <p class="section-lead">Preview the logo on real brand surfaces, check clear space, then download exactly the file you need — SVG for print and design tools, transparent PNG at any size for decks and docs.</p>
+
+      <div class="logo-studio">
+        <div class="logo-stage-wrap">
+          <div class="logo-stage" id="logoStage">
+            <div class="clearspace" id="clearspaceBox"></div>
+            <div id="logoHolder" style="display:contents"></div>
+          </div>
+          <div class="stage-controls">
+            <div class="chip-set" id="variantChips">
+              <span class="set-label">Logo</span>
+              <button class="chip active" data-variant="auto">Auto</button>
+              <button class="chip" data-variant="purple">Purple</button>
+              <button class="chip" data-variant="white">White</button>
+            </div>
+            <div class="chip-set" id="bgChips">
+              <span class="set-label">Background</span>
+              <button class="chip active" data-bg="white">White</button>
+              <button class="chip" data-bg="gray">Light gray</button>
+              <button class="chip" data-bg="purple">Purple</button>
+              <button class="chip" data-bg="dark">Dark purple</button>
+              <button class="chip" data-bg="gradient">Gradient</button>
+              <button class="chip" data-bg="photo">Photo</button>
+            </div>
+            <div class="chip-set">
+              <span class="set-label">Clear space</span>
+              <button class="chip" id="spaceChip">Show</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="logo-side">
+          <div class="logo-hint" id="logoHint"></div>
+          <div class="dl-panel">
+            <h4>Download SVG</h4>
+            <div class="row">
+              <button class="btn primary sm" data-dl-svg="purple"><span class="icon">download</span> Purple SVG</button>
+              <button class="btn primary sm" data-dl-svg="white"><span class="icon">download</span> White SVG</button>
+            </div>
+            <div class="row">
+              <button class="btn ghost sm" data-copy-svg="purple"><span class="icon">content_copy</span> Copy SVG code</button>
+            </div>
+          </div>
+          <div class="dl-panel">
+            <h4>Export PNG (transparent)</h4>
+            <div class="row">
+              <select id="pngVariant" aria-label="PNG logo variant">
+                <option value="purple">Purple logo</option>
+                <option value="white">White logo</option>
+              </select>
+              <select id="pngSize" aria-label="PNG width">
+                <option value="512">512 px wide</option>
+                <option value="1024" selected>1024 px wide</option>
+                <option value="2048">2048 px wide</option>
+                <option value="4096">4096 px wide</option>
+              </select>
+            </div>
+            <div class="row" style="margin-bottom:0">
+              <button class="btn brand sm" id="pngBtn"><span class="icon">download</span> Download PNG</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="donts">
+        <h3>Do and don't</h3>
+        <div class="dd-grid">
+          <div class="dd yes"><span class="tag">Do</span><p>Use the purple logo on white and light gray; the white logo on purple, dark and photographic backgrounds.</p></div>
+          <div class="dd yes"><span class="tag">Do</span><p>Keep clear space around the logo — at least the height of the &ldquo;H&rdquo; on every side.</p></div>
+          <div class="dd yes"><span class="tag">Do</span><p>Scale proportionally from the provided SVG or PNG files.</p></div>
+          <div class="dd no"><span class="tag">Don't</span><p>Recolor the logo — it exists in purple and white only.</p></div>
+          <div class="dd no"><span class="tag">Don't</span><p>Stretch, condense, rotate, outline or add effects like shadows and glows.</p></div>
+          <div class="dd no"><span class="tag">Don't</span><p>Place it on low-contrast backgrounds, busy imagery, or a tint of a brand color.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Typography ================= -->
+  <section id="type">
+    <div class="container">
+      <p class="eyebrow">Typography</p>
+      <h2>Roman weight. Tight tracking. Black type.</h2>
+      <p class="section-lead">The brand typeface is Neue Haas Grotesk Text Pro (this page substitutes Inter, the closest free neo-grotesque). Roman 400 is the default almost everywhere — hierarchy comes from size and spacing, not weight.</p>
+
+      <div class="tool type-tester">
+        <p class="tool-title">Type it once, see it everywhere</p>
+        <p class="tool-sub">Edit the line below to preview your own copy across the scale. Click any row to copy its CSS.</p>
+        <input type="text" id="typeInput" value="Hit your max." aria-label="Specimen text">
+      </div>
+
+      <div id="typeScale"></div>
+
+      <div class="rules">
+        <div class="rule"><span class="icon">format_size</span><p><strong>Roman 400 by default</strong>Medium 500 only for small labels needing emphasis. Bold 700 very rarely, for a single tight callout.</p></div>
+        <div class="rule alt"><span class="icon">compress</span><p><strong>Tracking runs tight</strong>&minus;0.02 to &minus;0.05em is a brand signature. Try the slider below to feel the difference.</p></div>
+        <div class="rule ink"><span class="icon">match_case</span><p><strong>Sentence case, always</strong>Never Title Case, never ALL CAPS — including eyebrows and section labels.</p></div>
+      </div>
+
+      <h3>Feel the tracking</h3>
+      <div class="tool track-demo">
+        <div class="contrast-stage" id="trackStage" style="font-size:clamp(26px,4vw,40px)">Future-proof your savings.</div>
+        <input type="range" id="trackRange" min="-50" max="0" value="-40" aria-label="Letter spacing in thousandths of an em">
+        <p class="contrast-note" id="trackNote"></p>
+      </div>
+
+      <h3>The human moment</h3>
+      <div class="tool">
+        <p class="serif-moment"><span class="sans">Health and money, handled &mdash; so you can focus on</span> what actually matters.</p>
+        <p class="contrast-note" style="margin-top:16px">Libre Baskerville Italic adds warmth on a line about care, wellbeing or human impact. One phrase, used sparingly — never for whole paragraphs.
+          <button class="btn ghost sm" style="margin-left:10px" data-copy="font: italic 400 1em/1.5 'Libre Baskerville', ui-serif, Georgia, serif; letter-spacing: 0;" data-label="serif emphasis CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Voice ================= -->
+  <section id="voice" class="muted">
+    <div class="container">
+      <p class="eyebrow">Voice and tone</p>
+      <h2>A modern, personal voice built for real people.</h2>
+      <p class="section-lead">The ease of a modern consumer brand, with the authority of a market leader. Plain language about health and money — optimistic, capable, reassuring.</p>
+
+      <div class="rules voice-cards" style="margin-top:0">
+        <div class="rule"><span class="icon">person</span><p><strong>Talk to &ldquo;you&rdquo;</strong>Empower people by talking to them, not over them. &ldquo;Take control of your health, your way.&rdquo;</p></div>
+        <div class="rule"><span class="icon">bolt</span><p><strong>Lead with the point</strong>Short and scannable. One idea per line. Break dense info into digestible sections.</p></div>
+        <div class="rule"><span class="icon">verified</span><p><strong>Confident, never cold</strong>Clear, fresh, human. Authoritative without jargon. Real life, slightly elevated.</p></div>
+        <div class="rule"><span class="icon">sentiment_neutral</span><p><strong>No emoji</strong>The brand does not use emoji in its voice or UI — anywhere.</p></div>
+      </div>
+
+      <h3>Say it like this</h3>
+      <div class="dodont-pair">
+        <div class="dd yes"><span class="tag">Do</span><p>&ldquo;Hit your max. Your future self will thank you.&rdquo;</p></div>
+        <div class="dd no"><span class="tag">Don't</span><p>&ldquo;MAXIMIZE YOUR ANNUAL CONTRIBUTION ALLOWANCE TODAY!&rdquo;</p></div>
+        <div class="dd yes"><span class="tag">Do</span><p>&ldquo;Your money, growing quietly in the background.&rdquo;</p></div>
+        <div class="dd no"><span class="tag">Don't</span><p>&ldquo;Leverage Our Best-In-Class Investment Solutions&rdquo;</p></div>
+      </div>
+
+      <h3>Headline checker</h3>
+      <div class="tool">
+        <p class="tool-title">Paste a headline, get it on brand</p>
+        <p class="tool-sub">Converts to sentence case and flags the things the style guide asks you to avoid.</p>
+        <textarea id="caseInput" placeholder="e.g. UNLOCK Your Savings Potential Today!!!"></textarea>
+        <div class="case-out" id="caseOut">Your brand-cased headline appears here.</div>
+        <div class="warnings" id="caseWarnings"></div>
+        <div style="margin-top:16px"><button class="btn primary sm" id="caseCopy"><span class="icon">content_copy</span> Copy result</button></div>
+      </div>
+
+      <h3>The tagline</h3>
+      <div class="tool" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+        <p style="font:italic 400 clamp(20px,3vw,28px)/1.4 var(--font-serif);letter-spacing:0">Better save, spend, and invest for health.</p>
+        <button class="btn primary sm" data-copy="Better save, spend, and invest for health." data-label="the tagline"><span class="icon">content_copy</span> Copy tagline</button>
+      </div>
+      <p class="contrast-note" style="margin-top:14px">Sentence case. Keep the exact order save &rarr; spend &rarr; invest. Never rewrite, shorten or rephrase it.</p>
+    </div>
+  </section>
+
+  <!-- ================= Graphics / Wayfinder ================= -->
+  <section id="graphics" class="dark">
+    <div class="container">
+      <p class="eyebrow">Graphics</p>
+      <h2>The Wayfinder.</h2>
+      <p class="section-lead">The one true brand graphic: a rounded chevron with a 45&deg; point that always points right — forward energy, progress, momentum. Fill it with a brand color or approved gradient. Never outline it, never point it anywhere else.</p>
+
+      <div class="tool">
+        <div class="way-stage"><svg id="waySvg" viewBox="0 0 210 136" role="img" aria-label="Wayfinder chevron">
+          <defs id="wayDefs"></defs>
+          <path id="wayPath" d="M10,10 H140 L198,68 L140,126 H10 Z" stroke-width="18" stroke-linejoin="round"/>
+        </svg></div>
+        <div class="chip-set" id="wayFills" style="margin-bottom:20px">
+          <span class="set-label">Fill</span>
+          <button class="chip active" data-fill="#4F2883">Purple</button>
+          <button class="chip" data-fill="#300E6E">Dark purple</button>
+          <button class="chip" data-fill="#C04CFF">Light purple</button>
+          <button class="chip" data-fill="#008093">Teal</button>
+          <button class="chip" data-fill="#33E3FF">Cyan</button>
+          <button class="chip" data-fill="grad">Wayfinder gradient</button>
+        </div>
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn on-dark sm" id="wayDl"><span class="icon">download</span> Download SVG</button>
+          <button class="btn ghost sm" style="border-color:#fff;color:#fff" id="wayCopy"><span class="icon">content_copy</span> Copy SVG</button>
+        </div>
+      </div>
+
+      <div class="rules">
+        <div class="rule"><span class="icon">arrow_forward</span><p><strong>Always points right</strong>The Wayfinder signals forward motion. It is never flipped, rotated or pointed left.</p></div>
+        <div class="rule alt"><span class="icon">format_paint</span><p><strong>Filled, never outlined</strong>Use a brand color or approved gradient fill. No strokes, no hollow versions.</p></div>
+        <div class="rule" style="background:var(--hqy-teal)"><span class="icon">target</span><p><strong>Purposeful, not decorative</strong>Use it as a banner, a label, or a frame around imagery — never as background noise.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Photography ================= -->
+  <section id="photography">
+    <div class="container">
+      <p class="eyebrow">Photography</p>
+      <h2>Real life, slightly elevated.</h2>
+      <p class="section-lead">Authentic, candid, emotionally grounded imagery in natural or soft light. Lifestyle subjects stay immersed in the moment — they don't look at the camera. Wellness-focused, never clinical.</p>
+
+      <div class="photo-grid">
+        <figure><img src="../oe-experience/assets/photography/kitchen-mother-child.png" alt="A mother and child cooking together in a home kitchen"><figcaption class="photo-cap">Lived-in environments, not sterile sets</figcaption></figure>
+        <figure><img src="../oe-experience/assets/photography/man-puppy.png" alt="A man at home with a puppy"><figcaption class="photo-cap">Candid warmth over staged stock</figcaption></figure>
+        <figure><img src="../oe-experience/assets/photography/tennis-senior.png" alt="A senior adult playing tennis outdoors"><figcaption class="photo-cap">Active wellbeing at every age</figcaption></figure>
+        <figure><img src="../oe-experience/assets/photography/expecting-family.png" alt="An expecting couple at home"><figcaption class="photo-cap">Human moments that matter most</figcaption></figure>
+      </div>
+
+      <div class="rules">
+        <div class="rule"><span class="icon">wb_sunny</span><p><strong>Natural, soft light</strong>Real environments people actually live in. No metaphor props, no fabricated visuals.</p></div>
+        <div class="rule alt"><span class="icon">visibility_off</span><p><strong>Immersed, not posed</strong>Lifestyle subjects don't look at the camera; portraits may. Medical imagery is context, used sparingly.</p></div>
+        <div class="rule ink"><span class="icon">rounded_corner</span><p><strong>12pt corners or full bleed</strong>Images get the brand's 12pt rounded corners — or run full-bleed with no frame at all.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Expression modes ================= -->
+  <section id="modes" class="muted">
+    <div class="container">
+      <p class="eyebrow">Range of expression</p>
+      <h2>One brand, three modes.</h2>
+      <p class="section-lead">Content-informed design: pick the mode from what the content is doing, then let the system flex. Switch below to see the same message reskinned.</p>
+
+      <div class="mode-switch" id="modeSwitch" role="tablist" aria-label="Expression modes">
+        <button class="active" data-mode="lifestyle" role="tab" aria-selected="true">Lifestyle and wellness</button>
+        <button data-mode="energetic" role="tab" aria-selected="false">Energetic messaging</button>
+        <button data-mode="digital" role="tab" aria-selected="false">Digital, investing and security</button>
+      </div>
+
+      <div class="mode-demo" id="modeDemo"></div>
+      <p class="mode-desc" id="modeDesc"></p>
+    </div>
+  </section>
+
+  <!-- ================= Components ================= -->
+  <section id="components">
+    <div class="container">
+      <p class="eyebrow">Building blocks</p>
+      <h2>Copy-paste the essentials.</h2>
+      <p class="section-lead">The core interactive pieces, ready to drop into any surface. Hover brightens slightly; press scales down a touch. Motion stays quiet and functional.</p>
+
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="comp-stage"><button class="btn primary">Get started</button></div>
+          <h4>Primary CTA — black pill</h4>
+          <p class="note">The default call to action across the brand: solid black, white text, fully rounded.</p>
+          <button class="btn ghost sm" data-copy="background:#000;color:#fff;border:none;border-radius:999px;padding:12px 24px;font:500 15px/1 'Neue Haas Grotesk Text Pro','Inter',sans-serif;letter-spacing:-0.02em;cursor:pointer;" data-label="primary CTA CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </div>
+        <div class="comp-card">
+          <div class="comp-stage"><button class="btn brand">Open an HSA</button></div>
+          <h4>Brand action — purple pill</h4>
+          <p class="note">Purple is the brand action color, for moments that should feel unmistakably HealthEquity.</p>
+          <button class="btn ghost sm" data-copy="background:#4F2883;color:#fff;border:none;border-radius:999px;padding:12px 24px;font:500 15px/1 'Neue Haas Grotesk Text Pro','Inter',sans-serif;letter-spacing:-0.02em;cursor:pointer;" data-label="brand CTA CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </div>
+        <div class="comp-card">
+          <div class="comp-stage"><a href="#components" class="link-arrow" onclick="return false">See how it works</a></div>
+          <h4>Tertiary link with arrow</h4>
+          <p class="note">The inline alternative to a pill — purple, medium weight, trailing arrow.</p>
+          <button class="btn ghost sm" data-copy="color:#4F2883;font-weight:500;text-decoration:none; /* append ' \2192' via ::after */" data-label="tertiary link CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </div>
+        <div class="comp-card">
+          <div class="comp-stage" style="background:var(--hqy-gray)"><div style="background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:20px 24px;font-size:14px;max-width:220px"><strong style="font-weight:500">A card, the brand way</strong><br>White surface, soft shadow, 12pt corners. One focal point.</div></div>
+          <h4>Card surface</h4>
+          <p class="note">White on gray, soft restrained shadow, the brand's default 12pt radius.</p>
+          <button class="btn ghost sm" data-copy="background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:24px;" data-label="card CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </div>
+        <div class="comp-card">
+          <div class="comp-stage"><span class="badge" style="background:var(--hqy-purple);color:#fff;font-size:13px">On track</span></div>
+          <h4>Badge / status</h4>
+          <p class="note">Full-value brand colors only — purple, teal or cyan for status, never tinted.</p>
+          <button class="btn ghost sm" data-copy="background:#008093;color:#fff;border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:500;" data-label="badge CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </div>
+        <div class="comp-card">
+          <div class="comp-stage" style="background:#000"><span style="color:#fff;font-size:15px">Focus ring <span style="outline:2px solid var(--hqy-light-purple);outline-offset:3px;border-radius:6px;padding:2px 8px">like this</span></span></div>
+          <h4>Focus and states</h4>
+          <p class="note">Focus is a light purple ring. Hover lifts brightness slightly; press scales to .97.</p>
+          <button class="btn ghost sm" data-copy="outline:2px solid #C04CFF;outline-offset:2px;" data-label="focus ring CSS"><span class="icon">content_copy</span> Copy CSS</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="flogo" id="footerLogo"></div>
+    <p class="legal">Copyright &copy; 2025 HealthEquity Inc. All rights reserved. | HealthEquity does not provide legal, tax or financial advice.</p>
+    <p class="built">Built from the HealthEquity Brand Style Guide (March 2026) via the in-repo design system. Colors are shown at their approved values; CMYK values are process conversions — confirm with the brand team before print production. Typeface shown is Inter, substituting the licensed Neue Haas Grotesk Text Pro.</p>
+  </div>
+</footer>
+
+<!-- ================= Command palette ================= -->
+<div class="palette-overlay" id="paletteOverlay" role="dialog" aria-modal="true" aria-label="Search the brand">
+  <div class="palette">
+    <div class="palette-input">
+      <span class="icon">search</span>
+      <input type="text" id="paletteInput" placeholder="Search colors, rules, type, downloads&hellip;" autocomplete="off">
+      <button class="chip" id="paletteClose">Esc</button>
+    </div>
+    <div class="palette-results" id="paletteResults"></div>
+    <div class="palette-foot"><span><kbd>&uarr;</kbd> <kbd>&darr;</kbd> navigate</span><span><kbd>Enter</kbd> select</span><span>Colors copy their HEX on select</span></div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"><span class="icon">check</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   Data — single source of truth, rendered into the page and
+   into the command-palette search index.
+   ============================================================ */
+const LOGO_VIEWBOX = {w:1897.67, h:307.26};
+const LOGO_PATHS = `<path fill="{C}" d="M1897.67,84.7A22.23,22.23,0,0,1,1875,106.93c-12.67,0-22.76-9.82-22.76-22.23s10.09-22.08,22.89-22.08c12.55,0,22.5,9.69,22.5,22.08m-39.74,0c0,9.84,7.41,17.65,17.24,17.65,9.56.13,16.83-7.81,16.83-17.51s-7.27-17.78-17.1-17.78c-9.56,0-17,8-17,17.64m13.6,11.46h-5.11V74.06a61.49,61.49,0,0,1,8.48-.66c4.19,0,6.06.66,7.55,1.74a5.57,5.57,0,0,1,2.28,4.72c0,2.68-2,4.44-4.57,5.25v.27c2.15.68,3.24,2.42,3.91,5.38a19.73,19.73,0,0,0,1.6,5.4h-5.38c-.66-.81-1.07-2.69-1.74-5.4-.4-2.28-1.75-3.36-4.57-3.36h-2.45Zm.15-12.4h2.42c2.82,0,5.12-.94,5.12-3.22,0-2-1.48-3.38-4.72-3.38a12.42,12.42,0,0,0-2.82.27Z"/><polygon fill="{C}" points="0 2.27 32.08 2.27 32.08 99.19 152.77 99.19 152.77 2.27 184.81 2.27 184.81 236.87 152.77 236.87 152.77 126.98 32.08 126.98 32.08 236.87 0 236.87 0 2.27"/><path fill="{C}" d="M325.08,70.61c11.29,5.73,20,13.06,25.84,22.12a76,76,0,0,1,11.43,30.14c1.71,7.91,2.55,20.39,2.55,37.64H240.45c.51,17.4,4.6,31.33,12.18,41.81S272,218.09,288,218.09q22.37,0,35.62-14.73a50.33,50.33,0,0,0,10.56-19.82h28.25c-.75,6.26-3.23,13.19-7.42,20.88a76.07,76.07,0,0,1-14.07,18.82q-13,12.69-32.15,17.12a98.13,98.13,0,0,1-23.27,2.54q-31.76,0-53.8-23.25t-22-65q0-41.16,22.22-66.9T290,62.12a77.89,77.89,0,0,1,35.12,8.49m10.29,67.11q-1.78-18.77-8.09-30Q315.57,86.89,288.2,86.91a43.15,43.15,0,0,0-32.93,14.34Q242,115.57,241.2,137.72Z"/><path fill="{C}" d="M481.8,133.39q9.85-1.26,13.22-8.34c1.24-2.56,1.87-6.23,1.87-11.06q0-14.76-10.45-21.45T456.67,85.9q-22.49,0-31.82,12.21c-3.53,4.48-5.78,11.19-6.85,20.09H391.24q.75-31.76,20.43-44.15t45.68-12.44q30.12,0,48.94,11.5c12.42,7.68,18.63,19.59,18.63,35.84v98.73a12.48,12.48,0,0,0,1.85,7.22c1.22,1.81,3.8,2.71,7.78,2.71,1.28,0,2.69-.09,4.27-.25s3.35-.38,5.15-.74v21.13a82.13,82.13,0,0,1-10.25,2.4,78.5,78.5,0,0,1-9.61.48c-9.92,0-17.09-3.46-21.61-10.49-2.3-3.71-4-8.95-4.92-15.71q-8.77,11.5-25.23,20a77.59,77.59,0,0,1-36.21,8.5q-23.79,0-38.86-14.48t-15.07-36.2c0-15.87,4.93-28.21,14.8-36.93s22.91-14.13,39-16.15Zm-60.48,77.55a33.72,33.72,0,0,0,21.55,7.14,66.16,66.16,0,0,0,29.36-6.89c15.94-7.63,23.91-20.35,23.91-38V150a47.19,47.19,0,0,1-13.52,5.82,97.89,97.89,0,0,1-16.24,3.25l-17.32,2.13q-15.65,2-23.48,6.42-13.35,7.47-13.34,23.8c0,8.26,3,14.8,9.08,19.52"/><rect fill="{C}" x="568.84" y="2.27" width="28.79" height="234.6"/><path fill="{C}" d="M648.29,18.54h28.79V65.85h27.54v23.8H677.08V200.91q0,8.94,6.13,11.91c2.24,1.2,6,1.76,11.31,1.76,1.38,0,2.87,0,4.48-.12a48.39,48.39,0,0,0,5.62-.61v23A62,62,0,0,1,694.34,239a98.28,98.28,0,0,1-11.57.66c-13.4,0-22.52-3.48-27.28-10.31s-7.2-15.76-7.2-26.69v-113H625V65.85h23.28Z"/><path fill="{C}" d="M734.53,1.77h28.8V89q10.24-13,18.38-18.26c9.26-6.07,20.85-9.12,34.63-9.12q37.23,0,50.54,26c4.75,9.51,7.14,22.63,7.14,39.45V236.87H844.49V129.06c0-12.54-1.63-21.74-4.8-27.61-5.2-9.37-15-14-29.36-14-11.93,0-22.79,4.09-32.48,12.28s-14.52,23.68-14.52,46.46v90.72h-28.8Z"/><polygon fill="{C}" points="1080.32 43.08 955.75 43.08 955.75 93.16 1070.08 93.16 1070.08 133.95 955.75 133.95 955.75 194.59 1086.06 194.59 1086.06 236.87 907.7 236.87 907.7 1.52 1080.32 1.52 1080.32 43.08"/><path fill="{C}" d="M1208.57,68.81c5.23,4,10.52,10.73,16,20V63.13h44V305.74H1223.5V215.57q-5.09,10.59-17.44,18.83t-33.79,8.25q-30.21,0-51.47-24.2t-21.23-64.56q0-43.57,21.3-69.68t52.55-26.11c14.52,0,26.2,3.58,35.15,10.71m9.8,114.54q6.38-13.32,6.38-33.68c0-10.7-1.79-20.27-5.44-28.71-6.46-15.22-17.9-22.78-34.19-22.78-11.51,0-20.79,4.41-27.72,13.32s-10.51,22.35-10.51,40.42c0,12.1,1.59,22,4.84,29.67,5.91,14.69,17,22,33.22,22q23.52,0,33.42-20.21"/><path fill="{C}" d="M1341.92,62.62v105q0,14.88,3.51,22.39c4.13,8.85,12.25,13.24,24.32,13.24,15.55,0,26.1-6.26,31.83-18.86,3-6.82,4.43-15.78,4.43-27V62.62h46.07V236.87h-44V212.29c-.47.51-1.54,2.13-3.25,4.75a30.06,30.06,0,0,1-6,7q-10.66,9.55-20.62,13.08a71.66,71.66,0,0,1-23.36,3.48q-38.57,0-51.94-27.73-7.52-15.33-7.54-45.24v-105Z"/><path fill="{C}" d="M1525.66,42.07h-46V0h46Zm-46,20.55h46V236.87h-46Z"/><path fill="{C}" d="M1550.81,96.43V64.35h24.29V15.54h45.07V64.35h28.24V96.43h-28.24v92.38c0,7.16.88,11.64,2.7,13.4s7.32,2.62,16.62,2.62c1.39,0,2.84-.05,4.38-.16s3.05-.33,4.54-.57v34.05l-21.51,1.23q-32.3,1.16-44.13-11.18c-5.11-5.27-7.67-13.32-7.67-24.22V96.43Z"/><path fill="{C}" d="M1694.86,270.42l5.82.4a71.76,71.76,0,0,0,12.79-.4,23,23,0,0,0,10.22-3.71c2.68-1.83,5.22-5.64,7.51-11.43s3.2-9.38,2.82-10.64l-64-182h50.6l38,128.55,36-128.55H1843L1783.27,234q-17.31,49.5-27.37,61.38c-6.68,7.92-20.14,11.9-40.24,11.9-4,0-7.28-.05-9.7-.08s-6.17-.3-11.1-.65Z"/>`;
+
+function logoSvg(color, opts={}){
+  const attrs = opts.size ? ` width="${opts.size.w}" height="${opts.size.h}"` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${LOGO_VIEWBOX.w} ${LOGO_VIEWBOX.h}"${attrs} role="img" aria-label="HealthEquity">${LOGO_PATHS.replaceAll('{C}', color)}</svg>`;
+}
+
+const COLORS = [
+  {name:'HealthEquity Purple', hex:'#4F2883', varName:'--hqy-purple', role:'The anchor — headers, backgrounds, core brand elements', group:'primary', keywords:'brand anchor main violet'},
+  {name:'Dark Purple', hex:'#300E6E', varName:'--hqy-dark-purple', role:'Deep supporting surfaces and feature blocks', group:'primary', keywords:'deep navy'},
+  {name:'Light Purple', hex:'#C04CFF', varName:'--hqy-light-purple', role:'Bright accent and highlight, focus rings', group:'primary', keywords:'accent magenta highlight'},
+  {name:'Teal', hex:'#008093', varName:'--hqy-teal', role:'Supporting accent, status and success moments', group:'primary', keywords:'green success'},
+  {name:'Cyan', hex:'#33E3FF', varName:'--hqy-cyan', role:'Bright accent for dark and digital surfaces', group:'primary', keywords:'blue bright glow'},
+  {name:'White', hex:'#FFFFFF', varName:'--hqy-white', role:'Primary page surface', group:'neutral', keywords:'background surface'},
+  {name:'Light Gray', hex:'#F2F3F4', varName:'--hqy-gray', role:'Muted surfaces, dividers, hairlines — the only gray', group:'neutral', keywords:'grey surface divider'},
+  {name:'Black', hex:'#000000', varName:'--hqy-black', role:'All text, and the primary CTA pill', group:'neutral', keywords:'text ink cta'}
+];
+
+const GRADIENTS = [
+  {name:'Hero', css:'linear-gradient(105deg, #4F2984 0%, #4051B5 52%, #33A7DC 100%)', usage:'Title and full-bleed hero moments', varName:'--hqy-gradient-hero'},
+  {name:'Gradient 1 — purple to blue', css:'linear-gradient(120deg, #4F2984 0%, #3F4FC0 55%, #2E83E8 100%)', usage:'Energetic large surfaces', varName:'--hqy-gradient-1'},
+  {name:'Gradient 2 — purple to ink', css:'linear-gradient(140deg, #6B2D9E 0%, #2A1147 60%, #140A22 100%)', usage:'Dark, digital and security moments', varName:'--hqy-gradient-2'},
+  {name:'Gradient 3 — purple to dark', css:'linear-gradient(160deg, #7B2FB5 0%, #4F2984 50%, #310E6E 100%)', usage:'Rich brand panels', varName:'--hqy-gradient-3'},
+  {name:'Gradient 4 — light to lavender', css:'linear-gradient(120deg, #C04CFF 0%, #A57BF2 55%, #8FA6EE 100%)', usage:'Light, celebratory accents', varName:'--hqy-gradient-4'},
+  {name:'Wayfinder fill', css:'linear-gradient(90deg, #310E6E 0%, #6E3FD4 55%, #33C7FF 100%)', usage:'Fill for the Wayfinder chevron', varName:'--hqy-gradient-wayfinder'}
+];
+
+const TYPESCALE = [
+  {name:'Display', px:140, lh:1.05, track:'-0.05em', note:'hero numerals'},
+  {name:'Mega', px:64, lh:1.05, track:'-0.05em', note:'big statements'},
+  {name:'Headline', px:56, lh:1.05, track:'-0.05em', note:'lead headlines'},
+  {name:'H1', px:36, lh:1.15, track:'-0.04em', note:''},
+  {name:'H2', px:32, lh:1.15, track:'-0.04em', note:''},
+  {name:'H3', px:26, lh:1.15, track:'-0.03em', note:''},
+  {name:'Lead', px:20, lh:1.5, track:'-0.02em', note:'lead body'},
+  {name:'Body', px:16, lh:1.5, track:'-0.02em', note:'default'},
+  {name:'Small', px:14, lh:1.5, track:'-0.02em', note:''},
+  {name:'Caption', px:12, lh:1.5, track:'-0.02em', note:''}
+];
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+let toastTimer;
+function toast(msg){
+  $('#toastMsg').textContent = msg;
+  const t = $('#toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function copyText(text, label){
+  const done = ()=>toast('Copied ' + label);
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(e){ toast('Copy failed — select it manually'); }
+  ta.remove();
+}
+
+function hexToRgb(hex){
+  const n = parseInt(hex.slice(1), 16);
+  return {r:(n>>16)&255, g:(n>>8)&255, b:n&255};
+}
+function rgbStr(hex){ const {r,g,b}=hexToRgb(hex); return `rgb(${r}, ${g}, ${b})`; }
+function cmykStr(hex){
+  const {r,g,b}=hexToRgb(hex);
+  const rf=r/255, gf=g/255, bf=b/255;
+  const k=1-Math.max(rf,gf,bf);
+  if (k===1) return 'C0 M0 Y0 K100';
+  const c=Math.round((1-rf-k)/(1-k)*100), m=Math.round((1-gf-k)/(1-k)*100), y=Math.round((1-bf-k)/(1-k)*100);
+  return `C${c} M${m} Y${y} K${Math.round(k*100)}`;
+}
+function luminance(hex){
+  const {r,g,b}=hexToRgb(hex);
+  const f=v=>{v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4)};
+  return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
+}
+function contrastRatio(a,b){
+  const l1=luminance(a), l2=luminance(b);
+  const [hi,lo]=l1>l2?[l1,l2]:[l2,l1];
+  return (hi+0.05)/(lo+0.05);
+}
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+}
+
+/* ============================================================
+   Header + footer logos
+   ============================================================ */
+$('#headerLogo').innerHTML = logoSvg('#4F2883');
+$('#footerLogo').innerHTML = logoSvg('#FFFFFF');
+
+/* ============================================================
+   Color cards
+   ============================================================ */
+function colorCard(c){
+  const isLight = luminance(c.hex) > 0.5;
+  const card = document.createElement('div');
+  card.className = 'card'; card.id = 'color-' + c.hex.slice(1);
+  card.innerHTML = `
+    <div class="swatch" style="background:${c.hex};${c.hex==='#FFFFFF' ? 'border-bottom:1px solid var(--hqy-gray);' : ''}">
+      <span class="chip-label">${c.hex}</span>
+    </div>
+    <div class="color-body">
+      <p class="color-name">${c.name}</p>
+      <p class="color-role">${c.role}</p>
+    </div>`;
+  const body = card.querySelector('.color-body');
+  [['HEX', c.hex], ['RGB', rgbStr(c.hex)], ['CMYK', cmykStr(c.hex)], ['CSS var', `var(${c.varName})`]].forEach(([k,v])=>{
+    const btn = document.createElement('button');
+    btn.className = 'copy-row';
+    btn.innerHTML = `<span class="k">${k}</span><span class="v">${v}</span><span class="icon">content_copy</span>`;
+    btn.addEventListener('click', ()=>copyText(v, `${k} for ${c.name}`));
+    body.appendChild(btn);
+  });
+  return card;
+}
+COLORS.filter(c=>c.group==='primary').forEach(c=>$('#primarySwatches').appendChild(colorCard(c)));
+COLORS.filter(c=>c.group==='neutral').forEach(c=>$('#neutralSwatches').appendChild(colorCard(c)));
+
+/* ---- Gradient cards ---- */
+GRADIENTS.forEach((g,i)=>{
+  const card = document.createElement('div');
+  card.className='card'; card.id='grad-'+i;
+  card.innerHTML = `
+    <div class="grad-preview" style="background:${g.css}"></div>
+    <div class="grad-body">
+      <div><p class="grad-name">${g.name}</p><p class="grad-usage">${g.usage}</p></div>
+      <button class="btn primary sm"><span class="icon">content_copy</span> CSS</button>
+    </div>`;
+  card.querySelector('button').addEventListener('click', ()=>copyText(`background: ${g.css};`, g.name + ' gradient CSS'));
+  $('#gradientCards').appendChild(card);
+});
+
+/* ---- Contrast checker ---- */
+const fgSel=$('#fgSel'), bgSel=$('#bgSel');
+COLORS.forEach(c=>{
+  fgSel.add(new Option(c.name, c.hex));
+  bgSel.add(new Option(c.name, c.hex));
+});
+fgSel.value='#FFFFFF'; bgSel.value='#4F2883';
+const BRAND_PAIRS = {
+  '#FFFFFF|#4F2883':'A core brand pairing — white on HealthEquity Purple.',
+  '#FFFFFF|#300E6E':'A core pairing — white on dark purple feature blocks.',
+  '#FFFFFF|#000000':'The footer pairing — white on black.',
+  '#000000|#FFFFFF':'The default: black type on white. Hierarchy comes from size.',
+  '#000000|#F2F3F4':'Black on light gray — the standard muted surface.',
+  '#33E3FF|#000000':'Cyan on black — the digital and investing accent.',
+  '#4F2883|#FFFFFF':'Purple on white — logo and brand accents.'
+};
+function renderContrast(){
+  const fg=fgSel.value, bg=bgSel.value;
+  const ratio=contrastRatio(fg,bg);
+  const stage=$('#contrastStage');
+  stage.style.color=fg; stage.style.background=bg;
+  if (bg==='#FFFFFF') stage.style.boxShadow='inset 0 0 0 1px var(--hqy-gray)'; else stage.style.boxShadow='none';
+  const r=ratio.toFixed(2);
+  const b=(ok,label)=>`<span class="badge ${ok?'pass':'fail'}">${label}</span>`;
+  $('#contrastResult').innerHTML =
+    `<span class="badge ratio">${r} : 1</span>` +
+    b(ratio>=4.5,'AA text') + b(ratio>=3,'AA large text') + b(ratio>=7,'AAA text');
+  const hint = BRAND_PAIRS[fg+'|'+bg];
+  $('#contrastNote').textContent = hint || (ratio<3
+    ? 'This pairing fails accessibility minimums — pick a stronger combination.'
+    : 'Passes at the sizes shown above. Remember: gradients never sit behind small text.');
+}
+fgSel.addEventListener('change', renderContrast);
+bgSel.addEventListener('change', renderContrast);
+renderContrast();
+
+/* ============================================================
+   Logo studio
+   ============================================================ */
+const studio = {variant:'auto', bg:'white', space:false};
+const BG_STYLES = {
+  white:{css:'#FFFFFF', dark:false, label:'white'},
+  gray:{css:'#F2F3F4', dark:false, label:'light gray'},
+  purple:{css:'#4F2883', dark:true, label:'purple'},
+  dark:{css:'#300E6E', dark:true, label:'dark purple'},
+  gradient:{css:'linear-gradient(105deg,#4F2984 0%,#4051B5 52%,#33A7DC 100%)', dark:true, label:'a gradient'},
+  photo:{css:'linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)), url("../oe-experience/assets/photography/kitchen-mother-child.png")', dark:true, label:'photography'}
+};
+function renderStudio(){
+  const bg = BG_STYLES[studio.bg];
+  const effective = studio.variant==='auto' ? (bg.dark?'white':'purple') : studio.variant;
+  const color = effective==='white' ? '#FFFFFF' : '#4F2883';
+  const stage = $('#logoStage');
+  stage.style.background = bg.css;
+  stage.style.backgroundSize='cover'; stage.style.backgroundPosition='center';
+  $('#logoHolder').innerHTML = logoSvg(color);
+  const clash = (effective==='white' && !bg.dark) || (effective==='purple' && bg.dark);
+  $('#logoHint').innerHTML = clash
+    ? `<strong>Low contrast.</strong> On ${bg.label}, use the ${bg.dark?'white':'purple'} logo instead — the logo is never placed where it can't breathe.`
+    : `<strong>${effective==='white'?'White':'Purple'} logo on ${bg.label}.</strong> ${bg.dark?'Dark and photographic backgrounds always take the white logo.':'Light backgrounds always take the purple logo.'}${studio.variant==='auto'?' (Auto picked this for you.)':''}`;
+  positionClearspace();
+}
+function positionClearspace(){
+  const svg = $('#logoHolder svg');
+  const box = $('#clearspaceBox');
+  if (!svg) return;
+  requestAnimationFrame(()=>{
+    const stageRect = $('#logoStage').getBoundingClientRect();
+    const r = svg.getBoundingClientRect();
+    const pad = r.height; // clear space = height of the "H"≈ wordmark cap height ~ logo height
+    box.style.left = (r.left - stageRect.left - pad) + 'px';
+    box.style.top = (r.top - stageRect.top - pad) + 'px';
+    box.style.width = (r.width + pad*2) + 'px';
+    box.style.height = (r.height + pad*2) + 'px';
+  });
+}
+window.addEventListener('resize', positionClearspace);
+$('#variantChips').addEventListener('click', e=>{
+  const b = e.target.closest('[data-variant]'); if(!b) return;
+  studio.variant = b.dataset.variant;
+  $$('#variantChips .chip').forEach(c=>c.classList.toggle('active', c===b));
+  renderStudio();
+});
+$('#bgChips').addEventListener('click', e=>{
+  const b = e.target.closest('[data-bg]'); if(!b) return;
+  studio.bg = b.dataset.bg;
+  $$('#bgChips .chip').forEach(c=>c.classList.toggle('active', c===b));
+  renderStudio();
+});
+$('#spaceChip').addEventListener('click', ()=>{
+  studio.space = !studio.space;
+  $('#logoStage').classList.toggle('show-space', studio.space);
+  $('#spaceChip').classList.toggle('active', studio.space);
+  $('#spaceChip').textContent = studio.space ? 'Hide' : 'Show';
+  positionClearspace();
+});
+renderStudio();
+
+/* ---- Downloads ---- */
+$$('[data-dl-svg]').forEach(btn=>btn.addEventListener('click', ()=>{
+  const v = btn.dataset.dlSvg;
+  const svg = logoSvg(v==='white' ? '#FFFFFF' : '#4F2883');
+  downloadBlob(new Blob([svg], {type:'image/svg+xml'}), `HealthEquity-logo-${v}.svg`);
+  toast(`Downloading ${v} logo SVG`);
+}));
+$$('[data-copy-svg]').forEach(btn=>btn.addEventListener('click', ()=>{
+  copyText(logoSvg('#4F2883'), 'the purple logo SVG code');
+}));
+function exportPng(variant, width){
+  const height = Math.round(width * LOGO_VIEWBOX.h / LOGO_VIEWBOX.w);
+  const svg = logoSvg(variant==='white' ? '#FFFFFF' : '#4F2883', {size:{w:width, h:height}});
+  const url = URL.createObjectURL(new Blob([svg], {type:'image/svg+xml'}));
+  const img = new Image();
+  img.onload = ()=>{
+    const canvas = document.createElement('canvas');
+    canvas.width = width; canvas.height = height;
+    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(blob=>{
+      if (!blob){ toast('PNG export failed in this browser'); return; }
+      downloadBlob(blob, `HealthEquity-logo-${variant}-${width}px.png`);
+      toast(`Downloading ${variant} logo PNG at ${width}px`);
+    }, 'image/png');
+  };
+  img.onerror = ()=>{ URL.revokeObjectURL(url); toast('PNG export failed in this browser'); };
+  img.src = url;
+}
+$('#pngBtn').addEventListener('click', ()=>exportPng($('#pngVariant').value, parseInt($('#pngSize').value, 10)));
+
+/* ============================================================
+   Typography
+   ============================================================ */
+function renderTypeScale(){
+  const host = $('#typeScale');
+  host.innerHTML = '';
+  const text = $('#typeInput').value || 'Hit your max.';
+  TYPESCALE.forEach(t=>{
+    const row = document.createElement('button');
+    row.className = 'type-row';
+    row.title = 'Click to copy this style as CSS';
+    const shownPx = Math.min(t.px, 76); // keep monumental sizes on screen
+    row.innerHTML = `
+      <span class="type-meta"><span class="nm">${t.name}</span><br>${t.px}px / ${t.lh} / ${t.track}${t.note?`<br>${t.note}`:''}</span>
+      <span class="type-sample" style="font-size:${shownPx}px;letter-spacing:${t.track};line-height:${t.lh}">${text.replace(/</g,'&lt;')}</span>`;
+    row.addEventListener('click', ()=>copyText(
+      `font: 400 ${t.px}px/${t.lh} 'Neue Haas Grotesk Text Pro', 'Inter', sans-serif;\nletter-spacing: ${t.track};`,
+      t.name + ' style CSS'));
+    host.appendChild(row);
+  });
+}
+$('#typeInput').addEventListener('input', renderTypeScale);
+renderTypeScale();
+
+const trackRange=$('#trackRange');
+function renderTrack(){
+  const v = trackRange.value/1000;
+  $('#trackStage').style.letterSpacing = v + 'em';
+  const em = v.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
+  $('#trackNote').textContent = `letter-spacing: ${em}em — the brand lives between -0.02em and -0.05em. At 0 it stops feeling like HealthEquity.`;
+}
+trackRange.addEventListener('input', renderTrack);
+renderTrack();
+
+/* ============================================================
+   Voice — headline checker
+   ============================================================ */
+const KEEP_CAPS = ['HealthEquity','HSA','HSAs','FSA','FSAs','HRA','HRAs','COBRA','IRS','WEX','EBRI','401(k)','IRA'];
+function sentenceCase(str){
+  let out = str.toLowerCase();
+  // capitalize sentence starts
+  out = out.replace(/(^|[.!?]\s+)([a-z])/g, (m,p,ch)=>p+ch.toUpperCase());
+  // restore protected terms and the standalone pronoun "i"
+  KEEP_CAPS.forEach(term=>{
+    out = out.replace(new RegExp('\\b'+term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','gi'), term);
+  });
+  out = out.replace(/\bi\b/g, 'I');
+  return out;
+}
+function checkHeadline(){
+  const raw = $('#caseInput').value;
+  const out = $('#caseOut'), warnBox = $('#caseWarnings');
+  if (!raw.trim()){ out.textContent = 'Your brand-cased headline appears here.'; warnBox.innerHTML=''; return; }
+  const fixed = sentenceCase(raw.trim());
+  out.textContent = fixed;
+  const warns = [];
+  const letters = raw.replace(/[^a-zA-Z]/g,'');
+  if (letters.length > 3 && letters === letters.toUpperCase()) warns.push('All caps detected — the brand avoids all caps entirely, even for eyebrows and labels.');
+  const words = raw.trim().split(/\s+/);
+  const capCount = words.filter(w=>/^[A-Z][a-z]+/.test(w)).length;
+  if (words.length >= 3 && capCount >= words.length*0.7 && letters !== letters.toUpperCase()) warns.push('Looks like Title Case — headlines use sentence case.');
+  if (/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/u.test(raw)) warns.push('Emoji detected — the brand does not use emoji, anywhere.');
+  if (/!{2,}/.test(raw)) warns.push('Multiple exclamation marks — confident brands say it once.');
+  if (words.length > 12) warns.push('Long for a headline — lead with the point, one idea per line.');
+  if (!warns.length) warns.push('Clean. Sentence case applied — read it aloud: does it talk to "you"?');
+  warnBox.innerHTML = warns.map(w=>`<p class="warn">${w}</p>`).join('');
+}
+$('#caseInput').addEventListener('input', checkHeadline);
+$('#caseCopy').addEventListener('click', ()=>{
+  const t = $('#caseOut').textContent;
+  if (t && !t.startsWith('Your brand-cased')) copyText(t, 'your headline'); else toast('Type a headline first');
+});
+
+/* ============================================================
+   Wayfinder builder
+   ============================================================ */
+const WAY_GRAD_ID = 'wayGradient';
+$('#wayDefs').innerHTML = `<linearGradient id="${WAY_GRAD_ID}" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0" stop-color="#310E6E"/><stop offset=".55" stop-color="#6E3FD4"/><stop offset="1" stop-color="#33C7FF"/></linearGradient>`;
+let wayFill = '#4F2883';
+function renderWay(){
+  const p = $('#wayPath');
+  const paint = wayFill==='grad' ? `url(#${WAY_GRAD_ID})` : wayFill;
+  p.setAttribute('fill', paint);
+  p.setAttribute('stroke', paint);
+}
+$('#wayFills').addEventListener('click', e=>{
+  const b = e.target.closest('[data-fill]'); if(!b) return;
+  wayFill = b.dataset.fill;
+  $$('#wayFills .chip').forEach(c=>c.classList.toggle('active', c===b));
+  renderWay();
+});
+function waySvgString(){
+  const paint = wayFill==='grad' ? `url(#wf)` : wayFill;
+  const stroke = paint;
+  const defs = wayFill==='grad'
+    ? `<defs><linearGradient id="wf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#310E6E"/><stop offset=".55" stop-color="#6E3FD4"/><stop offset="1" stop-color="#33C7FF"/></linearGradient></defs>`
+    : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 136">${defs}<path d="M10,10 H140 L198,68 L140,126 H10 Z" fill="${paint}" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/></svg>`;
+}
+$('#wayDl').addEventListener('click', ()=>{
+  downloadBlob(new Blob([waySvgString()],{type:'image/svg+xml'}), 'HealthEquity-wayfinder.svg');
+  toast('Downloading the Wayfinder SVG');
+});
+$('#wayCopy').addEventListener('click', ()=>copyText(waySvgString(), 'the Wayfinder SVG'));
+renderWay();
+
+/* ============================================================
+   Expression modes
+   ============================================================ */
+const MODES = {
+  lifestyle:{
+    bg:'#FFFFFF', color:'#000000', btn:'primary',
+    h:'Room to <span class="serif">breathe.</span>', p:'Warm, human and light. White space, lifestyle photography, black type — the brand at its calmest.',
+    desc:'Lifestyle and wellness — for stories about everyday health, family and wellbeing. Warm, human, light surfaces with photography doing the emotional work.'
+  },
+  energetic:{
+    bg:'linear-gradient(120deg,#4F2984 0%,#3F4FC0 55%,#2E83E8 100%)', color:'#FFFFFF', btn:'on-dark',
+    h:'Hit your max.', p:'Bold and celebratory. Gradients, the Wayfinder, big type — for enrollment pushes, milestones and momentum.',
+    desc:'Energetic messaging — for calls to action, campaigns and celebration moments. Approved gradients on large surfaces, Wayfinder energy, one big idea.'
+  },
+  digital:{
+    bg:'#000000', color:'#FFFFFF', btn:'on-dark', accent:'#33E3FF',
+    h:'Your money, <span style="color:#33E3FF">working.</span>', p:'Cool, dark, high-contrast with a cyan glow — for investing, security and digital product stories.',
+    desc:'Digital, investing and security — dark, precise, high-contrast. Cyan is the accent; the tone is capable and calm, never hyped.'
+  }
+};
+function renderMode(key){
+  const m = MODES[key];
+  const demo = $('#modeDemo');
+  demo.style.background = m.bg;
+  demo.style.color = m.color;
+  demo.innerHTML = `<h4>${m.h}</h4><p>${m.p}</p><button class="btn ${m.btn}">See your options</button>`;
+  $('#modeDesc').textContent = m.desc;
+}
+$('#modeSwitch').addEventListener('click', e=>{
+  const b = e.target.closest('[data-mode]'); if(!b) return;
+  $$('#modeSwitch button').forEach(x=>{x.classList.toggle('active', x===b); x.setAttribute('aria-selected', x===b)});
+  renderMode(b.dataset.mode);
+});
+renderMode('lifestyle');
+
+/* ============================================================
+   Generic copy buttons
+   ============================================================ */
+$$('[data-copy]').forEach(btn=>btn.addEventListener('click', ()=>copyText(btn.dataset.copy, btn.dataset.label || 'to clipboard')));
+
+/* ============================================================
+   Command palette
+   ============================================================ */
+const SEARCH_INDEX = [];
+COLORS.forEach(c=>SEARCH_INDEX.push({
+  group:'Colors', title:`${c.name} ${c.hex}`, sub:'copies HEX', swatch:c.hex,
+  kw:`${c.name} ${c.hex} ${c.varName} ${c.keywords} color palette`,
+  run(){ copyText(c.hex, 'HEX for ' + c.name); jump('color-'+c.hex.slice(1)); }
+}));
+GRADIENTS.forEach((g,i)=>SEARCH_INDEX.push({
+  group:'Gradients', title:g.name, sub:'copies CSS', icon:'gradient',
+  kw:`gradient ${g.name} ${g.usage} background`,
+  run(){ copyText(`background: ${g.css};`, g.name + ' gradient CSS'); jump('grad-'+i); }
+}));
+TYPESCALE.forEach(t=>SEARCH_INDEX.push({
+  group:'Typography', title:`${t.name} — ${t.px}px`, sub:'copies CSS', icon:'format_size',
+  kw:`type typography font size ${t.name} ${t.px} heading ${t.note}`,
+  run(){ copyText(`font: 400 ${t.px}px/${t.lh} 'Neue Haas Grotesk Text Pro', 'Inter', sans-serif;\nletter-spacing: ${t.track};`, t.name + ' style CSS'); jump('type'); }
+}));
+[
+  {t:'Download purple logo SVG', kw:'logo download svg purple vector', icon:'download', run(){ jump('logo'); document.querySelector('[data-dl-svg="purple"]').click(); }},
+  {t:'Download white logo SVG', kw:'logo download svg white vector dark', icon:'download', run(){ jump('logo'); document.querySelector('[data-dl-svg="white"]').click(); }},
+  {t:'Export logo as PNG', kw:'logo png download size 1024 2048 transparent raster deck powerpoint', icon:'image', run(){ jump('logo'); }},
+  {t:'Copy logo SVG code', kw:'logo svg code embed html', icon:'content_copy', run(){ copyText(logoSvg('#4F2883'), 'the purple logo SVG code'); }},
+  {t:'Copy the tagline', kw:'tagline better save spend invest health slogan', icon:'format_quote', run(){ copyText('Better save, spend, and invest for health.', 'the tagline'); jump('voice'); }},
+  {t:'Copy the compliance footer', kw:'compliance legal footer copyright disclaimer', icon:'gavel', run(){ copyText('Copyright © 2025 HealthEquity Inc. All rights reserved. | HealthEquity does not provide legal, tax or financial advice.', 'the compliance footer'); }},
+  {t:'Can I tint or fade brand colors?', s:'No — full value only', kw:'tint shade opacity transparency lighter darker fade rules', icon:'block', run(){ jump('colors'); }},
+  {t:'Can I use all caps?', s:'No — sentence case always', kw:'caps uppercase title case capitalization headline eyebrow', icon:'match_case', run(){ jump('voice'); }},
+  {t:'Can I use emoji?', s:'No — never', kw:'emoji smiley icons voice', icon:'sentiment_neutral', run(){ jump('voice'); }},
+  {t:'Which font weight do I use?', s:'Roman 400, almost always', kw:'weight bold medium roman 400 500 700 font', icon:'format_size', run(){ jump('type'); }},
+  {t:'What corner radius do cards use?', s:'12pt rounded', kw:'radius corners rounded 12 cards images', icon:'rounded_corner', run(){ jump('components'); }},
+  {t:'Which icons does the brand use?', s:'Material Symbols Rounded, weight 300', kw:'icons iconography material symbols rounded', icon:'interests', run(){ jump('graphics'); }},
+  {t:'Check color contrast', kw:'contrast wcag accessibility aa aaa ratio checker', icon:'contrast', run(){ jump('contrastTool'); }},
+  {t:'Fix a headline (sentence case)', kw:'headline checker sentence case converter copy tool title', icon:'edit', run(){ jump('caseInput'); setTimeout(()=>$('#caseInput').focus(), 600); }},
+  {t:'The Wayfinder chevron', s:'always points right', kw:'wayfinder chevron arrow graphic banner shape', icon:'arrow_forward', run(){ jump('graphics'); }},
+  {t:'Photography guidelines', kw:'photo photography imagery candid natural light clinical stock', icon:'photo_camera', run(){ jump('photography'); }},
+  {t:'Expression modes', kw:'modes lifestyle energetic digital investing security range expression', icon:'tune', run(){ jump('modes'); }},
+  {t:'Buttons and CTAs', s:'black pill by default', kw:'button cta pill black purple component', icon:'smart_button', run(){ jump('components'); }},
+  {t:'Voice and tone', kw:'voice tone writing copy you sentence human confident', icon:'record_voice_over', run(){ jump('voice'); }}
+].forEach(x=>SEARCH_INDEX.push({group: x.s?'Brand rules':'Tools and downloads', title:x.t, sub:x.s||'', icon:x.icon, kw:x.kw, run:x.run}));
+
+function jump(id){
+  closePalette();
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+}
+
+let palSel = 0, palItems = [];
+function searchIndex(q){
+  q = q.trim().toLowerCase();
+  if (!q) return SEARCH_INDEX.slice(0, 9);
+  const terms = q.split(/\s+/);
+  return SEARCH_INDEX
+    .map(item=>{
+      const hay = (item.title+' '+item.kw+' '+(item.sub||'')).toLowerCase();
+      let score = 0;
+      for (const t of terms){
+        if (!hay.includes(t)) return null;
+        score += item.title.toLowerCase().includes(t) ? 3 : 1;
+        if (item.title.toLowerCase().startsWith(t)) score += 2;
+      }
+      return {item, score};
+    })
+    .filter(Boolean)
+    .sort((a,b)=>b.score-a.score)
+    .slice(0, 12)
+    .map(x=>x.item);
+}
+function renderPalette(){
+  const q = $('#paletteInput').value;
+  palItems = searchIndex(q);
+  palSel = Math.min(palSel, Math.max(0, palItems.length-1));
+  const host = $('#paletteResults');
+  if (!palItems.length){
+    host.innerHTML = '<p class="p-empty">Nothing matches — try "purple", "logo", "tracking" or "tints".</p>';
+    return;
+  }
+  let html = '', lastGroup = '';
+  palItems.forEach((it,i)=>{
+    if (it.group !== lastGroup){ html += `<p class="p-group">${it.group}</p>`; lastGroup = it.group; }
+    const lead = it.swatch ? `<span class="sw" style="background:${it.swatch}"></span>` : `<span class="icon">${it.icon||'arrow_forward'}</span>`;
+    html += `<button class="p-item ${i===palSel?'sel':''}" data-i="${i}">${lead}<span>${it.title}</span>${it.sub?`<span class="sub">${it.sub}</span>`:''}</button>`;
+  });
+  host.innerHTML = html;
+  const sel = host.querySelector('.p-item.sel');
+  if (sel) sel.scrollIntoView({block:'nearest'});
+}
+function openPalette(){
+  $('#paletteOverlay').classList.add('open');
+  $('#paletteInput').value = ''; palSel = 0;
+  renderPalette();
+  setTimeout(()=>$('#paletteInput').focus(), 30);
+}
+function closePalette(){ $('#paletteOverlay').classList.remove('open'); }
+$('#searchBtn').addEventListener('click', openPalette);
+$('#heroSearchBtn').addEventListener('click', openPalette);
+$('#paletteClose').addEventListener('click', closePalette);
+$('#paletteOverlay').addEventListener('click', e=>{ if(e.target===$('#paletteOverlay')) closePalette(); });
+$('#paletteInput').addEventListener('input', ()=>{ palSel=0; renderPalette(); });
+$('#paletteResults').addEventListener('click', e=>{
+  const b = e.target.closest('.p-item'); if(!b) return;
+  palItems[+b.dataset.i].run();
+});
+document.addEventListener('keydown', e=>{
+  const open = $('#paletteOverlay').classList.contains('open');
+  if ((e.key==='k' || e.key==='K') && (e.metaKey || e.ctrlKey)){ e.preventDefault(); open ? closePalette() : openPalette(); return; }
+  if (!open && e.key==='/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); openPalette(); return; }
+  if (!open) return;
+  if (e.key==='Escape') closePalette();
+  else if (e.key==='ArrowDown'){ e.preventDefault(); palSel = Math.min(palSel+1, palItems.length-1); renderPalette(); }
+  else if (e.key==='ArrowUp'){ e.preventDefault(); palSel = Math.max(palSel-1, 0); renderPalette(); }
+  else if (e.key==='Enter' && palItems[palSel]){ e.preventDefault(); palItems[palSel].run(); }
+});
+if (!/Mac|iPhone|iPad/.test(navigator.platform)) $('#kbdHint').textContent = 'Ctrl K';
+else $('#kbdHint').innerHTML = '&#8984;K';
+
+/* ============================================================
+   Active nav highlighting
+   ============================================================ */
+const navLinks = $$('nav.primary a');
+const sections = navLinks.map(a=>document.getElementById(a.hash.slice(1))).filter(Boolean);
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if (en.isIntersecting){
+      navLinks.forEach(a=>a.classList.toggle('active', a.hash==='#'+en.target.id));
+    }
+  });
+}, {rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
