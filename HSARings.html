@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HSA Rings — Max Every Ring Before Open Enrollment</title>
+<meta name="description" content="See how your HSA save, spend, and invest habits stack up against ideal — and get a personalized game plan to max your benefits before open enrollment." />
+<meta property="og:title" content="HSA Rings" />
+<meta property="og:description" content="Most people quietly leave HSA tax savings behind every year. Take the 3-minute assessment, close your rings, and max your benefits before enrollment closes." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* ============ HealthEquity palette ============ */
+  :root {
+    --he-purple:   #4F2984;
+    --dark-purple: #310E6E;
+    --bright-purple: #C04CFF;
+    --teal:        #008093;
+    --cyan:        #33E4FF;
+    --gray:        #F2F3F4;
+
+    --bg:          #08041a;
+    --panel:       rgba(255,255,255,0.045);
+    --panel-line:  rgba(255,255,255,0.10);
+    --text-dim:    rgba(242,243,244,0.66);
+    --text-faint:  rgba(242,243,244,0.40);
+
+    /* Ring identities */
+    --save-a: #33E4FF; --save-b: #008093;
+    --spend-a: #C04CFF; --spend-b: #4F2984;
+    --invest-a: #00E5C3; --invest-b: #008093;
+
+    --radius: 26px;
+    --body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --disp: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--gray);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Sporty display type */
+  .disp { font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; }
+  .tag  { font-family: var(--disp); font-style: normal; font-weight: 600; text-transform: uppercase; letter-spacing: 0.22em; }
+
+  /* ============ Ambient field + floating energy blobs ============ */
+  .ambient {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background:
+      radial-gradient(1000px 700px at 15% -10%, rgba(79,41,132,0.6), transparent 60%),
+      radial-gradient(900px 650px at 98% 12%, rgba(0,128,147,0.32), transparent 60%),
+      radial-gradient(800px 800px at 50% 112%, rgba(49,14,110,0.7), transparent 65%),
+      var(--bg);
+  }
+  .blob {
+    position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.32;
+    z-index: -1; pointer-events: none; will-change: transform;
+    animation: drift 22s ease-in-out infinite alternate;
+  }
+  .blob.b1 { width: 340px; height: 340px; background: var(--bright-purple); top: 8%; left: -120px; }
+  .blob.b2 { width: 300px; height: 300px; background: var(--cyan); top: 55%; right: -110px; animation-duration: 27s; animation-delay: -8s; }
+  .blob.b3 { width: 260px; height: 260px; background: var(--teal); bottom: -90px; left: 30%; animation-duration: 31s; animation-delay: -15s; }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(60px, -50px) scale(1.18); }
+    100% { transform: translate(-40px, 40px) scale(0.94); }
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ============ Header ============ */
+  header { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo .mark {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: conic-gradient(from 200deg, var(--cyan), var(--bright-purple), var(--teal), var(--cyan));
+    filter: drop-shadow(0 0 12px rgba(51,228,255,0.5));
+    position: relative; animation: markSpin 14s linear infinite;
+  }
+  @keyframes markSpin { to { transform: rotate(360deg); } }
+  .logo .mark::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--bg); }
+  .logo .word { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 1.3rem; text-transform: uppercase; line-height: 1; }
+  .logo small { display: block; font-family: var(--disp); font-style: normal; font-weight: 600; font-size: 10px; letter-spacing: 0.28em; color: var(--text-dim); margin-top: 3px; }
+  .he-badge { font-family: var(--disp); font-weight: 600; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--panel-line); border-radius: 999px; padding: 9px 16px; }
+
+  /* ============ Screens ============ */
+  .screen { display: none; animation: rise 0.6s cubic-bezier(0.16,1,0.3,1); }
+  .screen.active { display: block; }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px) scale(0.985); } to { opacity: 1; transform: none; } }
+
+  /* ============ Hero ============ */
+  .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; padding: 44px 0 72px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--disp); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 18px;
+  }
+  .kicker::before { content: ""; width: 30px; height: 2px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); transform: skewX(-20deg); }
+  h1 {
+    font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase;
+    font-size: clamp(3rem, 7vw, 5.2rem); line-height: 0.96; letter-spacing: 0.005em;
+  }
+  h1 .grad {
+    background: linear-gradient(92deg, var(--cyan) 0%, var(--bright-purple) 55%, #E8C7FF 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 22px rgba(192,76,255,0.35));
+  }
+  .hero p.lede { margin: 22px 0 30px; max-width: 47ch; color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; }
+  .hero p.lede b { color: var(--gray); }
+
+  .btn {
+    font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 1.15rem; letter-spacing: 0.08em; text-transform: uppercase;
+    border: none; border-radius: 999px; padding: 16px 36px; cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    display: inline-flex; align-items: center; gap: 10px; position: relative; overflow: hidden;
+  }
+  .btn::after { /* shine sweep */
+    content: ""; position: absolute; top: 0; left: -80%; width: 50%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+    transform: skewX(-25deg); animation: shine 3.6s ease-in-out infinite;
+  }
+  @keyframes shine { 0%, 60% { left: -80%; } 100% { left: 160%; } }
+  .btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .btn-primary {
+    color: #06121a;
+    background: linear-gradient(95deg, var(--cyan), #7df0ff);
+    box-shadow: 0 0 26px rgba(51,228,255,0.5), 0 0 70px rgba(192,76,255,0.2);
+  }
+  .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 0 40px rgba(51,228,255,0.7), 0 0 100px rgba(192,76,255,0.32); }
+  .btn-ghost { color: var(--gray); background: var(--panel); border: 1px solid var(--panel-line); }
+  .btn-ghost::after { display: none; }
+  .btn-ghost:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.28); }
+
+  .hero-stats { display: flex; gap: 26px; margin-top: 38px; }
+  .hero-stats div { border-left: 3px solid; padding-left: 14px; transform: skewX(-6deg); }
+  .hero-stats div:nth-child(1) { border-color: var(--save-a); }
+  .hero-stats div:nth-child(2) { border-color: var(--spend-a); }
+  .hero-stats div:nth-child(3) { border-color: var(--invest-a); }
+  .hero-stats b { display: block; font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 1.7rem; line-height: 1.05; }
+  .hero-stats span { font-size: 0.76rem; color: var(--text-faint); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+
+  /* Hero ring visual w/ parallax layers */
+  .hero-rings { position: relative; display: grid; place-items: center; perspective: 900px; }
+  .hero-rings svg { width: min(440px, 86vw); height: auto; overflow: visible; }
+  #ring-stage { transition: transform 0.25s ease-out; transform-style: preserve-3d; }
+  .orbit { animation: spin 36s linear infinite; transform-origin: center; }
+  .orbit.r2 { animation-duration: 52s; animation-direction: reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .legend { position: absolute; bottom: -14px; display: flex; gap: 20px; }
+  .legend span { font-family: var(--disp); font-weight: 600; font-size: 0.92rem; letter-spacing: 0.2em; text-transform: uppercase; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; }
+  .legend .l-save i  { background: var(--save-a);  box-shadow: 0 0 12px var(--save-a); }
+  .legend .l-spend i { background: var(--spend-a); box-shadow: 0 0 12px var(--spend-a); }
+  .legend .l-invest i{ background: var(--invest-a);box-shadow: 0 0 12px var(--invest-a); }
+
+  /* ============ FOMO ticker strip ============ */
+  .strip {
+    border-top: 1px solid var(--panel-line); border-bottom: 1px solid var(--panel-line);
+    padding: 16px 0; margin-bottom: 64px; overflow: hidden; white-space: nowrap;
+  }
+  .strip .reel { display: inline-block; animation: reel 38s linear infinite; }
+  @keyframes reel { to { transform: translateX(-50%); } }
+  .strip span { font-family: var(--disp); font-weight: 600; font-size: 1rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); padding: 0 28px; }
+  .strip em { font-style: normal; color: var(--cyan); }
+
+  /* ============ Pillar cards with 3D orbs ============ */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding-bottom: 90px; }
+  .pillar {
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: var(--radius);
+    padding: 32px 28px; position: relative; overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    transform-style: preserve-3d; will-change: transform;
+  }
+  .pillar::before {
+    content: ""; position: absolute; top: -70px; right: -70px; width: 180px; height: 180px; border-radius: 50%;
+    filter: blur(50px); opacity: 0.5;
+  }
+  .pillar.save::before   { background: var(--save-a); }
+  .pillar.spend::before  { background: var(--spend-a); }
+  .pillar.invest::before { background: var(--invest-a); }
+  .pillar h3 { font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: 1.7rem; margin: 20px 0 4px; }
+  .pillar .sub { font-family: var(--disp); font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem; margin-bottom: 12px; }
+  .pillar.save .sub { color: var(--save-a); } .pillar.spend .sub { color: var(--spend-a); } .pillar.invest .sub { color: var(--invest-a); }
+  .pillar p { color: var(--text-dim); font-size: 0.93rem; line-height: 1.65; }
+
+  /* 3D glass coin icons */
+  .coin {
+    width: 112px; height: 112px; position: relative;
+    animation: coinFloat 5.5s ease-in-out infinite;
+  }
+  .pillar.spend .coin { animation-delay: -1.8s; }
+  .pillar.invest .coin { animation-delay: -3.6s; }
+  @keyframes coinFloat { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+  .coin > svg {
+    width: 100%; height: 100%; overflow: visible; display: block;
+    transform: rotateX(12deg) rotateY(-10deg);
+    animation: coinPulse 3.2s ease-in-out infinite;
+  }
+  @keyframes coinPulse {
+    0%,100% { filter: drop-shadow(0 0 12px var(--cg)) drop-shadow(0 16px 28px var(--cg2)); }
+    50%     { filter: drop-shadow(0 0 28px var(--cg)) drop-shadow(0 20px 44px var(--cg2)); }
+  }
+  .coin::after { /* ground glow */
+    content: ""; position: absolute; bottom: -22px; left: 12%; width: 76%; height: 16px; border-radius: 50%;
+    background: var(--ca); filter: blur(15px); opacity: 0.5;
+    animation: coinShadow 3.2s ease-in-out infinite;
+  }
+  @keyframes coinShadow { 0%,100% { opacity: 0.4; transform: scaleX(1); } 50% { opacity: 0.7; transform: scaleX(1.14); } }
+  .coin-save   { --ca: #33E4FF; --cg: rgba(51,228,255,0.55); --cg2: rgba(51,228,255,0.28); }
+  .coin-spend  { --ca: #C04CFF; --cg: rgba(192,76,255,0.55); --cg2: rgba(192,76,255,0.28); }
+  .coin-invest { --ca: #00E5C3; --cg: rgba(0,229,195,0.5);   --cg2: rgba(0,229,195,0.25); }
+
+  /* floating glass beads around each coin */
+  .bead {
+    position: absolute; border-radius: 50%; z-index: 1;
+    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.95), var(--ca) 45%, rgba(8,4,26,0.9) 95%);
+    box-shadow: 0 0 10px var(--cg);
+    animation: beadFloat 4.6s ease-in-out infinite;
+  }
+  .bead.bd1 { width: 13px; height: 13px; top: -10px; right: -4px; }
+  .bead.bd2 { width: 9px;  height: 9px;  left: -16px; top: 42%; animation-delay: -1.6s; }
+  .bead.bd3 { width: 7px;  height: 7px;  bottom: -2px; right: -18px; animation-delay: -3.1s; }
+  @keyframes beadFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  /* ============ Quiz ============ */
+  .quiz-shell { max-width: 680px; margin: 36px auto 100px; }
+  .quiz-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+  .quiz-phase { font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: 1.5rem; letter-spacing: 0.06em; }
+  .quiz-count { font-family: var(--disp); font-weight: 600; font-size: 1rem; letter-spacing: 0.2em; color: var(--text-faint); }
+  .track { height: 8px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 36px; }
+  .track .fill { height: 100%; width: 0%; border-radius: 99px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1), background 0.45s; }
+
+  .q-card {
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: var(--radius);
+    padding: 38px 36px; backdrop-filter: blur(14px);
+    animation: qIn 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes qIn { from { opacity: 0; transform: translateX(34px) skewX(-2deg); } to { opacity: 1; transform: none; } }
+  .q-card h2 { font-size: 1.4rem; line-height: 1.4; margin-bottom: 24px; font-weight: 700; }
+
+  .opt {
+    width: 100%; text-align: left; font-family: var(--body); font-weight: 500; font-size: 0.98rem; color: var(--gray);
+    background: rgba(255,255,255,0.03); border: 1px solid var(--panel-line); border-radius: 16px;
+    padding: 16px 18px; margin-bottom: 12px; cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .opt .dot { flex: 0 0 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); transition: all 0.15s; }
+  .opt:hover { transform: translateX(6px); background: rgba(255,255,255,0.06); }
+  .opt:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+  .quiz-shell[data-phase="save"]   .opt:hover { border-color: rgba(51,228,255,0.55);  box-shadow: 0 0 20px rgba(51,228,255,0.14); }
+  .quiz-shell[data-phase="spend"]  .opt:hover { border-color: rgba(192,76,255,0.55);  box-shadow: 0 0 20px rgba(192,76,255,0.14); }
+  .quiz-shell[data-phase="invest"] .opt:hover { border-color: rgba(0,229,195,0.55);   box-shadow: 0 0 20px rgba(0,229,195,0.14); }
+
+  .fuel {
+    margin-top: 16px; padding: 14px 18px; border-radius: 14px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--panel-line);
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .fuel .fl {
+    font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;
+    letter-spacing: 0.1em; white-space: nowrap; padding-top: 1px;
+  }
+  .quiz-shell[data-phase="save"] .fuel .fl { color: var(--save-a); text-shadow: 0 0 12px rgba(51,228,255,0.5); }
+  .quiz-shell[data-phase="spend"] .fuel .fl { color: var(--spend-a); text-shadow: 0 0 12px rgba(192,76,255,0.5); }
+  .quiz-shell[data-phase="invest"] .fuel .fl { color: var(--invest-a); text-shadow: 0 0 12px rgba(0,229,195,0.5); }
+  .fuel p { color: var(--text-dim); font-size: 0.86rem; line-height: 1.55; }
+
+  .quiz-nav { display: flex; justify-content: space-between; margin-top: 22px; }
+  .link-btn { background: none; border: none; color: var(--text-dim); font-family: var(--disp); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.9rem; cursor: pointer; padding: 10px 6px; }
+  .link-btn:hover { color: var(--gray); }
+
+  /* ============ Results ============ */
+  .results { padding: 30px 0 90px; }
+  .res-head { text-align: center; margin-bottom: 8px; }
+  .res-head .kicker { justify-content: center; }
+  .res-head .kicker::before { display: none; }
+  .res-head h2 { font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: clamp(2.4rem, 5.4vw, 3.6rem); line-height: 1; }
+  .res-head p { color: var(--text-dim); margin-top: 12px; max-width: 56ch; margin-left: auto; margin-right: auto; }
+
+  .composite { display: grid; place-items: center; position: relative; margin: 30px 0 10px; perspective: 900px; }
+  .composite svg { width: min(380px, 80vw); height: auto; overflow: visible; transition: transform 0.25s ease-out; }
+  .composite .center { position: absolute; text-align: center; }
+  .composite .center .big { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: clamp(3.4rem, 9vw, 5rem); line-height: 1; }
+  .composite .center .lbl { font-family: var(--disp); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 4px; }
+  .composite .center .tier {
+    margin-top: 10px; display: inline-block; font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase;
+    font-size: 1rem; letter-spacing: 0.1em; padding: 6px 18px; border-radius: 99px;
+    border: 1px solid var(--panel-line); background: rgba(255,255,255,0.05);
+  }
+
+  .ring-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 44px; }
+  .ring-card {
+    background: var(--panel); border: 1px solid var(--panel-line); border-radius: var(--radius);
+    padding: 30px 24px; text-align: center; backdrop-filter: blur(12px); position: relative; overflow: hidden;
+    transition: transform 0.2s ease; transform-style: preserve-3d; will-change: transform;
+  }
+  .ring-card::before { content: ""; position: absolute; top: -70px; left: 50%; transform: translateX(-50%); width: 200px; height: 150px; border-radius: 50%; filter: blur(54px); opacity: 0.4; }
+  .ring-card.save::before { background: var(--save-a); }
+  .ring-card.spend::before { background: var(--spend-a); }
+  .ring-card.invest::before { background: var(--invest-a); }
+  .ring-card svg { width: 150px; height: 150px; overflow: visible; }
+  .ring-card .pct { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 2.5rem; margin-top: 4px; line-height: 1; }
+  .ring-card .pct .of { font-size: 1.1rem; color: var(--text-dim); }
+  .ring-card .name { font-family: var(--disp); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.28em; text-transform: uppercase; margin-top: 4px; }
+  .ring-card.save .name { color: var(--save-a); } .ring-card.spend .name { color: var(--spend-a); } .ring-card.invest .name { color: var(--invest-a); }
+  .ring-card .status { color: var(--text-dim); font-size: 0.87rem; margin-top: 10px; line-height: 1.55; }
+  .ring-card .closed-tag {
+    display: inline-block; margin-top: 12px; font-family: var(--disp); font-style: italic; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 5px 14px; border-radius: 99px;
+  }
+  .ring-card.save .closed-tag { background: rgba(51,228,255,0.14); color: var(--save-a); }
+  .ring-card.spend .closed-tag { background: rgba(192,76,255,0.14); color: var(--spend-a); }
+  .ring-card.invest .closed-tag { background: rgba(0,229,195,0.12); color: var(--invest-a); }
+
+  /* Recommendations */
+  .recs { margin-top: 64px; }
+  .recs > h3 { font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: 2rem; margin-bottom: 6px; }
+  .recs > p { color: var(--text-dim); margin-bottom: 26px; max-width: 64ch; }
+  .rec-group { margin-bottom: 26px; border-radius: var(--radius); border: 1px solid var(--panel-line); background: var(--panel); backdrop-filter: blur(10px); overflow: hidden; }
+  .rec-group .rg-head { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--panel-line); }
+  .rec-group .rg-head i { width: 11px; height: 11px; border-radius: 50%; }
+  .rec-group.save .rg-head i { background: var(--save-a); box-shadow: 0 0 14px var(--save-a); }
+  .rec-group.spend .rg-head i { background: var(--spend-a); box-shadow: 0 0 14px var(--spend-a); }
+  .rec-group.invest .rg-head i { background: var(--invest-a); box-shadow: 0 0 14px var(--invest-a); }
+  .rec-group .rg-head b { font-family: var(--disp); font-style: italic; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 1.05rem; }
+  .rec-group .rg-head span { margin-left: auto; font-family: var(--disp); font-weight: 600; letter-spacing: 0.1em; font-size: 0.95rem; color: var(--text-dim); }
+  .rec-item { display: flex; gap: 16px; padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .rec-item:last-child { border-bottom: none; }
+  .rec-item .n {
+    flex: 0 0 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 0.95rem;
+    background: rgba(255,255,255,0.07); border: 1px solid var(--panel-line);
+  }
+  .rec-item h4 { font-size: 0.98rem; margin-bottom: 4px; font-weight: 700; }
+  .rec-item p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; }
+  .rec-perfect { padding: 20px 24px; color: var(--text-dim); font-size: 0.92rem; }
+
+  /* Enrollment CTA */
+  .enroll-cta {
+    margin-top: 40px; border-radius: var(--radius); padding: 30px 34px;
+    border: 1px solid rgba(51,228,255,0.3);
+    background: linear-gradient(120deg, rgba(51,228,255,0.1), rgba(192,76,255,0.08));
+    display: flex; align-items: center; gap: 22px;
+  }
+  .enroll-cta .flag {
+    font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: 1.4rem;
+    color: var(--cyan); white-space: nowrap; text-shadow: 0 0 18px rgba(51,228,255,0.5);
+  }
+  .enroll-cta p { color: var(--text-dim); font-size: 0.94rem; line-height: 1.6; }
+  .enroll-cta p b { color: var(--gray); }
+
+  /* Share bar */
+  .share-bar {
+    margin-top: 56px; border-radius: var(--radius); padding: 36px;
+    background: linear-gradient(140deg, rgba(79,41,132,0.5), rgba(0,128,147,0.28));
+    border: 1px solid var(--panel-line); text-align: center;
+  }
+  .share-bar h3 { font-family: var(--disp); font-style: italic; font-weight: 700; text-transform: uppercase; font-size: 1.8rem; margin-bottom: 8px; }
+  .share-bar p { color: var(--text-dim); margin-bottom: 24px; font-size: 0.95rem; }
+  .share-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .social-row { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
+  .social-row a {
+    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--panel-line); color: var(--gray);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .social-row a:hover { transform: translateY(-3px) scale(1.06); border-color: var(--cyan); box-shadow: 0 0 18px rgba(51,228,255,0.35); }
+  .social-row svg { width: 18px; height: 18px; fill: currentColor; }
+
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: #16102e; border: 1px solid var(--panel-line); color: var(--gray);
+    padding: 13px 22px; border-radius: 14px; font-size: 0.9rem; opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease; z-index: 50;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  footer { padding: 30px 0 44px; color: var(--text-faint); font-size: 0.78rem; line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  @media (max-width: 880px) {
+    .hero { grid-template-columns: 1fr; padding-top: 14px; text-align: center; }
+    .hero .kicker { justify-content: center; }
+    .hero p.lede { margin-left: auto; margin-right: auto; }
+    .hero-stats { justify-content: center; flex-wrap: wrap; }
+    .hero-rings { order: -1; }
+    .pillars, .ring-grid { grid-template-columns: 1fr; }
+    .q-card { padding: 28px 22px; }
+    .enroll-cta { flex-direction: column; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="ambient" aria-hidden="true"></div>
+<div class="blob b1" aria-hidden="true"></div>
+<div class="blob b2" aria-hidden="true"></div>
+<div class="blob b3" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <div class="mark" aria-hidden="true"></div>
+      <div>
+        <span class="word">HSA Rings</span>
+        <small>Save · Spend · Invest</small>
+      </div>
+    </div>
+    <div class="he-badge">Powered by HealthEquity</div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="screen active" id="screen-hero">
+    <div class="hero">
+      <div>
+        <span class="kicker">Open enrollment is your season</span>
+        <h1>Don't leave benefits on the table.<br /><span class="grad">Max every ring.</span></h1>
+        <p class="lede">
+          Your HSA is the only account with a <b>triple tax advantage</b> — money goes in tax-free,
+          grows tax-free, and comes out tax-free for qualified care. Yet most people fund it and
+          forget it, quietly forfeiting thousands in benefits they already earned.
+          In three minutes, see how your save, spend, and invest habits score against ideal —
+          and get a <b>personalized game plan to max your HSA before enrollment closes</b>.
+        </p>
+        <button class="btn btn-primary" id="btn-start">Start my assessment
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <div class="hero-stats">
+          <div><b>3x</b><span>The only triple<br/>tax-advantaged account</span></div>
+          <div><b>Resets Jan 1</b><span>Unused contribution<br/>room is gone for good</span></div>
+          <div><b>~3 min</b><span>To your personal<br/>game plan</span></div>
+        </div>
+      </div>
+
+      <div class="hero-rings" id="hero-rings" aria-hidden="true">
+        <svg viewBox="0 0 400 400" id="ring-stage">
+          <defs>
+            <linearGradient id="hg-save" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#33E4FF"/><stop offset="100%" stop-color="#008093"/>
+            </linearGradient>
+            <linearGradient id="hg-spend" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#C04CFF"/><stop offset="100%" stop-color="#4F2984"/>
+            </linearGradient>
+            <linearGradient id="hg-invest" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00E5C3"/><stop offset="100%" stop-color="#008093"/>
+            </linearGradient>
+            <filter id="hglow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="10" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <g class="orbit">
+            <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="26"/>
+            <circle cx="200" cy="200" r="170" fill="none" stroke="url(#hg-save)" stroke-width="26" stroke-linecap="round"
+                    stroke-dasharray="800 1068" transform="rotate(-90 200 200)" filter="url(#hglow)"/>
+          </g>
+          <g class="orbit r2">
+            <circle cx="200" cy="200" r="132" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="26"/>
+            <circle cx="200" cy="200" r="132" fill="none" stroke="url(#hg-spend)" stroke-width="26" stroke-linecap="round"
+                    stroke-dasharray="610 830" transform="rotate(-90 200 200)" filter="url(#hglow)"/>
+          </g>
+          <g class="orbit">
+            <circle cx="200" cy="200" r="94" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="26"/>
+            <circle cx="200" cy="200" r="94" fill="none" stroke="url(#hg-invest)" stroke-width="26" stroke-linecap="round"
+                    stroke-dasharray="400 590" transform="rotate(-90 200 200)" filter="url(#hglow)"/>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="l-save"><i></i>Save</span>
+          <span class="l-spend"><i></i>Spend</span>
+          <span class="l-invest"><i></i>Invest</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="strip" aria-hidden="true">
+      <div class="reel" id="reel">
+        <span>Payroll HSA dollars skip FICA — a <em>7.65% head start</em></span>
+        <span>Contribution room <em>never rolls over</em> — use it or lose it</span>
+        <span>Employer HSA dollars are a <em>100% instant return</em></span>
+        <span>After 65 your HSA works like a <em>401(k) — plus tax-free care</em></span>
+        <span>Saved receipts = <em>tax-free withdrawals, any time, forever</em></span>
+        <span>Uninvested cash <em>loses to medical inflation</em> every year</span>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar save tilt">
+        <div class="coin coin-save" aria-hidden="true">
+          <span class="bead bd1"></span><span class="bead bd2"></span><span class="bead bd3"></span>
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <radialGradient id="face-sv" cx="0.35" cy="0.28" r="1">
+                <stop offset="0%" stop-color="#D9FAFF" stop-opacity="0.55"/>
+                <stop offset="45%" stop-color="#33E4FF" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#0BAACC" stop-opacity="0.42"/>
+              </radialGradient>
+              <linearGradient id="rim-sv" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#EAFDFF" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#33E4FF" stop-opacity="0.75"/>
+                <stop offset="100%" stop-color="#0E7E99" stop-opacity="0.6"/>
+              </linearGradient>
+              <linearGradient id="glyph-sv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#A8F2FF"/>
+              </linearGradient>
+              <filter id="soft-sv" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
+              <filter id="soft8-sv" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8"/></filter>
+            </defs>
+            <circle cx="60" cy="64" r="46" fill="#33E4FF" opacity="0.35" filter="url(#soft8-sv)"/>
+            <ellipse cx="60" cy="63.5" rx="48" ry="47" fill="#33E4FF" opacity="0.30"/>
+            <circle cx="60" cy="60" r="48" fill="url(#face-sv)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="url(#rim-sv)" stroke-width="3.4"/>
+            <circle cx="60" cy="60" r="42" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.4"/>
+            <ellipse cx="60" cy="92" rx="26" ry="9" fill="#7FF0FF" opacity="0.5" filter="url(#soft-sv)"/>
+            <g fill="#FFFFFF" opacity="0.3">
+              <circle cx="44" cy="86" r="3.2"/><circle cx="56" cy="91" r="2.4"/><circle cx="69" cy="88" r="2.8"/>
+              <circle cx="80" cy="79" r="2.2"/><circle cx="35" cy="76" r="2"/><circle cx="74" cy="94" r="1.6"/>
+            </g>
+            <g fill="none" stroke="rgba(0,90,115,0.55)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 64.4) scale(1.8) translate(-12 -12)">
+              <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8v6M9 11h6"/>
+            </g>
+            <g fill="none" stroke="url(#glyph-sv)" stroke-opacity="0.95" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 62) scale(1.8) translate(-12 -12)">
+              <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M12 8v6M9 11h6"/>
+            </g>
+            <ellipse cx="42" cy="36" rx="23" ry="11" fill="#FFFFFF" opacity="0.45" filter="url(#soft-sv)" transform="rotate(-26 42 36)"/>
+            <path d="M21 40 A 45 45 0 0 1 58 15" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Save</h3>
+        <div class="sub">Your emergency shield</div>
+        <p>A surprise ER bill should never touch your paycheck. Ideal savers automate contributions, capture every employer dollar, and build a tax-free shield before they need it — because the moment you need it is too late to build it.</p>
+      </div>
+      <div class="pillar spend tilt">
+        <div class="coin coin-spend" aria-hidden="true">
+          <span class="bead bd1"></span><span class="bead bd2"></span><span class="bead bd3"></span>
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <radialGradient id="face-sp" cx="0.35" cy="0.28" r="1">
+                <stop offset="0%" stop-color="#F3DFFF" stop-opacity="0.55"/>
+                <stop offset="45%" stop-color="#C04CFF" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#8E35D6" stop-opacity="0.42"/>
+              </radialGradient>
+              <linearGradient id="rim-sp" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#F6E9FF" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#C04CFF" stop-opacity="0.75"/>
+                <stop offset="100%" stop-color="#6B22A8" stop-opacity="0.6"/>
+              </linearGradient>
+              <linearGradient id="glyph-sp" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#EDCFFF"/>
+              </linearGradient>
+              <filter id="soft-sp" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
+              <filter id="soft8-sp" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8"/></filter>
+            </defs>
+            <circle cx="60" cy="64" r="46" fill="#C04CFF" opacity="0.35" filter="url(#soft8-sp)"/>
+            <ellipse cx="60" cy="63.5" rx="48" ry="47" fill="#C04CFF" opacity="0.30"/>
+            <circle cx="60" cy="60" r="48" fill="url(#face-sp)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="url(#rim-sp)" stroke-width="3.4"/>
+            <circle cx="60" cy="60" r="42" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.4"/>
+            <ellipse cx="60" cy="92" rx="26" ry="9" fill="#DD9CFF" opacity="0.5" filter="url(#soft-sp)"/>
+            <g fill="#FFFFFF" opacity="0.3">
+              <circle cx="44" cy="86" r="3.2"/><circle cx="56" cy="91" r="2.4"/><circle cx="69" cy="88" r="2.8"/>
+              <circle cx="80" cy="79" r="2.2"/><circle cx="35" cy="76" r="2"/><circle cx="74" cy="94" r="1.6"/>
+            </g>
+            <g fill="none" stroke="rgba(74,14,134,0.55)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 64.4) scale(1.8) translate(-12 -12)">
+              <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
+            </g>
+            <g fill="none" stroke="url(#glyph-sp)" stroke-opacity="0.95" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 62) scale(1.8) translate(-12 -12)">
+              <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
+            </g>
+            <ellipse cx="42" cy="36" rx="23" ry="11" fill="#FFFFFF" opacity="0.45" filter="url(#soft-sp)" transform="rotate(-26 42 36)"/>
+            <path d="M21 40 A 45 45 0 0 1 58 15" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Spend</h3>
+        <div class="sub">Pay less for care</div>
+        <p>The same scan can cost triple across town, and every dollar you don't overspend stays yours, growing tax-free. Ideal spenders price care like a major purchase, verify what qualifies, and keep every receipt — making healthcare genuinely more affordable.</p>
+      </div>
+      <div class="pillar invest tilt">
+        <div class="coin coin-invest" aria-hidden="true">
+          <span class="bead bd1"></span><span class="bead bd2"></span><span class="bead bd3"></span>
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <radialGradient id="face-in" cx="0.35" cy="0.28" r="1">
+                <stop offset="0%" stop-color="#DFFFF7" stop-opacity="0.55"/>
+                <stop offset="45%" stop-color="#00E5C3" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#00A88F" stop-opacity="0.42"/>
+              </radialGradient>
+              <linearGradient id="rim-in" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#EBFFFA" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#00E5C3" stop-opacity="0.75"/>
+                <stop offset="100%" stop-color="#057E6B" stop-opacity="0.6"/>
+              </linearGradient>
+              <linearGradient id="glyph-in" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#C2FFF1"/>
+              </linearGradient>
+              <filter id="soft-in" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
+              <filter id="soft8-in" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8"/></filter>
+            </defs>
+            <circle cx="60" cy="64" r="46" fill="#00E5C3" opacity="0.35" filter="url(#soft8-in)"/>
+            <ellipse cx="60" cy="63.5" rx="48" ry="47" fill="#00E5C3" opacity="0.30"/>
+            <circle cx="60" cy="60" r="48" fill="url(#face-in)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="url(#rim-in)" stroke-width="3.4"/>
+            <circle cx="60" cy="60" r="42" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.4"/>
+            <ellipse cx="60" cy="92" rx="26" ry="9" fill="#6FFFE3" opacity="0.5" filter="url(#soft-in)"/>
+            <g fill="#FFFFFF" opacity="0.3">
+              <circle cx="44" cy="86" r="3.2"/><circle cx="56" cy="91" r="2.4"/><circle cx="69" cy="88" r="2.8"/>
+              <circle cx="80" cy="79" r="2.2"/><circle cx="35" cy="76" r="2"/><circle cx="74" cy="94" r="1.6"/>
+            </g>
+            <g fill="none" stroke="rgba(0,86,72,0.55)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 64.4) scale(1.8) translate(-12 -12)">
+              <path d="M3 21h18M5 17l4-6 4 3 6-9"/><path d="M15 5h4v4"/>
+            </g>
+            <g fill="none" stroke="url(#glyph-in)" stroke-opacity="0.95" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"
+               transform="translate(60 62) scale(1.8) translate(-12 -12)">
+              <path d="M3 21h18M5 17l4-6 4 3 6-9"/><path d="M15 5h4v4"/>
+            </g>
+            <ellipse cx="42" cy="36" rx="23" ry="11" fill="#FFFFFF" opacity="0.45" filter="url(#soft-in)" transform="rotate(-26 42 36)"/>
+            <path d="M21 40 A 45 45 0 0 1 58 15" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Invest</h3>
+        <div class="sub">Long-term security</div>
+        <p>Health care is the biggest bill most retirees face. Invested HSA dollars compound for decades with zero tax drag — the difference between an account that pays for prescriptions and one that funds your future security. Cash on the sidelines is the quiet way to miss it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="screen" id="screen-quiz">
+    <div class="quiz-shell" id="quiz-shell" data-phase="save">
+      <div class="quiz-top">
+        <span class="quiz-phase" id="quiz-phase">Save</span>
+        <span class="quiz-count" id="quiz-count">01 / 12</span>
+      </div>
+      <div class="track"><div class="fill" id="quiz-fill"></div></div>
+      <div class="q-card" id="q-card">
+        <h2 id="q-text"></h2>
+        <div id="q-options" role="group" aria-label="Answer options"></div>
+        <div class="fuel"><span class="fl">Why it matters</span><p id="q-fact"></p></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="link-btn" id="btn-back">&#8592; Back</button>
+        <button class="link-btn" id="btn-quit">Exit assessment</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section class="screen" id="screen-results">
+    <div class="results">
+      <div class="res-head">
+        <span class="kicker">Assessment complete</span>
+        <h2 id="res-title">Your rings are in</h2>
+        <p id="res-sub"></p>
+      </div>
+
+      <div class="composite" id="composite">
+        <svg viewBox="0 0 360 360" id="composite-svg" role="img" aria-label="Composite ring score">
+          <defs>
+            <linearGradient id="rg-save" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#33E4FF"/><stop offset="100%" stop-color="#008093"/>
+            </linearGradient>
+            <linearGradient id="rg-spend" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#C04CFF"/><stop offset="100%" stop-color="#4F2984"/>
+            </linearGradient>
+            <linearGradient id="rg-invest" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00E5C3"/><stop offset="100%" stop-color="#008093"/>
+            </linearGradient>
+            <filter id="rglow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="7" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <circle cx="180" cy="180" r="150" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="22"/>
+          <circle id="cring-save" cx="180" cy="180" r="150" fill="none" stroke="url(#rg-save)" stroke-width="22"
+                  stroke-linecap="round" transform="rotate(-90 180 180)" filter="url(#rglow)"/>
+          <circle cx="180" cy="180" r="118" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="22"/>
+          <circle id="cring-spend" cx="180" cy="180" r="118" fill="none" stroke="url(#rg-spend)" stroke-width="22"
+                  stroke-linecap="round" transform="rotate(-90 180 180)" filter="url(#rglow)"/>
+          <circle cx="180" cy="180" r="86" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="22"/>
+          <circle id="cring-invest" cx="180" cy="180" r="86" fill="none" stroke="url(#rg-invest)" stroke-width="22"
+                  stroke-linecap="round" transform="rotate(-90 180 180)" filter="url(#rglow)"/>
+        </svg>
+        <div class="center">
+          <div class="big" id="overall-num">0</div>
+          <div class="lbl">Overall score</div>
+          <div class="tier" id="overall-tier"></div>
+        </div>
+      </div>
+
+      <div class="ring-grid" id="ring-grid"></div>
+
+      <div class="recs" id="recs">
+        <h3>Your personalized game plan</h3>
+        <p id="recs-intro">These are your moves, ranked by impact — lock them in now so your elections, automations, and habits are set before open enrollment closes. Every move you skip is a benefit you already earned, left unclaimed.</p>
+        <div id="recs-body"></div>
+      </div>
+
+      <div class="enroll-cta">
+        <span class="flag">Enrollment window</span>
+        <p><b>This is the one time of year your elections are wide open.</b> Walk into open enrollment with this game plan and set your contribution, your employer match, and your auto-invest in a single sitting — then let the rings close themselves all year.</p>
+      </div>
+
+      <div class="share-bar">
+        <h3>Post your rings. Recruit your crew.</h3>
+        <p>Email yourself the full game plan, or share your rings and challenge others to beat your score before enrollment closes.</p>
+        <div class="share-actions">
+          <button class="btn btn-primary" id="btn-email">Email my game plan</button>
+          <button class="btn btn-ghost" id="btn-share">Share my rings</button>
+          <button class="btn btn-ghost" id="btn-download">Download ring badge</button>
+          <button class="btn btn-ghost" id="btn-retake">Retake assessment</button>
+        </div>
+        <div class="social-row" aria-label="Share on social media">
+          <a href="#" id="share-x" target="_blank" rel="noopener" aria-label="Share on X" title="Share on X">
+            <svg viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8.1 9.3L24 22.8h-7.5l-5.9-7.7-6.7 7.7H.2l8.7-9.9L0 1.2h7.7l5.3 7 5.9-7zm-1.3 19.4h2L6.6 3.3h-2.2l13.2 17.3z"/></svg>
+          </a>
+          <a href="#" id="share-li" target="_blank" rel="noopener" aria-label="Share on LinkedIn" title="Share on LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.4 20.4h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.2 2.4 4.2 5.4v6.3zM5.3 7.4a2 2 0 1 1 0-4.1 2 2 0 0 1 0 4.1zM7.1 20.4H3.6V9h3.5v11.4zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.5c0 1 .8 1.8 1.8 1.8h20.4c1 0 1.8-.8 1.8-1.8V1.7c0-1-.8-1.7-1.8-1.7z"/></svg>
+          </a>
+          <a href="#" id="share-fb" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Share on Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.6-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>HSA Rings is an educational experience. Scores reflect general best practices for health savings accounts and are not financial, tax, or investment advice. Contribution limits are set annually by the IRS. Investing involves risk, including possible loss of principal. Your answers are processed entirely in your browser and are not stored or transmitted.</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas id="badge-canvas" width="1080" height="1080" style="display:none" aria-hidden="true"></canvas>
+
+<script>
+/* =====================================================
+   HSA RINGS — assessment, scoring, rings, share
+   ===================================================== */
+
+const PILLARS = {
+  save:   { label: 'Save',   colorA: '#33E4FF', colorB: '#008093', grad: 'rg-save' },
+  spend:  { label: 'Spend',  colorA: '#C04CFF', colorB: '#4F2984', grad: 'rg-spend' },
+  invest: { label: 'Invest', colorA: '#00E5C3', colorB: '#008093', grad: 'rg-invest' }
+};
+
+/* Each question: pillar, text, fact (taught while answering), options [{label, pts}].
+   Each option below max carries a targeted recommendation. */
+const QUESTIONS = [
+  /* ---------- SAVE ---------- */
+  {
+    pillar: 'save',
+    text: 'How much are you contributing to your HSA this year?',
+    fact: 'Contribution room never rolls over. Every year you contribute below the IRS limit is tax-free space you lose forever — and a thinner shield when an emergency bill lands.',
+    options: [
+      { label: 'Nothing yet', pts: 0,
+        rec: { title: 'Start the engine with any amount', body: 'Even a small recurring contribution starts the triple tax advantage working and begins building your emergency shield. Set a starter amount at enrollment and raise it each quarter — the limit you skip this year never comes back.' } },
+      { label: 'A little, when I can', pts: 1,
+        rec: { title: 'Make contributions automatic, then climb', body: 'Replace ad hoc deposits with a fixed recurring contribution, then step it up each year until you reach the IRS annual maximum. Automatic savers build the emergency cushion; occasional savers hope for one.' } },
+      { label: 'A steady amount, but below the IRS max', pts: 2,
+        rec: { title: 'Close the gap to the IRS maximum', body: 'You have momentum. Calculate the gap between your current pace and the IRS annual maximum, divide by your remaining pay periods, and raise your per-paycheck amount at enrollment. Every un-contributed dollar is a tax break you declined.' } },
+      { label: 'The full IRS annual maximum', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'save',
+    text: 'How do your contributions get into your account?',
+    fact: 'Payroll contributions skip FICA taxes on top of income tax — an automatic 7.65 percent head start you cannot get by depositing after the fact.',
+    options: [
+      { label: 'They mostly do not', pts: 0,
+        rec: { title: 'Set up payroll deductions at enrollment', body: 'Contributions made through payroll skip FICA taxes in addition to income tax — an extra 7.65 percent advantage lost on every dollar you deposit any other way. Set a per-paycheck HSA election during open enrollment.' } },
+      { label: 'Occasional lump-sum transfers from my bank', pts: 1,
+        rec: { title: 'Switch lump sums to payroll', body: 'Moving your deposits into payroll deductions adds FICA savings of about 7.65 percent on every dollar and removes the willpower tax of manual transfers. Same money in, more benefit captured.' } },
+      { label: 'Automatic payroll deductions every paycheck', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'save',
+    text: 'If your employer offers HSA contributions or match dollars, do you capture all of them?',
+    fact: 'Employer HSA dollars are a 100 percent instant return. Leaving them behind is a pay cut you volunteered for.',
+    options: [
+      { label: 'I am not sure what my employer offers', pts: 0,
+        rec: { title: 'Find your free money before enrollment', body: 'Check your benefits portal or ask HR whether your employer seeds or matches HSA contributions. Employer dollars are the highest-return savings move available to you — and the easiest benefit to miss entirely.' } },
+      { label: 'I capture some, but not all of it', pts: 1,
+        rec: { title: 'Capture the full employer contribution', body: 'Adjust your election so you qualify for every employer dollar available. A partial match left behind is a guaranteed loss you can fix in one form at open enrollment.' } },
+      { label: 'I capture every employer dollar available', pts: 3 },
+      { label: 'My employer does not contribute', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'save',
+    text: 'When the IRS raises contribution limits each year, what do you do?',
+    fact: 'The IRS raises HSA limits most years, and savers 55 or older can add a catch-up contribution. A flat election quietly falls further behind the maximum every year.',
+    options: [
+      { label: 'I did not know limits change', pts: 0,
+        rec: { title: 'Make enrollment your annual tune-up', body: 'The IRS raises HSA limits most years, and savers 55 or older can add a 1,000 dollar catch-up contribution. Recheck your election at every open enrollment so your ceiling rises with the limit instead of falling behind it.' } },
+      { label: 'I keep my contribution the same', pts: 1,
+        rec: { title: 'Index your contribution to the limit', body: 'A flat election quietly forfeits more tax-free room each year as limits rise. At each enrollment, reset your per-paycheck amount to the new IRS maximum divided by your pay periods.' } },
+      { label: 'I adjust to the new limit every year', pts: 3 }
+    ]
+  },
+
+  /* ---------- SPEND ---------- */
+  {
+    pillar: 'spend',
+    text: 'How do you usually pay for routine medical expenses?',
+    fact: 'A dollar left invested in your HSA can multiply over a couple of decades — and a saved receipt lets you take that dollar back out, tax-free, whenever you want.',
+    options: [
+      { label: 'HSA card, every time', pts: 1,
+        rec: { title: 'Try the pay-now, reimburse-later play', body: 'If cash flow allows, pay smaller bills out of pocket and keep the receipt. Your HSA keeps compounding tax-free, and you can reimburse yourself for any saved receipt years later — there is no deadline. Swiping the card today quietly trades future growth for present convenience.' } },
+      { label: 'A mix, depending on the month', pts: 2,
+        rec: { title: 'Make out-of-pocket your default', body: 'You already flex between payment methods. Flip the default: reach for personal funds first on affordable expenses and reserve the HSA card for bills that would strain your budget. Every dollar that stays in keeps compounding.' } },
+      { label: 'Out of pocket when I can, so my HSA keeps growing', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'spend',
+    text: 'What happens to your medical receipts?',
+    fact: 'There is no time limit on reimbursing yourself for a qualified expense. A folder of saved receipts is a tax-free withdrawal you can take any time — lost receipts are lost money.',
+    options: [
+      { label: 'They disappear', pts: 0,
+        rec: { title: 'Start a receipt vault today', body: 'Every saved receipt for a qualified expense is a tax-free withdrawal you can claim at any point in the future. Every receipt you toss is reimbursement power gone for good. Snap a photo the moment you pay and file it in your HSA app.' } },
+      { label: 'I keep some of the big ones', pts: 1,
+        rec: { title: 'Capture every receipt, not just the big ones', body: 'Small expenses compound into serious tax-free reimbursement power over a decade. Make receipt capture a single reflexive step: pay, photograph, file.' } },
+      { label: 'Every receipt is photographed and filed', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'spend',
+    text: 'How confident are you that your HSA spending is on qualified medical expenses?',
+    fact: 'Non-qualified spending before age 65 costs you income tax plus a 20 percent penalty — and going by instinct also misses surprisingly eligible items like sunscreen and first-aid supplies.',
+    options: [
+      { label: 'I am not sure what qualifies', pts: 0,
+        rec: { title: 'Learn the qualified expense list', body: 'Non-qualified HSA spending triggers income tax plus a 20 percent penalty before age 65 — an avoidable hit to your affordability. Skim the qualified medical expense list once, and check anything unusual before you pay.' } },
+      { label: 'Mostly confident, I go by instinct', pts: 1,
+        rec: { title: 'Replace instinct with a quick check', body: 'Instinct misses edge cases in both directions: penalties on non-qualified items, and missed eligible items like sunscreen, first-aid supplies, and menstrual products. A ten-second lookup protects both sides of the ledger.' } },
+      { label: 'I verify eligibility before spending', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'spend',
+    text: 'Before non-emergency care, do you compare prices or use cost-estimator tools?',
+    fact: 'The same MRI can cost several times more across town. Every dollar you avoid overspending stays in your account, growing tax-free — that is what affordability actually looks like.',
+    options: [
+      { label: 'Never, I go wherever I am referred', pts: 0,
+        rec: { title: 'Price the procedure before you book', body: 'The same imaging, lab work, or procedure can vary in price by several hundred percent across in-network providers. Use your plan’s cost-estimator tool before scheduling non-emergency care — overpaying for care is the most common way HSA dollars leak.' } },
+      { label: 'Sometimes, for big procedures', pts: 1,
+        rec: { title: 'Extend price-shopping to routine care', body: 'You already shop the big bills. Apply the same habit to labs, imaging, and prescriptions, where generic and independent-facility options routinely cut costs in half. The savings stay in your account, compounding.' } },
+      { label: 'Regularly, I shop care like any big purchase', pts: 3 }
+    ]
+  },
+
+  /* ---------- INVEST ---------- */
+  {
+    pillar: 'invest',
+    text: 'Is any of your HSA balance invested?',
+    fact: 'Most HSA balances sit in cash, un-invested — losing ground to medical inflation every year while the tax-free growth that makes the account special goes unused.',
+    options: [
+      { label: 'I did not know an HSA could be invested', pts: 0,
+        rec: { title: 'Unlock the investment side of your HSA', body: 'Once your balance clears your provider’s investment threshold, you can put HSA dollars into mutual funds or ETFs where growth is never taxed when used for qualified care. This is the single most-missed HSA benefit — explore the investment desk in your portal this week.' } },
+      { label: 'No, it all sits in cash', pts: 1,
+        rec: { title: 'Move long-term dollars out of cash', body: 'Cash above your safety net loses ground to medical inflation every year — a slow leak most people never notice. Decide on a cash cushion, then move the rest into a diversified investment lineup.' } },
+      { label: 'Some is invested, most stays in cash', pts: 2,
+        rec: { title: 'Invert the ratio: invest the surplus', body: 'You have crossed the hardest threshold, which is starting. Now size your cash floor deliberately and shift the remaining surplus into investments so the bulk of your balance is working toward long-term security.' } },
+      { label: 'Everything above my cash safety net is invested', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'invest',
+    text: 'How did you decide how much cash to keep uninvested?',
+    fact: 'Your deductible is the number. Cash up to it is your emergency shield; cash above it is opportunity cost, compounding for no one.',
+    options: [
+      { label: 'No real decision, it is just where the money sits', pts: 0,
+        rec: { title: 'Set a deliberate cash floor', body: 'A useful rule: keep your annual deductible, or your out-of-pocket maximum if you want extra comfort, in cash. Everything above that line is long-term money that belongs in investments — anything else is growth you gave up by default.' } },
+      { label: 'I keep a large buffer to feel safe', pts: 1,
+        rec: { title: 'Right-size the buffer', body: 'Safety is the right instinct, but an oversized cash buffer is a quiet drag on your future security. Anchor your cushion to a real number, your deductible or out-of-pocket max, and put the rest to work.' } },
+      { label: 'It is sized to my deductible or out-of-pocket max', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'invest',
+    text: 'How do new contributions get invested?',
+    fact: 'Automation beats willpower. Investors who automate capture every month of growth; manual investors donate their missed months to cash.',
+    options: [
+      { label: 'They are not invested', pts: 0,
+        rec: { title: 'Turn on auto-invest', body: 'Most HSA platforms can automatically sweep any balance above your cash threshold into your chosen funds. One setting turns every future paycheck into an automatic investment — set it once at enrollment and never miss a month of growth again.' } },
+      { label: 'I move money manually when I remember', pts: 1,
+        rec: { title: 'Automate the sweep', body: 'Manual investing means missed months, and missed months are missed compounding you never get back. Enable the automatic sweep above your cash threshold so investing happens on schedule without you.' } },
+      { label: 'Automatic recurring sweep into my funds', pts: 3 }
+    ]
+  },
+  {
+    pillar: 'invest',
+    text: 'How do you think about your HSA over the long run?',
+    fact: 'After 65, your HSA works like a 401(k) — withdraw for anything, taxed as ordinary income — while qualified care stays completely tax-free. No other account does both.',
+    options: [
+      { label: 'I spend it down every year', pts: 0,
+        rec: { title: 'Reframe the HSA as a retirement account', body: 'Unlike an FSA, your HSA never expires and travels with you between jobs. Treated as a long-term account, it becomes triple-tax-advantaged retirement money for the largest expense most retirees face: health care. Spending it down annually trades that future for small conveniences now.' } },
+      { label: 'A mix of spending account and savings', pts: 1,
+        rec: { title: 'Shift the center of gravity to long-term', body: 'Keep a spending lane for true needs, but set a written goal for the invested balance, such as covering retirement health costs. After 65, funds can also be withdrawn for any purpose, taxed like a traditional IRA — flexibility no other health account offers.' } },
+      { label: 'It is my long-term health-wealth account', pts: 3 }
+    ]
+  }
+];
+
+/* ---------- State ---------- */
+let qIndex = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+/* ---------- Elements ---------- */
+const $ = (id) => document.getElementById(id);
+const screens = { hero: $('screen-hero'), quiz: $('screen-quiz'), results: $('screen-results') };
+
+function show(name) {
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  screens[name].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ---------- Quiz flow ---------- */
+function renderQuestion() {
+  const q = QUESTIONS[qIndex];
+  const p = PILLARS[q.pillar];
+  $('quiz-shell').dataset.phase = q.pillar;
+  const phaseEl = $('quiz-phase');
+  phaseEl.textContent = p.label + ' ring';
+  phaseEl.style.color = p.colorA;
+  phaseEl.style.textShadow = '0 0 16px ' + p.colorA + '66';
+  $('quiz-count').textContent = String(qIndex + 1).padStart(2, '0') + ' / ' + QUESTIONS.length;
+
+  const fill = $('quiz-fill');
+  fill.style.width = ((qIndex) / QUESTIONS.length * 100) + '%';
+  fill.style.background = 'linear-gradient(90deg,' + p.colorB + ',' + p.colorA + ')';
+  fill.style.boxShadow = '0 0 14px ' + p.colorA + '88';
+
+  /* replay entrance animation */
+  const card = $('q-card');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = '';
+
+  $('q-text').textContent = q.text;
+  $('q-fact').textContent = q.fact;
+
+  const box = $('q-options');
+  box.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.type = 'button';
+    b.innerHTML = '<span class="dot" aria-hidden="true"></span><span>' + opt.label + '</span>';
+    if (answers[qIndex] === i) {
+      b.style.borderColor = p.colorA;
+      b.querySelector('.dot').style.background = p.colorA;
+      b.querySelector('.dot').style.borderColor = p.colorA;
+      b.querySelector('.dot').style.boxShadow = '0 0 10px ' + p.colorA;
+    }
+    b.addEventListener('click', () => {
+      answers[qIndex] = i;
+      setTimeout(() => {
+        if (qIndex < QUESTIONS.length - 1) { qIndex++; renderQuestion(); }
+        else { finish(); }
+      }, 140);
+    });
+    box.appendChild(b);
+  });
+
+  $('btn-back').style.visibility = qIndex === 0 ? 'hidden' : 'visible';
+}
+
+$('btn-start').addEventListener('click', () => { qIndex = 0; answers.fill(null); show('quiz'); renderQuestion(); });
+$('btn-back').addEventListener('click', () => { if (qIndex > 0) { qIndex--; renderQuestion(); } });
+$('btn-quit').addEventListener('click', () => show('hero'));
+$('btn-retake').addEventListener('click', () => { qIndex = 0; answers.fill(null); show('quiz'); renderQuestion(); });
+
+/* ---------- Scoring ---------- */
+function computeScores() {
+  const tally = { save: { pts: 0, max: 0 }, spend: { pts: 0, max: 0 }, invest: { pts: 0, max: 0 } };
+  const recs = { save: [], spend: [], invest: [] };
+  QUESTIONS.forEach((q, i) => {
+    const maxPts = Math.max(...q.options.map(o => o.pts));
+    tally[q.pillar].max += maxPts;
+    const choice = q.options[answers[i] ?? 0];
+    tally[q.pillar].pts += choice.pts;
+    if (choice.pts < maxPts && choice.rec) {
+      recs[q.pillar].push({ ...choice.rec, gap: maxPts - choice.pts });
+    }
+  });
+  const scores = {};
+  for (const k of Object.keys(tally)) {
+    scores[k] = Math.round(tally[k].pts / tally[k].max * 100);
+    recs[k].sort((a, b) => b.gap - a.gap);
+  }
+  scores.overall = Math.round((scores.save + scores.spend + scores.invest) / 3);
+  return { scores, recs };
+}
+
+function tierFor(score) {
+  if (score >= 95) return { name: 'Elite', note: 'You are operating at the top of the field. Hold the line at enrollment and your benefits stay maxed.' };
+  if (score >= 80) return { name: 'Podium', note: 'Strong form. A few precise moves at open enrollment close the gap — and capture benefits you are still leaving behind.' };
+  if (score >= 60) return { name: 'Contender', note: 'Solid base, but real money is slipping past you. Your game plan below shows exactly where.' };
+  if (score >= 35) return { name: 'In Training', note: 'Every ring has room to run — which means big, fast wins are sitting unclaimed. Start with move number one.' };
+  return { name: 'Day One', note: 'You have been leaving the biggest benefit in your package untouched. The good news: every point from here is easy ground.' };
+}
+
+const statusLine = {
+  save:   { full: 'Maxed out. You are fueling at the IRS ceiling with full automation.', part: 'Your savings engine has unused horsepower — and unused tax breaks.' },
+  spend:  { full: 'Maxed out. Every dollar leaves your account with intent and a paper trail.', part: 'Tighter spending mechanics will make your care more affordable.' },
+  invest: { full: 'Maxed out. Your long-term dollars are fully deployed.', part: 'More of your balance could be compounding for future you.' }
+};
+
+/* ---------- Results render ---------- */
+let lastResult = null;
+
+function finish() {
+  lastResult = computeScores();
+  show('results');
+  renderResults(lastResult);
+}
+
+function ringDash(circle, r, pct, delay) {
+  const c = 2 * Math.PI * r;
+  circle.style.strokeDasharray = c;
+  circle.style.strokeDashoffset = c;
+  circle.style.transition = 'none';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    circle.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(0.22,1,0.36,1) ' + delay + 'ms';
+    circle.style.strokeDashoffset = c * (1 - Math.min(pct, 100) / 100);
+  }));
+}
+
+function countUp(el, target, ms, delay) {
+  let start = null;
+  setTimeout(() => {
+    const step = (t) => {
+      if (!start) start = t;
+      const p = Math.min((t - start) / ms, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, delay);
+}
+
+function renderResults({ scores, recs }) {
+  const tier = tierFor(scores.overall);
+  $('overall-tier').textContent = tier.name;
+  $('res-sub').textContent = tier.note;
+  countUp($('overall-num'), scores.overall, 1500, 350);
+
+  ringDash($('cring-save'), 150, scores.save, 250);
+  ringDash($('cring-spend'), 118, scores.spend, 450);
+  ringDash($('cring-invest'), 86, scores.invest, 650);
+
+  /* Individual ring cards */
+  const grid = $('ring-grid');
+  grid.innerHTML = '';
+  ['save', 'spend', 'invest'].forEach((k, idx) => {
+    const p = PILLARS[k];
+    const s = scores[k];
+    const closed = s === 100;
+    const card = document.createElement('div');
+    card.className = 'ring-card ' + k + ' tilt';
+    card.innerHTML =
+      '<svg viewBox="0 0 120 120" role="img" aria-label="' + p.label + ' ring ' + s + ' percent">' +
+        '<circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="13"/>' +
+        '<circle class="arc" cx="60" cy="60" r="50" fill="none" stroke="url(#' + p.grad + ')" stroke-width="13" ' +
+          'stroke-linecap="round" transform="rotate(-90 60 60)" filter="url(#rglow)"/>' +
+      '</svg>' +
+      '<div class="pct"><span class="num">0</span><span class="of"> / 100</span></div>' +
+      '<div class="name">' + p.label + '</div>' +
+      '<div class="status">' + (closed ? statusLine[k].full : statusLine[k].part) + '</div>' +
+      (closed ? '<span class="closed-tag">Ring closed</span>' : '');
+    grid.appendChild(card);
+    ringDash(card.querySelector('.arc'), 50, s, 500 + idx * 200);
+    countUp(card.querySelector('.num'), s, 1300, 500 + idx * 200);
+    bindTilt(card);
+  });
+
+  /* Recommendations */
+  const body = $('recs-body');
+  body.innerHTML = '';
+  let anyRecs = false;
+  ['save', 'spend', 'invest'].forEach(k => {
+    const p = PILLARS[k];
+    const group = document.createElement('div');
+    group.className = 'rec-group ' + k;
+    let inner =
+      '<div class="rg-head"><i></i><b>' + p.label + ' ring</b><span>' + scores[k] + ' / 100</span></div>';
+    if (recs[k].length === 0) {
+      inner += '<div class="rec-perfect">Ring closed. ' + statusLine[k].full + '</div>';
+    } else {
+      anyRecs = true;
+      recs[k].forEach((r, i) => {
+        inner += '<div class="rec-item"><div class="n">' + (i + 1) + '</div><div><h4>' + r.title + '</h4><p>' + r.body + '</p></div></div>';
+      });
+    }
+    group.innerHTML = inner;
+    body.appendChild(group);
+  });
+  if (!anyRecs) {
+    $('recs-intro').textContent = 'All three rings closed. You are capturing every benefit your HSA offers. Your job now is simple: hold the line, and recheck your settings at every open enrollment.';
+  }
+}
+
+/* ---------- 3D tilt interaction ---------- */
+function bindTilt(el) {
+  const strength = 7;
+  el.addEventListener('mousemove', (e) => {
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = 'perspective(800px) rotateY(' + (x * strength) + 'deg) rotateX(' + (-y * strength) + 'deg) translateY(-4px)';
+  });
+  el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+}
+document.querySelectorAll('.tilt').forEach(bindTilt);
+
+/* ---------- Hero ring parallax ---------- */
+(function () {
+  const stage = $('ring-stage');
+  const zone = $('hero-rings');
+  if (!stage || !zone || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.addEventListener('mousemove', (e) => {
+    if (!screens.hero.classList.contains('active')) return;
+    const x = e.clientX / innerWidth - 0.5;
+    const y = e.clientY / innerHeight - 0.5;
+    stage.style.transform = 'rotateY(' + (x * 14) + 'deg) rotateX(' + (-y * 14) + 'deg)';
+  });
+})();
+
+/* ---------- Ticker: duplicate reel for seamless loop ---------- */
+(function () { const r = $('reel'); r.innerHTML += r.innerHTML; })();
+
+/* ---------- Toast ---------- */
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ---------- Email report ---------- */
+$('btn-email').addEventListener('click', () => {
+  if (!lastResult) return;
+  const { scores, recs } = lastResult;
+  const tier = tierFor(scores.overall);
+  const url = window.location.href.split('#')[0];
+  const lines = [];
+  lines.push('MY HSA RINGS GAME PLAN');
+  lines.push('Generated ' + new Date().toLocaleDateString());
+  lines.push('');
+  lines.push('Overall score: ' + scores.overall + ' / 100 (' + tier.name + ')');
+  lines.push('');
+  ['save', 'spend', 'invest'].forEach(k => {
+    lines.push(PILLARS[k].label.toUpperCase() + ' RING: ' + scores[k] + ' / 100' + (scores[k] === 100 ? ' - RING CLOSED' : ''));
+    if (recs[k].length) {
+      recs[k].forEach((r, i) => {
+        lines.push('  ' + (i + 1) + '. ' + r.title);
+        lines.push('     ' + r.body);
+      });
+    }
+    lines.push('');
+  });
+  lines.push('Lock these moves in before open enrollment closes.');
+  lines.push('Retake the assessment or challenge a friend: ' + url);
+  lines.push('');
+  lines.push('This report is educational and is not financial, tax, or investment advice.');
+  const subject = 'My HSA Rings game plan: ' + scores.overall + ' / 100';
+  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+});
+
+/* ---------- Social share ---------- */
+function shareText() {
+  const s = lastResult.scores;
+  return 'I scored ' + s.overall + '/100 on my HSA Rings. Save ' + s.save + ' | Spend ' + s.spend + ' | Invest ' + s.invest + '. See if you can close all three rings before open enrollment:';
+}
+function shareUrl() { return window.location.href.split('#')[0]; }
+
+function wireSocialLinks() {
+  if (!lastResult) return;
+  const text = encodeURIComponent(shareText());
+  const url = encodeURIComponent(shareUrl());
+  $('share-x').href = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url;
+  $('share-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
+  $('share-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + url + '&quote=' + text;
+}
+['share-x', 'share-li', 'share-fb'].forEach(id => $(id).addEventListener('click', wireSocialLinks));
+
+$('btn-share').addEventListener('click', async () => {
+  if (!lastResult) return;
+  const data = { title: 'HSA Rings', text: shareText(), url: shareUrl() };
+  try {
+    const file = await badgeFile();
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ ...data, files: [file] });
+      return;
+    }
+    if (navigator.share) { await navigator.share(data); return; }
+  } catch (e) {
+    if (e && e.name === 'AbortError') return;
+  }
+  try {
+    await navigator.clipboard.writeText(shareText() + ' ' + shareUrl());
+    toast('Share text copied to your clipboard. Use the social buttons below to post it.');
+  } catch (e) {
+    toast('Use the social buttons below to share your rings.');
+  }
+});
+
+/* ---------- Badge image (canvas) ---------- */
+function drawBadge() {
+  const { scores } = lastResult;
+  const cv = $('badge-canvas');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+
+  /* Background */
+  ctx.fillStyle = '#08041a';
+  ctx.fillRect(0, 0, W, H);
+  const g1 = ctx.createRadialGradient(W * 0.2, -100, 50, W * 0.2, -100, 900);
+  g1.addColorStop(0, 'rgba(79,41,132,0.6)'); g1.addColorStop(1, 'rgba(79,41,132,0)');
+  ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+  const g2 = ctx.createRadialGradient(W, H * 0.9, 50, W, H * 0.9, 900);
+  g2.addColorStop(0, 'rgba(0,128,147,0.45)'); g2.addColorStop(1, 'rgba(0,128,147,0)');
+  ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+
+  /* Rings */
+  const cx = W / 2, cy = H / 2 - 40;
+  const rings = [
+    { r: 330, k: 'save' }, { r: 258, k: 'spend' }, { r: 186, k: 'invest' }
+  ];
+  rings.forEach(({ r, k }) => {
+    const p = PILLARS[k];
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 50;
+    /* track */
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+    /* arc */
+    const end = -Math.PI / 2 + (Math.PI * 2) * (scores[k] / 100);
+    const grad = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+    grad.addColorStop(0, p.colorA); grad.addColorStop(1, p.colorB);
+    ctx.strokeStyle = grad;
+    ctx.shadowColor = p.colorA; ctx.shadowBlur = 42;
+    ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, end); ctx.stroke();
+    ctx.shadowBlur = 0;
+  });
+
+  /* Center score */
+  ctx.fillStyle = '#FFFFFF';
+  ctx.textAlign = 'center';
+  ctx.font = 'italic 700 150px "Barlow Condensed", sans-serif';
+  ctx.fillText(scores.overall, cx, cy + 38);
+  ctx.fillStyle = 'rgba(242,243,244,0.65)';
+  ctx.font = '600 34px "Barlow Condensed", sans-serif';
+  ctx.fillText('O V E R A L L', cx, cy + 92);
+
+  /* Title */
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'italic 700 78px "Barlow Condensed", sans-serif';
+  ctx.fillText('MY HSA RINGS', cx, 116);
+
+  /* Pillar scores */
+  ctx.font = 'italic 700 46px "Barlow Condensed", sans-serif';
+  const labels = [
+    { t: 'SAVE ' + scores.save, c: PILLARS.save.colorA, x: cx - 330 },
+    { t: 'SPEND ' + scores.spend, c: PILLARS.spend.colorA, x: cx },
+    { t: 'INVEST ' + scores.invest, c: PILLARS.invest.colorA, x: cx + 330 }
+  ];
+  labels.forEach(l => {
+    ctx.fillStyle = l.c;
+    ctx.shadowColor = l.c; ctx.shadowBlur = 24;
+    ctx.fillText(l.t, l.x, H - 120);
+    ctx.shadowBlur = 0;
+  });
+
+  ctx.fillStyle = 'rgba(242,243,244,0.5)';
+  ctx.font = '600 30px "Barlow Condensed", sans-serif';
+  ctx.fillText('MAX EVERY RING — POWERED BY HEALTHEQUITY', cx, H - 50);
+
+  return cv;
+}
+
+function badgeFile() {
+  return new Promise(resolve => {
+    if (!lastResult) return resolve(null);
+    const cv = drawBadge();
+    cv.toBlob(blob => {
+      if (!blob) return resolve(null);
+      resolve(new File([blob], 'hsa-rings.png', { type: 'image/png' }));
+    }, 'image/png');
+  });
+}
+
+$('btn-download').addEventListener('click', () => {
+  if (!lastResult) return;
+  const cv = drawBadge();
+  const a = document.createElement('a');
+  a.download = 'hsa-rings.png';
+  a.href = cv.toDataURL('image/png');
+  a.click();
+  toast('Ring badge downloaded. Post it and recruit your crew.');
+});
+</script>
+</body>
+</html>
